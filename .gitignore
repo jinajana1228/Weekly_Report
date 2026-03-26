@@ -23,3 +23,8 @@ screenshots/
 # OS
 .DS_Store
 Thumbs.db
+
+# Phase B-2 수집 스냅샷 — 원본 API 응답 JSON은 git 제외
+# (data/snapshots/ 디렉토리 자체와 README.md, .gitkeep은 유지)
+data/snapshots/**/*.json
+!data/snapshots/README.md
