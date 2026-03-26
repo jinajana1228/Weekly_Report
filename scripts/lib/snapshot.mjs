@@ -16,6 +16,36 @@ import { fileURLToPath } from 'url'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '../..')
 
+// .env.local 로딩 — node CLI 직접 실행 시 Next.js가 로드하지 않으므로 직접 처리.
+// fs/path는 이미 import됐으므로 외부 패키지 불필요.
+// 규칙: KEY=VALUE, KEY="VALUE", KEY='VALUE' 지원. 주석(#)·빈 줄 무시.
+// 이미 설정된 환경변수는 덮어쓰지 않음 (시스템 환경변수·CI 우선).
+;(function loadEnvLocal() {
+  const envPath = path.join(ROOT, '.env.local')
+  try {
+    const lines = fs.readFileSync(envPath, 'utf-8').split('\n')
+    for (const line of lines) {
+      const trimmed = line.trim()
+      if (!trimmed || trimmed.startsWith('#')) continue
+      const eqIdx = trimmed.indexOf('=')
+      if (eqIdx === -1) continue
+      const key = trimmed.slice(0, eqIdx).trim()
+      let val = trimmed.slice(eqIdx + 1).trim()
+      if (
+        (val.startsWith('"') && val.endsWith('"')) ||
+        (val.startsWith("'") && val.endsWith("'"))
+      ) {
+        val = val.slice(1, -1)
+      }
+      if (key && !(key in process.env)) {
+        process.env[key] = val
+      }
+    }
+  } catch {
+    // .env.local 없음 — CI 환경 등에서 정상. 조용히 무시.
+  }
+})()
+
 const SNAPSHOTS_DIR = path.join(ROOT, 'data/snapshots')
 const CONFIG_DIR = path.join(ROOT, 'config')
 

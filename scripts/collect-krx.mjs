@@ -34,26 +34,30 @@ import { getCurrentWeekId } from './lib/week-id.mjs'
 
 // ── 설정 ──────────────────────────────────────────────────────────────────────
 
+// KRX OAP — exchange_status / listing / ETF_meta 수집에 사용.
+// 주의: data.krx.co.kr는 브라우저 세션(JSESSIONID)이 필요해 price/flow/indices는
+//       Node.js fetch 환경에서 HTML 오류페이지를 반환합니다.
+//       price/indices는 Yahoo Finance (.KS/.KQ)로 대체 수집합니다.
+//       flow(수급)는 KRX 공식 API 신청 전까지 자동 수집 불가입니다.
 const KRX_OAP_BASE = 'https://data.krx.co.kr/comm/bldAttendant/executeForResourceBundle.cmd'
-const KRX_DELAY_MS = 500  // 요청 간 0.5초 대기 (rate limit 방지)
+const KRX_DELAY_MS = 500
 
-// KRX OAP bld 코드 (data.krx.co.kr 비공식 공개 엔드포인트)
+// Yahoo Finance — KR 주식 시세·지수 수집 (이미 collect-market-indicators.mjs에서 사용 중인 소스)
+const YAHOO_BASE = 'https://query1.finance.yahoo.com/v8/finance/chart'
+const YAHOO_DELAY_MS = 300
+
 const BLD = {
-  OHLCV_STOCK:    'dbms/MDC/STAT/standard/MDCSTAT01501',  // 개별종목 시세 (KOSPI/KOSDAQ)
-  FLOW_STOCK:     'dbms/MDC/STAT/standard/MDCSTAT02303',  // 투자자별 거래실적 (종목)
-  EXCHANGE_LIST:  'dbms/MDC/STAT/standard/MDCSTAT30001',  // 투자경고·매매정지 종목
-  INDEX_DAILY:    'dbms/MDC/STAT/standard/MDCSTAT00101',  // 주요 지수 시세
-  LISTING_STOCK:  'dbms/MDC/STAT/standard/MDCSTAT03901',  // 전종목 상장정보
-  ETF_META:       'dbms/MDC/STAT/standard/MDCSTAT04601',  // ETF 기본 정보
+  EXCHANGE_LIST: 'dbms/MDC/STAT/standard/MDCSTAT30001',  // 투자경고·매매정지 종목
+  LISTING_STOCK: 'dbms/MDC/STAT/standard/MDCSTAT03901',  // 전종목 상장정보
+  ETF_META:      'dbms/MDC/STAT/standard/MDCSTAT04601',  // ETF 기본 정보
 }
 
 // ── 유틸 ──────────────────────────────────────────────────────────────────────
 
 /**
  * KRX OAP에 POST 요청을 보냅니다.
- * @param {string} bld
- * @param {Record<string, string>} params
- * @returns {Promise<object>}
+ * exchange_status / listing / ETF_meta 수집에 사용됩니다.
+ * price / flow / indices에는 사용하지 않습니다 (브라우저 세션 필요).
  */
 async function krxPost(bld, params) {
   const body = new URLSearchParams({ bld, ...params })
@@ -68,8 +72,35 @@ async function krxPost(bld, params) {
   })
   if (!res.ok) throw new Error(`KRX HTTP ${res.status}: ${bld}`)
   const json = await res.json()
-  // KRX OAP는 { OutBlock_1: [...] } 또는 { output: [...] } 구조
   return json
+}
+
+/**
+ * Yahoo Finance에서 한국 주식/지수 시세를 가져옵니다.
+ * 한국 주식: {ticker}.KS (KOSPI) / {ticker}.KQ (KOSDAQ)
+ * 한국 지수: ^KS11 (KOSPI), ^KQ11 (KOSDAQ), ^KS200 (KOSPI200)
+ */
+async function yahooKrQuote(symbol) {
+  const url = `${YAHOO_BASE}/${encodeURIComponent(symbol)}?interval=1d&range=5d`
+  const res = await fetch(url, {
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+      'Accept': 'application/json',
+    },
+  })
+  if (!res.ok) throw new Error(`Yahoo HTTP ${res.status}: ${symbol}`)
+  const json = await res.json()
+  const result = json?.chart?.result?.[0]
+  if (!result) throw new Error(`Yahoo ${symbol}: chart result 없음`)
+  return result
+}
+
+/**
+ * 시장 코드에서 Yahoo Finance suffix를 반환합니다.
+ */
+function getYahooSuffix(market) {
+  if (market === 'KOSDAQ') return '.KQ'
+  return '.KS'  // KOSPI, ETF 모두 .KS
 }
 
 /**
@@ -91,44 +122,38 @@ function getRecentBusinessDay() {
 // ── 수집 함수들 ────────────────────────────────────────────────────────────────
 
 /**
- * 1. 개별 종목 시세 (OHLCV, 52주 고저, 시가총액)
+ * 1. 개별 종목 시세 — Yahoo Finance (.KS/.KQ) 경유
+ * KRX OAP는 브라우저 세션이 필요해 Node.js CLI에서 접근 불가.
+ * Yahoo Finance는 collect-market-indicators.mjs에서 이미 사용 중인 소스입니다.
  */
 async function collectPrice(tickers, basDd) {
   const records = []
   const errors = []
 
   for (const t of tickers) {
+    const sym = t.ticker + getYahooSuffix(t.market)
     try {
-      const data = await krxPost(BLD.OHLCV_STOCK, {
-        isuCd: t.ticker,
-        strtDd: basDd,
-        endDd: basDd,
-        adjStkPrcYn: 'N',
-      })
-      const rows = data.OutBlock_1 ?? data.output ?? []
-      if (rows.length === 0) {
-        errors.push({ ticker: t.ticker, error: '데이터 없음' })
-        continue
-      }
-      const row = rows[0]
+      const result = await yahooKrQuote(sym)
+      const meta = result.meta
       records.push({
         ticker: t.ticker,
         name: t.name,
         market: t.market,
+        yahoo_symbol: sym,
         as_of: basDd,
-        open: parseFloat(row.openPrc ?? row.TDD_OPNPRC ?? 0),
-        high: parseFloat(row.highPrc ?? row.TDD_HGPRC ?? 0),
-        low: parseFloat(row.lowPrc ?? row.TDD_LWPRC ?? 0),
-        close: parseFloat(row.closPrc ?? row.TDD_CLSPRC ?? 0),
-        volume: parseInt(row.trqu ?? row.ACC_TRDVOL ?? 0, 10),
-        trade_value_krw: parseInt(row.trPrc ?? row.ACC_TRDVAL ?? 0, 10),
-        market_cap_krw: parseInt(row.mktCap ?? row.MKTCAP ?? 0, 10),
-        week52_high: parseFloat(row.hiPrc52W ?? 0),
-        week52_low: parseFloat(row.lwPrc52W ?? 0),
+        close: meta.regularMarketPrice ?? null,
+        open: meta.regularMarketOpen ?? null,
+        high: meta.regularMarketDayHigh ?? null,
+        low: meta.regularMarketDayLow ?? null,
+        prev_close: meta.regularMarketPreviousClose ?? null,
+        volume: meta.regularMarketVolume ?? null,
+        market_cap_krw: meta.marketCap ?? null,
+        week52_high: meta.fiftyTwoWeekHigh ?? null,
+        week52_low: meta.fiftyTwoWeekLow ?? null,
       })
-      await sleep(KRX_DELAY_MS)
+      await sleep(YAHOO_DELAY_MS)
     } catch (err) {
-      errors.push({ ticker: t.ticker, error: err.message })
+      errors.push({ ticker: t.ticker, symbol: sym, error: err.message })
     }
   }
 
@@ -136,48 +161,20 @@ async function collectPrice(tickers, basDd) {
 }
 
 /**
- * 2. 투자자별 수급 (외국인·기관 순매수)
+ * 2. 투자자별 수급 (외국인·기관 순매수) — Phase B-2에서 수집 불가
+ * KRX OAP 수급 엔드포인트는 브라우저 세션이 필요합니다.
+ * Yahoo Finance 등 대체 소스에 수급 데이터가 없습니다.
+ * KRX 공식 REST API 신청(openkrx.or.kr) 후 Phase B-3 또는 C에서 구현 예정.
  */
-async function collectFlow(tickers, basDd) {
-  const records = []
-  const errors = []
-
-  for (const t of tickers) {
-    try {
-      const data = await krxPost(BLD.FLOW_STOCK, {
-        isuCd: t.ticker,
-        strtDd: basDd,
-        endDd: basDd,
-        inqTpCd: '1',  // 순매수 기준
-      })
-      const rows = data.OutBlock_1 ?? data.output ?? []
-      if (rows.length === 0) {
-        errors.push({ ticker: t.ticker, error: '수급 데이터 없음' })
-        continue
-      }
-      // 외국인·기관 행 찾기
-      let foreign = null
-      let institution = null
-      for (const row of rows) {
-        const name = row.invstNm ?? row.INVST_NM ?? ''
-        if (name.includes('외국인')) foreign = row
-        if (name.includes('기관') && !name.includes('소계')) institution = row
-      }
-      records.push({
-        ticker: t.ticker,
-        as_of: basDd,
-        foreign_net_buy: parseInt(foreign?.netByShrQty ?? foreign?.NETBYSHR_QTY ?? 0, 10),
-        foreign_net_buy_value_krw: parseInt(foreign?.netByAmt ?? foreign?.NETBYAMT ?? 0, 10),
-        institution_net_buy: parseInt(institution?.netByShrQty ?? institution?.NETBYSHR_QTY ?? 0, 10),
-        institution_net_buy_value_krw: parseInt(institution?.netByAmt ?? institution?.NETBYAMT ?? 0, 10),
-      })
-      await sleep(KRX_DELAY_MS)
-    } catch (err) {
-      errors.push({ ticker: t.ticker, error: err.message })
-    }
+async function collectFlow(_tickers, _basDd) {
+  return {
+    records: [],
+    errors: [{
+      source: 'KRX_FLOW',
+      error: 'KRX OAP 브라우저 세션 필요 — Node.js CLI 자동 수집 불가. KRX 공식 API 신청(openkrx.or.kr) 또는 수동 확인 필요.',
+    }],
+    _unavailable: true,
   }
-
-  return { records, errors }
 }
 
 /**
@@ -208,41 +205,40 @@ async function collectExchangeStatus(tickers, basDd) {
 }
 
 /**
- * 4. 주요 지수 (KOSPI, KOSDAQ)
+ * 4. 주요 지수 (KOSPI, KOSDAQ, KOSPI200) — Yahoo Finance 경유
+ * KRX OAP 지수 엔드포인트도 브라우저 세션이 필요합니다.
+ * Yahoo Finance 심볼: ^KS11 (KOSPI), ^KQ11 (KOSDAQ), ^KS200 (KOSPI200)
  */
 async function collectIndices(basDd) {
   const errors = []
   const records = []
 
   const targets = [
-    { code: '1', name: 'KOSPI' },
-    { code: '2', name: 'KOSDAQ' },
-    { code: '3', name: 'KOSPI200' },
+    { symbol: '^KS11',  name: 'KOSPI' },
+    { symbol: '^KQ11',  name: 'KOSDAQ' },
+    { symbol: '^KS200', name: 'KOSPI200' },
   ]
 
   for (const idx of targets) {
     try {
-      const data = await krxPost(BLD.INDEX_DAILY, {
-        idxIndCd: idx.code,
-        strtDd: basDd,
-        endDd: basDd,
-      })
-      const rows = data.OutBlock_1 ?? data.output ?? []
-      if (rows.length === 0) {
-        errors.push({ index: idx.name, error: '데이터 없음' })
-        continue
-      }
-      const row = rows[0]
+      const result = await yahooKrQuote(idx.symbol)
+      const meta = result.meta
+      const close = meta.regularMarketPrice ?? null
+      const prevClose = meta.regularMarketPreviousClose ?? null
       records.push({
         index: idx.name,
+        yahoo_symbol: idx.symbol,
         as_of: basDd,
-        close: parseFloat(row.clspIdx ?? row.CLSPRC_IDX ?? 0),
-        change: parseFloat(row.flucRt ?? row.FLUC_RT ?? 0),
-        volume: parseInt(row.trqu ?? row.ACC_TRDVOL ?? 0, 10),
+        close,
+        prev_close: prevClose,
+        change_pct: (close && prevClose)
+          ? parseFloat(((close - prevClose) / prevClose * 100).toFixed(2))
+          : null,
+        volume: meta.regularMarketVolume ?? null,
       })
-      await sleep(KRX_DELAY_MS)
+      await sleep(YAHOO_DELAY_MS)
     } catch (err) {
-      errors.push({ index: idx.name, error: err.message })
+      errors.push({ index: idx.name, symbol: idx.symbol, error: err.message })
     }
   }
 
@@ -342,11 +338,11 @@ async function main() {
     results: {},
   }
 
-  // 1. 시세
-  console.log('1/6 시세 (OHLCV) 수집 중...')
+  // 1. 시세 (Yahoo Finance .KS/.KQ 경유)
+  console.log('1/6 시세 수집 중 (Yahoo Finance .KS/.KQ)...')
   try {
     const { records, errors } = await collectPrice(tickers, basDd)
-    const envelope = makeEnvelope({ weekId, source: 'KRX_OHLCV', schemaVersion: '1.0', asOf: basDd, data: records })
+    const envelope = makeEnvelope({ weekId, source: 'YAHOO_PRICE_KR', schemaVersion: '1.0', asOf: basDd, data: records })
     if (errors.length > 0) envelope._errors = errors
     if (!dryRun) saveSnapshot(weekId, 'krx_price.json', envelope)
     else console.log(`  [dry-run] krx_price.json — ${records.length}건, 오류 ${errors.length}건`)
@@ -356,17 +352,18 @@ async function main() {
     summary.results.price = { count: 0, errors: 1, fatal: err.message }
   }
 
-  // 2. 수급
-  console.log('2/6 수급 (외국인·기관) 수집 중...')
+  // 2. 수급 — KRX OAP 세션 필요로 Phase B-2에서 수집 불가
+  console.log('2/6 수급 (KRX 직접 세션 필요 — 수집 불가, 빈 파일 저장)...')
   try {
-    const { records, errors } = await collectFlow(tickers, basDd)
-    const envelope = makeEnvelope({ weekId, source: 'KRX_FLOW', schemaVersion: '1.0', asOf: basDd, data: records })
+    const { records, errors, _unavailable } = await collectFlow(tickers, basDd)
+    const envelope = makeEnvelope({ weekId, source: 'KRX_FLOW_UNAVAILABLE', schemaVersion: '1.0', asOf: basDd, data: records })
+    envelope._collection_note = 'KRX OAP 브라우저 세션 필요 — Phase B-2 자동 수집 불가. KRX 공식 API(openkrx.or.kr) 신청 후 구현 예정.'
     if (errors.length > 0) envelope._errors = errors
     if (!dryRun) saveSnapshot(weekId, 'krx_flow.json', envelope)
-    else console.log(`  [dry-run] krx_flow.json — ${records.length}건, 오류 ${errors.length}건`)
-    summary.results.flow = { count: records.length, errors: errors.length }
+    else console.log(`  [dry-run] krx_flow.json — 수집 불가 명시, 빈 데이터`)
+    summary.results.flow = { count: 0, unavailable: true, reason: 'KRX_OAP_SESSION_REQUIRED' }
   } catch (err) {
-    console.error(`  [실패] 수급 수집 전체 오류: ${err.message}`)
+    console.error(`  [실패] 수급 처리 오류: ${err.message}`)
     summary.results.flow = { count: 0, errors: 1, fatal: err.message }
   }
 
@@ -384,11 +381,11 @@ async function main() {
     summary.results.exchange_status = { count: 0, errors: 1, fatal: err.message }
   }
 
-  // 4. 지수
-  console.log('4/6 주요 지수 (KOSPI, KOSDAQ) 수집 중...')
+  // 4. 지수 (Yahoo Finance ^KS11/^KQ11/^KS200 경유)
+  console.log('4/6 주요 지수 수집 중 (Yahoo Finance ^KS11/^KQ11/^KS200)...')
   try {
     const { records, errors } = await collectIndices(basDd)
-    const envelope = makeEnvelope({ weekId, source: 'KRX_INDICES', schemaVersion: '1.0', asOf: basDd, data: records })
+    const envelope = makeEnvelope({ weekId, source: 'YAHOO_INDICES_KR', schemaVersion: '1.0', asOf: basDd, data: records })
     if (errors.length > 0) envelope._errors = errors
     if (!dryRun) saveSnapshot(weekId, 'krx_indices.json', envelope)
     else console.log(`  [dry-run] krx_indices.json — ${records.length}건, 오류 ${errors.length}건`)

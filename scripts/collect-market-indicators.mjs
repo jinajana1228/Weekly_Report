@@ -56,14 +56,21 @@ const FRED_BASE = 'https://api.stlouisfed.org/fred'
  * @returns {Promise<Array<{ time: string, value: string }>>}
  */
 async function ecosGet(statCode, itemCode, period, recentN, apiKey) {
-  // 기간 범위: 충분히 넓게 (최근 60일 또는 12개월)
+  // ECOS 날짜 포맷: 일간(D) → YYYYMMDD, 월간(M) → YYYYMM
+  // ERROR-101은 period와 날짜 포맷 불일치 시 발생합니다.
   const now = new Date()
-  const end = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}`
+  const formatDate = (d) => {
+    const y = d.getFullYear()
+    const m = String(d.getMonth() + 1).padStart(2, '0')
+    if (period === 'M') return `${y}${m}`          // YYYYMM (월간)
+    return `${y}${m}${String(d.getDate()).padStart(2, '0')}`  // YYYYMMDD (일간)
+  }
+  const end = formatDate(now)
   const start = (() => {
     const d = new Date(now)
     if (period === 'D') d.setDate(d.getDate() - 60)
-    else d.setMonth(d.getMonth() - 12)
-    return `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`
+    else d.setFullYear(d.getFullYear() - 2)  // 월간: 2년 전부터 (충분한 기간)
+    return formatDate(d)
   })()
 
   const url = `${ECOS_BASE}/StatisticSearch/${apiKey}/json/kr/1/${recentN}/${statCode}/${period}/${start}/${end}/${itemCode}`
@@ -101,8 +108,9 @@ async function collectEcos(apiKey) {
   }
 
   // 한국은행 기준금리 (통계표: 722Y001, 항목: 0101000)
+  // recentN=36: 월간 데이터 2년 범위에서 최대 24건. 36으로 여유있게 지정해 최신값 확보.
   try {
-    const rows = await ecosGet('722Y001', '0101000', 'M', 1, apiKey)
+    const rows = await ecosGet('722Y001', '0101000', 'M', 36, apiKey)
     const latest = rows[rows.length - 1] ?? null
     results.bok_rate = {
       label: '한국은행 기준금리',

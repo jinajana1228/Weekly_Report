@@ -20,16 +20,17 @@
 
 프로젝트 루트에 `.env.local` 파일 생성:
 
-```bash
-# 프로젝트 루트
-cat >> .env.local << 'EOF'
+```env
 DART_API_KEY=여기에_DART_키_입력
 ECOS_API_KEY=여기에_ECOS_키_입력
 FRED_API_KEY=여기에_FRED_키_입력
-EOF
 ```
 
-> `.env.local`은 `.gitignore`에 포함되어 있어야 합니다. 커밋하지 마세요.
+> `.env.local`은 `.gitignore`에 이미 포함되어 있습니다. 커밋하지 마세요.
+
+> **자동 로딩**: `node scripts/...` CLI 직접 실행 시에도 `scripts/lib/snapshot.mjs`가
+> 초기화 시점에 `.env.local`을 자동으로 읽어 적재합니다. dotenv 등 별도 패키지 불필요.
+> 시스템 환경변수(CI 등)가 이미 있으면 `.env.local` 값으로 덮어쓰지 않습니다.
 
 ### 1-3. 동작 확인 (드라이런)
 

@@ -96,23 +96,28 @@ data/snapshots/
 
 ### 4-1. KRX 수집기 (`collect-krx.mjs`)
 
-**소스**: data.krx.co.kr OAP (Open API Platform)
-**인증**: 불필요 (공개 엔드포인트)
 **수집 기준일**: 실행일 기준 최근 영업일 (토·일 → 금요일)
 
-| 파일 | BLD 코드 | 설명 |
-|------|----------|------|
-| `krx_price.json` | MDCSTAT01501 | OHLCV, 52주 고저, 시가총액 |
-| `krx_flow.json` | MDCSTAT02303 | 외국인·기관 순매수 |
-| `krx_exchange_status.json` | MDCSTAT30001 | 투자경고·매매정지 지정 여부 |
-| `krx_indices.json` | MDCSTAT00101 | KOSPI, KOSDAQ, KOSPI200 |
-| `krx_listing.json` | MDCSTAT03901 | 상장주식수, 상장일 |
-| `krx_etf_meta.json` | MDCSTAT04601 | 추적지수, 보수율, NAV |
+| 파일 | 실제 소스 | envelope source | 설명 |
+|------|-----------|-----------------|------|
+| `krx_price.json` | Yahoo Finance (.KS/.KQ) | `YAHOO_PRICE_KR` | 종가·시가·고저·거래량·시총·52주 고저 |
+| `krx_flow.json` | — (수집 불가) | `KRX_FLOW_UNAVAILABLE` | 빈 데이터 + 사유 명시 |
+| `krx_exchange_status.json` | KRX OAP MDCSTAT30001 | `KRX_EXCHANGE_STATUS` | 투자경고·매매정지 지정 여부 |
+| `krx_indices.json` | Yahoo Finance (^KS11 등) | `YAHOO_INDICES_KR` | KOSPI, KOSDAQ, KOSPI200 |
+| `krx_listing.json` | KRX OAP MDCSTAT03901 | `KRX_LISTING` | 상장주식수, 상장일 |
+| `krx_etf_meta.json` | KRX OAP MDCSTAT04601 | `KRX_ETF_META` | 추적지수, 보수율, NAV |
 
-**주의사항**:
-- KRX OAP는 공식 API 신청 전까지 파일 다운로드(Day 1 방식)와 병행 사용 가능
-- `basDd` 파라미터는 YYYYMMDD 형식
-- 요청 간 500ms 대기 (rate limit 방지)
+**소스 분리 이유**:
+KRX `data.krx.co.kr/comm/bldAttendant/executeForResourceBundle.cmd`는 JSESSIONID 브라우저 세션이 필요합니다.
+Node.js fetch 환경에서 HTML 오류페이지를 반환하므로 price/indices/flow는 대체 소스를 사용합니다.
+
+**flow 수집 불가 사유**:
+외국인·기관 수급 데이터는 KRX 공식 REST API(openkrx.or.kr) 신청 또는
+KRX 파일 다운로드 방식으로 Phase B-3 또는 C에서 구현 예정.
+
+**Yahoo Finance KR 심볼**:
+- 주식: `{ticker}.KS` (KOSPI), `{ticker}.KQ` (KOSDAQ)
+- 지수: `^KS11` (KOSPI), `^KQ11` (KOSDAQ), `^KS200` (KOSPI200)
 
 ### 4-2. DART 수집기 (`collect-dart.mjs`)
 
@@ -181,7 +186,7 @@ data/snapshots/
 
 ## 6. 환경 변수 설정
 
-`.env.local` (또는 시스템 환경 변수):
+`.env.local` (프로젝트 루트):
 
 ```env
 # DART OpenAPI — https://opendart.fss.or.kr/intro/main.do
@@ -195,6 +200,11 @@ FRED_API_KEY=your_fred_api_key_here
 ```
 
 **KRX는 인증 불필요** — API 키 없이 동작합니다.
+
+**`.env.local` 자동 로딩 방식**:
+`scripts/lib/snapshot.mjs` 모듈 초기화 시 프로젝트 루트의 `.env.local`을 자동으로 읽어
+`process.env`에 적재합니다. `node scripts/...` CLI 직접 실행 시에도 별도 설정 없이 동작합니다.
+이미 설정된 시스템 환경변수(CI 등)는 덮어쓰지 않습니다.
 
 ---
 

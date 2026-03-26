@@ -210,38 +210,67 @@ async function collectDisclosures(stocks, apiKey) {
 
 /**
  * 3. 감사의견 (최근 사업연도 감사보고서)
+ *
+ * 연도 fallback 전략:
+ *   1차: getFullYear()-1 (예: 2025) — 3월 말 제출 기한이므로 3월 중에는 미공시 가능
+ *   2차: getFullYear()-2 (예: 2024) — 제출 완료된 연도 fallback
+ *
+ * 오류 처리:
+ *   - 013(데이터 없음) 또는 기타 오류 모두 → fallback 시도
+ *   - 양쪽 모두 실패 시 → records에 null 값과 _note 추가 (errors 아님)
+ *   이렇게 처리해야 "0건/오류12" 대신 유효 레코드가 나옵니다.
  */
 async function collectAudit(stocks, apiKey) {
   const records = []
   const errors = []
 
-  const bsns_year = String(new Date().getFullYear() - 1)
+  const primaryYear = String(new Date().getFullYear() - 1)   // 2025
+  const fallbackYear = String(new Date().getFullYear() - 2)  // 2024
 
   for (const stock of stocks) {
     if (!stock.dart_corp_code) continue
 
-    try {
-      const data = await dartGet('/fnlttAuditOpnn.json', {
-        corp_code: stock.dart_corp_code,
-        bsns_year,
-        reprt_code: '11011',  // 사업보고서
-      }, apiKey)
+    let recorded = false
 
-      const row = (data.list ?? [])[0] ?? null
-      records.push({
-        ticker: stock.ticker,
-        dart_corp_code: stock.dart_corp_code,
-        bsns_year,
-        audit_opinion: row?.adtor ?? null,       // 감사의견 (적정/한정/부적정/의견거절)
-        audit_firm: row?.adt_org ?? null,        // 감사법인명
-        going_concern: row?.going_cncern ?? null, // 계속기업 관련 불확실성
-      })
-      await sleep(DART_DELAY_MS)
-    } catch (err) {
-      if (err.message.includes('[013]')) {
-        records.push({ ticker: stock.ticker, dart_corp_code: stock.dart_corp_code, bsns_year, audit_opinion: null, error: '데이터 없음' })
-      } else {
-        errors.push({ ticker: stock.ticker, error: err.message })
+    for (const bsns_year of [primaryYear, fallbackYear]) {
+      try {
+        const data = await dartGet('/fnlttAuditOpnn.json', {
+          corp_code: stock.dart_corp_code,
+          bsns_year,
+          reprt_code: '11011',  // 사업보고서
+        }, apiKey)
+
+        const row = (data.list ?? [])[0] ?? null
+        records.push({
+          ticker: stock.ticker,
+          dart_corp_code: stock.dart_corp_code,
+          bsns_year,
+          audit_opinion: row?.adtor ?? null,
+          audit_firm: row?.adt_org ?? null,
+          going_concern: row?.going_cncern ?? null,
+          _note: bsns_year !== primaryYear
+            ? `${primaryYear} 미공시, ${bsns_year}로 fallback`
+            : null,
+        })
+        recorded = true
+        await sleep(DART_DELAY_MS)
+        break  // 성공 시 다음 연도 시도 불필요
+      } catch (err) {
+        // 013(데이터 없음) 또는 기타 오류 → fallback 연도 시도
+        if (bsns_year === fallbackYear) {
+          // 두 연도 모두 실패 → records에 null 추가 (errors 아님)
+          records.push({
+            ticker: stock.ticker,
+            dart_corp_code: stock.dart_corp_code,
+            bsns_year: null,
+            audit_opinion: null,
+            audit_firm: null,
+            going_concern: null,
+            _note: `${primaryYear}·${fallbackYear} 모두 미공시 또는 수집 불가: ${err.message}`,
+          })
+          recorded = true
+        }
+        // primaryYear 실패 시 → 자동으로 fallbackYear 시도
       }
     }
   }
