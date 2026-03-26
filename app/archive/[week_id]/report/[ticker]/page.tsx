@@ -11,6 +11,15 @@ import BullBearSection from "@/components/detail/BullBearSection";
 import ETFSection from "@/components/detail/ETFSection";
 import NewsCard from "@/components/ui/NewsCard";
 
+export function generateStaticParams() {
+  const manifest = loadManifest();
+  const weekIds = manifest?.archive_week_ids ?? [];
+  return weekIds.flatMap((week_id) => {
+    const report = loadArchiveReport(week_id);
+    return (report?.picks ?? []).map((p) => ({ week_id, ticker: p.ticker }));
+  });
+}
+
 export default function ArchiveDetailReportPage({
   params,
 }: {

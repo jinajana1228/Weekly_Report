@@ -6,6 +6,11 @@ import MarketSummary from "@/components/home/MarketSummary";
 import SectorBadge from "@/components/ui/SectorBadge";
 import NewsCard from "@/components/ui/NewsCard";
 
+export function generateStaticParams() {
+  const manifest = loadManifest();
+  return (manifest?.archive_week_ids ?? []).map((weekId) => ({ week_id: weekId }));
+}
+
 export default function ArchiveDetailPage({
   params,
 }: {

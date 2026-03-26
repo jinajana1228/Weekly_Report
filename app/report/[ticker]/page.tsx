@@ -13,6 +13,11 @@ import ETFSection from "@/components/detail/ETFSection";
 import LinkedSignalsSection from "@/components/detail/LinkedSignalsSection";
 import NewsCard from "@/components/ui/NewsCard";
 
+export function generateStaticParams() {
+  const report = loadCurrentReport();
+  return (report?.picks ?? []).map((p) => ({ ticker: p.ticker }));
+}
+
 export default function ReportDetailPage({
   params,
 }: {
