@@ -1,0 +1,167 @@
+{
+  "_comment": "Weekly Report 추천 유니버스 — Phase B-2 수집 대상 종목 목록",
+  "_schema_version": "1.0",
+  "_updated_at": "2026-03-26",
+  "_fields": {
+    "ticker": "종목코드 (KRX 6자리)",
+    "name": "종목명",
+    "market": "KOSPI | KOSDAQ",
+    "sector": "섹터 레이블 (SectorBadge 기준)",
+    "asset_type": "stock | etf",
+    "dart_corp_code": "DART 고유번호 (8자리 문자열) — ETF 및 미확인은 null",
+    "etf_krx_code": "ETF 구성종목 KRX 코드 — ETF 전용, 일반주식은 null",
+    "active": "false로 설정하면 수집에서 제외 (임시 제외용)"
+  },
+  "tickers": [
+    {
+      "ticker": "005930",
+      "name": "삼성전자",
+      "market": "KOSPI",
+      "sector": "TECH",
+      "asset_type": "stock",
+      "dart_corp_code": "00126380",
+      "etf_krx_code": null,
+      "active": true
+    },
+    {
+      "ticker": "035420",
+      "name": "NAVER",
+      "market": "KOSPI",
+      "sector": "TECH",
+      "asset_type": "stock",
+      "dart_corp_code": "00293886",
+      "etf_krx_code": null,
+      "active": true
+    },
+    {
+      "ticker": "373220",
+      "name": "LG에너지솔루션",
+      "market": "KOSPI",
+      "sector": "BATTERY",
+      "asset_type": "stock",
+      "dart_corp_code": "01426674",
+      "etf_krx_code": null,
+      "active": true
+    },
+    {
+      "ticker": "267260",
+      "name": "HD현대일렉트릭",
+      "market": "KOSPI",
+      "sector": "INDUSTRIAL",
+      "asset_type": "stock",
+      "dart_corp_code": "00426364",
+      "etf_krx_code": null,
+      "active": true
+    },
+    {
+      "ticker": "036460",
+      "name": "한국가스공사",
+      "market": "KOSPI",
+      "sector": "ENERGY",
+      "asset_type": "stock",
+      "dart_corp_code": "00141009",
+      "etf_krx_code": null,
+      "active": true
+    },
+    {
+      "ticker": "017670",
+      "name": "SK텔레콤",
+      "market": "KOSPI",
+      "sector": "TELECOM",
+      "asset_type": "stock",
+      "dart_corp_code": "00788485",
+      "etf_krx_code": null,
+      "active": true
+    },
+    {
+      "ticker": "005490",
+      "name": "POSCO홀딩스",
+      "market": "KOSPI",
+      "sector": "MATERIAL",
+      "asset_type": "stock",
+      "dart_corp_code": "00431894",
+      "etf_krx_code": null,
+      "active": true
+    },
+    {
+      "ticker": "329180",
+      "name": "HD현대중공업",
+      "market": "KOSPI",
+      "sector": "INDUSTRIAL",
+      "asset_type": "stock",
+      "dart_corp_code": "00164788",
+      "etf_krx_code": null,
+      "active": true
+    },
+    {
+      "ticker": "028260",
+      "name": "삼성물산",
+      "market": "KOSPI",
+      "sector": "REALESTATE",
+      "asset_type": "stock",
+      "dart_corp_code": "00126673",
+      "etf_krx_code": null,
+      "active": true
+    },
+    {
+      "ticker": "068270",
+      "name": "셀트리온",
+      "market": "KOSPI",
+      "sector": "HEALTHCARE",
+      "asset_type": "stock",
+      "dart_corp_code": "00421045",
+      "etf_krx_code": null,
+      "active": true
+    },
+    {
+      "ticker": "105560",
+      "name": "KB금융",
+      "market": "KOSPI",
+      "sector": "FINANCE",
+      "asset_type": "stock",
+      "dart_corp_code": "00631483",
+      "etf_krx_code": null,
+      "active": true
+    },
+    {
+      "ticker": "097950",
+      "name": "CJ제일제당",
+      "market": "KOSPI",
+      "sector": "CONSUMER",
+      "asset_type": "stock",
+      "dart_corp_code": "00104853",
+      "etf_krx_code": null,
+      "active": true
+    },
+    {
+      "ticker": "232080",
+      "name": "TIGER 코스닥150 ETF",
+      "market": "KOSPI",
+      "sector": "ETF_DOMESTIC",
+      "asset_type": "etf",
+      "dart_corp_code": null,
+      "etf_krx_code": "232080",
+      "active": true
+    },
+    {
+      "ticker": "069500",
+      "name": "KODEX 200 ETF",
+      "market": "KOSPI",
+      "sector": "ETF_DOMESTIC",
+      "asset_type": "etf",
+      "dart_corp_code": null,
+      "etf_krx_code": "069500",
+      "active": true
+    },
+    {
+      "ticker": "360750",
+      "name": "TIGER 미국S&P500 ETF",
+      "market": "KOSPI",
+      "sector": "ETF_OVERSEAS",
+      "asset_type": "etf",
+      "dart_corp_code": null,
+      "etf_krx_code": "360750",
+      "active": true
+    }
+  ]
+}

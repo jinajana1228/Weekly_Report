@@ -8,7 +8,11 @@
     "start": "next start",
     "publish:dry-run": "node scripts/dry-run-publish.mjs",
     "approval:write": "node scripts/approve.mjs",
-    "publish": "node scripts/publish.mjs"
+    "publish": "node scripts/publish.mjs",
+    "collect:krx": "node scripts/collect-krx.mjs",
+    "collect:dart": "node scripts/collect-dart.mjs",
+    "collect:market": "node scripts/collect-market-indicators.mjs",
+    "collect:all": "node scripts/run-phase-b2-collection.mjs"
   },
   "dependencies": {
     "next": "14.2.29",
