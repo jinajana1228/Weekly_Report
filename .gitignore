@@ -28,3 +28,8 @@ Thumbs.db
 # (data/snapshots/ 디렉토리 자체와 README.md, .gitkeep은 유지)
 data/snapshots/**/*.json
 !data/snapshots/README.md
+
+# Phase B-3 정규화 산출물 — 가공본 JSON은 git 제외
+# (data/processed/ 디렉토리 자체와 README.md는 유지)
+data/processed/**/*.json
+!data/processed/README.md
