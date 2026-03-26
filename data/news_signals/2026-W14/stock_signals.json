@@ -1,0 +1,55 @@
+{
+  "week_id": "2026-W14",
+  "scope": "stock",
+  "generated_at": "2026-04-04T18:00:00+09:00",
+  "signals": [
+    {
+      "signal_id": "ns_20260403_st_001",
+      "scope": "stock",
+      "direction": "bullish",
+      "strength": "moderate",
+      "title": "[예시] NAVER 하이퍼클로바X 기업 도입 사례 확대, 2Q 광고 회복 전망",
+      "summary": "[예시] NAVER의 생성형 AI 모델 하이퍼클로바X를 도입한 기업 고객 수가 전분기 대비 40% 이상 증가했다는 업계 보도가 나왔음. 2Q 광고 매출도 검색 광고 회복 흐름과 함께 개선될 것으로 전망되며, LINE Yahoo와의 AI 협업 강화도 중장기 모멘텀으로 작용할 것으로 예상.",
+      "source": "예시매체F",
+      "source_url": "https://example.com/news/article-106",
+      "published_at": "2026-04-03T13:00:00+09:00",
+      "keywords": ["NAVER", "하이퍼클로바X", "AI", "광고회복"],
+      "affected_sectors": ["TECH"],
+      "affected_tickers": ["035420"],
+      "admin_review_needed": false,
+      "is_used_in_report": true
+    },
+    {
+      "signal_id": "ns_20260403_st_002",
+      "scope": "stock",
+      "direction": "bullish",
+      "strength": "strong",
+      "title": "[예시] HD현대일렉트릭, 미국 전력청 대규모 변압기 공급 계약 체결",
+      "summary": "[예시] HD현대일렉트릭이 미국 전력청과 초고압 변압기 장기 공급 계약을 체결했다는 보도가 나왔음. 계약 규모는 미공개이나 기존 수주 잔고에 추가되는 규모로 알려짐. 미국 전력망 현대화 정책과 데이터센터 전력 인프라 수요가 견인하는 중장기 수주 사이클의 연속성을 확인하는 신호로 해석.",
+      "source": "예시매체G",
+      "source_url": "https://example.com/news/article-107",
+      "published_at": "2026-04-04T08:30:00+09:00",
+      "keywords": ["HD현대일렉트릭", "변압기", "수주", "미국전력"],
+      "affected_sectors": ["INDUSTRIAL"],
+      "affected_tickers": ["267260"],
+      "admin_review_needed": false,
+      "is_used_in_report": true
+    },
+    {
+      "signal_id": "ns_20260404_st_003",
+      "scope": "stock",
+      "direction": "bullish",
+      "strength": "weak",
+      "title": "[예시] 한국가스공사 미수금 회수 일정 정부 협의 개시 보도",
+      "summary": "[예시] 한국가스공사의 누적 미수금 약 13조 원에 대한 정부 회수 일정 협의가 개시됐다는 보도가 있었음. 다만 협의 초기 단계로 확정된 일정은 없으며, 정치적 요금 결정 구조 특성상 구체적 이행 여부는 불확실함. 이 신호 단독으로는 매수 근거로 삼기 어려우며, 추가 확인이 필요함.",
+      "source": "예시매체H",
+      "source_url": "https://example.com/news/article-108",
+      "published_at": "2026-04-04T11:00:00+09:00",
+      "keywords": ["한국가스공사", "미수금", "가스요금"],
+      "affected_sectors": ["ENERGY"],
+      "affected_tickers": ["036460"],
+      "admin_review_needed": true,
+      "is_used_in_report": false
+    }
+  ]
+}

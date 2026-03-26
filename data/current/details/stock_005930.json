@@ -1,0 +1,70 @@
+{
+  "detail_report_id": "DTL-2026-W13-005930",
+  "report_id": "RPT-2026-W13",
+  "week_id": "2026-W13",
+  "ticker": "005930",
+  "name": "삼성전자",
+  "sector": "TECH",
+  "asset_type": "stock",
+  "data_as_of": "2026-03-27",
+  "linked_signal_ids": [],
+  "company_overview": "[예시] 삼성전자는 메모리 반도체(DRAM·NAND), 시스템 반도체(파운드리·AP), 스마트폰·가전 등 다각화된 사업 포트폴리오를 보유한 국내 최대 IT 기업이다. 글로벌 메모리 반도체 시장 1위이며, HBM(고대역폭 메모리) 시장에서 SK하이닉스와 경쟁 중이다.",
+  "price_reference": {
+    "reference_price": 72000,
+    "currency": "KRW",
+    "watch_low": 70000,
+    "watch_high": 78000
+  },
+  "stance": "[예시] 단기 분할 매수 관심. 70,000원 이하 구간 진입 시 추가 매수 고려 가능. 단, HBM 수주 가시화 여부를 발표 전까지 일부 보유 규모 제한 권장.",
+  "bull_points": [
+    "[예시] HBM3E 공급 확대 협의가 주요 AI 고객사와 진행 중으로 알려져 있으며, 2Q 이후 매출 반영 기대",
+    "[예시] 파운드리 부문 가동률 회복세 진입 시 수익성 개선 예상",
+    "[예시] AI 반도체 수요 증가로 고부가가치 메모리 제품 비중 확대 구간 도래",
+    "[예시] 낙폭 과대 구간에서 외국인 저가 매수 흐름 재개 조짐"
+  ],
+  "bear_points": [
+    "[예시] 미국의 추가 반도체 수출 규제 강화 시 중국향 매출 감소 우려",
+    "[예시] HBM 분야에서 SK하이닉스 대비 기술 격차가 좁혀지지 않을 경우 단기 실망 가능",
+    "[예시] 레거시(범용) 반도체 재고 조정 마무리 지연 시 실적 회복 시점 후퇴 가능"
+  ],
+  "catalysts_2_to_4_weeks": [
+    "[예시] 주요 AI 고객사와의 HBM3E 공급 계약 규모 공개 (4월 중 예상)",
+    "[예시] 1분기 잠정 실적 발표 (4월 초 예정) — 컨센서스 부합 여부 확인",
+    "[예시] 파운드리 고객사 수주 확대 관련 IR 발표 가능성"
+  ],
+  "risks": [
+    "[예시] 미국 수출 규제 추가 강화: 중국향 레거시 반도체 수출 제한 확대 시 단기 매출 타격",
+    "[예시] HBM 경쟁 심화: TSMC·SK하이닉스 연합 구도 강화 시 파운드리+HBM 동시 압박",
+    "[예시] 거시 경기 둔화: 스마트폰·PC 수요 회복 지연 시 세트 부문 실적 저하",
+    "[예시] 원/달러 환율 하락: 환율 하락 지속 시 달러 표시 매출의 원화 환산 불리"
+  ],
+  "financial_summary": {
+    "schema_note": "이 필드의 상세 구조는 데이터 소스 확정 후 정의됩니다. 아래는 예시 구조입니다.",
+    "per": "[예시] 16.2",
+    "pbr": "[예시] 1.4",
+    "revenue_growth_yoy_pct": "[예시] 8.4",
+    "operating_margin_pct": "[예시] 12.1",
+    "roe_pct": "[예시] 8.7",
+    "dividend_yield_pct": "[예시] 2.1"
+  },
+  "related_news": [
+    {
+      "title": "[예시] 삼성전자, HBM3E 양산 일정 재조정 — 주요 고객사 테스트 통과 임박",
+      "source": "예시매체A",
+      "url": "https://example.com/news/article-s001",
+      "published_at": "2026-03-26T10:00:00+09:00",
+      "keywords": ["삼성전자", "HBM3E", "AI반도체"],
+      "sentiment": "positive",
+      "related_sectors": ["TECH"]
+    },
+    {
+      "title": "[예시] 반도체 수출 3개월 연속 증가, 메모리 중심 회복세 지속",
+      "source": "예시매체B",
+      "url": "https://example.com/news/article-s002",
+      "published_at": "2026-03-25T08:00:00+09:00",
+      "keywords": ["반도체수출", "메모리", "HBM"],
+      "sentiment": "positive",
+      "related_sectors": ["TECH"]
+    }
+  ]
+}

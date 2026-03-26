@@ -1,0 +1,39 @@
+{
+  "week_id": "2026-W14",
+  "scope": "market",
+  "generated_at": "2026-04-04T18:00:00+09:00",
+  "signals": [
+    {
+      "signal_id": "ns_20260404_m_001",
+      "scope": "market",
+      "direction": "bearish",
+      "strength": "moderate",
+      "title": "[예시] 미국 3월 고용지표 예상 상회, 금리 인하 기대 후퇴",
+      "summary": "[예시] 미국 비농업 고용이 전월 대비 22만 명 증가하며 시장 예상을 크게 상회. 연준의 금리 인하 시점이 7월 이후로 후퇴할 가능성이 높아졌으며, 달러 강세와 신흥국 자금 이탈 압력이 재확대되는 흐름.",
+      "source": "예시매체A",
+      "source_url": "https://example.com/news/article-101",
+      "published_at": "2026-04-04T09:30:00+09:00",
+      "keywords": ["고용지표", "연준", "금리인하", "달러강세"],
+      "affected_sectors": ["FINANCE", "ETF_OVERSEAS", "ETF_DOMESTIC"],
+      "affected_tickers": [],
+      "admin_review_needed": false,
+      "is_used_in_report": true
+    },
+    {
+      "signal_id": "ns_20260404_m_002",
+      "scope": "market",
+      "direction": "bearish",
+      "strength": "weak",
+      "title": "[예시] 달러 인덱스 104 돌파, 원/달러 환율 1,380원대 재진입",
+      "summary": "[예시] 달러 인덱스가 고용 호조 여파로 104선을 돌파하며 원/달러 환율이 1,380원대로 재진입. 외국인의 국내 주식 순매도 압력이 단기적으로 확대될 수 있으며, 달러 비헤지 ETF 수익률에는 긍정적 요인으로 작용할 수 있음.",
+      "source": "예시매체B",
+      "source_url": "https://example.com/news/article-102",
+      "published_at": "2026-04-04T10:00:00+09:00",
+      "keywords": ["달러강세", "환율", "외국인매도"],
+      "affected_sectors": ["ETF_OVERSEAS", "FINANCE"],
+      "affected_tickers": [],
+      "admin_review_needed": false,
+      "is_used_in_report": true
+    }
+  ]
+}

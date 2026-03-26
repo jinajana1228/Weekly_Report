@@ -1,0 +1,55 @@
+{
+  "week_id": "2026-W14",
+  "scope": "sector",
+  "generated_at": "2026-04-04T18:00:00+09:00",
+  "signals": [
+    {
+      "signal_id": "ns_20260403_s_001",
+      "scope": "sector",
+      "direction": "bullish",
+      "strength": "moderate",
+      "title": "[예시] AI 기업 솔루션 도입 확대, 국내 IT 플랫폼 수혜 기대",
+      "summary": "[예시] 국내외 기업의 생성형 AI 솔루션 도입이 본격화되면서 네이버·카카오 등 국내 IT 플랫폼의 기업 대상 AI 서비스 수익화 속도가 빨라질 것으로 전망됨. 광고 회복 흐름과 병행되어 2Q 실적 기대감이 높아지는 구간.",
+      "source": "예시매체C",
+      "source_url": "https://example.com/news/article-103",
+      "published_at": "2026-04-03T11:00:00+09:00",
+      "keywords": ["AI", "플랫폼", "IT", "광고회복"],
+      "affected_sectors": ["TECH"],
+      "affected_tickers": ["035420"],
+      "admin_review_needed": false,
+      "is_used_in_report": true
+    },
+    {
+      "signal_id": "ns_20260403_s_002",
+      "scope": "sector",
+      "direction": "bullish",
+      "strength": "strong",
+      "title": "[예시] 한국 전력·방산 장비 수출 확대, 중동·유럽 수주 가속",
+      "summary": "[예시] 중동과 유럽의 전력망 현대화 투자가 확대되면서 국내 전력 인프라 기업의 수주 잔고가 사상 최고 수준에 근접. 방산 수출도 동반 증가하며 INDUSTRIAL 섹터 전반의 이익 모멘텀이 강화되고 있음.",
+      "source": "예시매체D",
+      "source_url": "https://example.com/news/article-104",
+      "published_at": "2026-04-03T14:00:00+09:00",
+      "keywords": ["전력인프라", "방산수출", "수주잔고"],
+      "affected_sectors": ["INDUSTRIAL"],
+      "affected_tickers": ["267260"],
+      "admin_review_needed": false,
+      "is_used_in_report": true
+    },
+    {
+      "signal_id": "ns_20260403_s_003",
+      "scope": "sector",
+      "direction": "bullish",
+      "strength": "moderate",
+      "title": "[예시] 국제 LNG 현물 가격 반등, 국내 에너지 공기업 수혜 가능성",
+      "summary": "[예시] 유럽 가스 재고 감소와 아시아 수요 회복으로 LNG 현물 가격이 반등세를 보임. 국내 에너지 공기업의 미수금 회수 일정 가시화 기대와 함께 요금 인상 논의가 재부상하며 ENERGY 섹터 단기 모멘텀이 형성되고 있음.",
+      "source": "예시매체E",
+      "source_url": "https://example.com/news/article-105",
+      "published_at": "2026-04-02T10:00:00+09:00",
+      "keywords": ["LNG", "에너지", "가스요금", "미수금"],
+      "affected_sectors": ["ENERGY"],
+      "affected_tickers": ["036460"],
+      "admin_review_needed": false,
+      "is_used_in_report": true
+    }
+  ]
+}

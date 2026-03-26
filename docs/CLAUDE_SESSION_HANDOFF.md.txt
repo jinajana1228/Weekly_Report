@@ -1,0 +1,99 @@
+# CLAUDE SESSION HANDOFF
+
+## 프로젝트 개요
+- 프로젝트명: 국내 주식/ETF 주간 추천 리포트 웹서비스
+- 작업 경로: `C:\Users\MUSINSA\Desktop\Vibe Coding\Weely_Report`
+- 목표: 매주 월요일 발행되는 1개월(2~4주) 관점의 국내 주식/ETF 추천 리포트 서비스 구축
+- 운영 철학: 자동 수집 중심, 사람은 admin에서 최종 승인 여부만 판단
+
+---
+
+## 현재까지 확정된 운영 원칙
+1. V1은 자동 수집 중심
+2. 사람은 admin에서 최종 발행 승인 여부만 판단
+3. 뉴스는 수치 데이터의 대체재가 아니라 보완 신호
+4. 뉴스 부족 시 수치 기반 발행 가능
+5. approval.json은 에디션 최종 발행 게이트
+6. signal_review.json은 뉴스 신호 검수 결과 파일
+7. V1은 파일 기반 운영
+8. archive detail 충돌은 V1에서 덮어쓰기 허용
+
+---
+
+## 서비스 구조
+- 국내 주식 및 ETF 대상
+- 메인 추천 5개
+- 메인 추천 5개는 섹터 중복 없음
+- 각 메인 카드에 same_sector_alternatives 2개
+- ETF는 독립 리포트 단위
+- 주간 발행형
+- 1개월(2~4주) 관점 추천
+- Admin 검수 후 발행
+- draft / current / archive 운영
+
+---
+
+## 현재 구현 완료 상태
+- UI read-only 구현 완료
+- public 화면 데이터 연결 완료
+- admin 화면 read-only 구현 완료
+- /admin 보호 구현 완료
+- local publish dry-run 스크립트 구현 완료
+
+---
+
+## 현재 파일/운영 구조
+- data/current/current.json
+- data/draft/{week_id}.json
+- data/archive/{week_id}.json
+- data/current/details/...
+- data/draft/details/...
+- data/archive/details/...
+- data/manifests/manifest.json
+- data/manifests/approval.json
+- admin/overlap_history.json
+- data/news_signals/{week_id}/...
+- data/news_signals/{week_id}/signal_review.json
+
+---
+
+## 현재까지 주요 결정
+- approval = 발행 게이트
+- signal_review = 참고 입력, 비차단
+- 뉴스는 linked_signal_ids[] 중심 참조
+- read-only 단계에서는 write 기능 없음
+- /admin 보호는 middleware + secret token 방식으로 구현 완료
+- local publish dry-run은 차단조건/경고조건을 구분하여 구현 완료
+
+---
+
+## 다음 단계 우선순위
+1. approval write 구현
+2. 실제 publish 스크립트 구현
+3. 이후에 admin write UI 여부 검토
+
+---
+
+## 아직 미확정인 것
+- approval write를 어떤 방식으로 구현할지
+- 실제 publish 스크립트의 언어 선택
+- manifest draft 필드 처리 시점
+- approval 초기화 시점
+- archive detail flat 구조를 장기적으로 유지할지 여부
+
+---
+
+## 지금 단계에서 절대 하면 안 되는 것
+- DB 도입
+- 정식 인증 시스템(NextAuth/OAuth) 도입
+- admin write UI를 먼저 구현
+- 실시간 매매/자동매매 확장
+- 구조를 다시 크게 뒤집는 변경
+
+---
+
+## Claude 작업 방식 원칙
+- 먼저 문서를 읽고 현재 상태 요약부터 할 것
+- 사용자가 다음 지시를 주기 전까지 구현 시작 금지
+- 기존 운영 원칙과 충돌하는 변경 금지
+- 항상 권장안 / 미확정 항목 / 범위 밖 작업 여부를 분리 보고할 것

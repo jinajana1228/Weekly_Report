@@ -1,0 +1,54 @@
+{
+  "week_id": "2026-W14",
+  "reviewed_at": "2026-04-05T10:00:00+09:00",
+  "reviewed_by": "[예시] 담당 애널리스트",
+  "review_completed": false,
+  "total_signal_count": 9,
+  "review_items": [
+    {
+      "signal_id": "ns_20260404_m_001",
+      "review_status": "APPROVED",
+      "review_note": "[예시] 거시 환경 설명에 활용. 금리 인하 지연 근거로 사용."
+    },
+    {
+      "signal_id": "ns_20260404_m_002",
+      "review_status": "APPROVED",
+      "review_note": "[예시] 달러 강세 맥락 보조 자료로 활용."
+    },
+    {
+      "signal_id": "ns_20260403_s_001",
+      "review_status": "APPROVED",
+      "review_note": "[예시] NAVER 픽 근거 섹터 신호로 채택. stock_035420 상세에 linked_signal_ids 포함."
+    },
+    {
+      "signal_id": "ns_20260403_s_002",
+      "review_status": "APPROVED",
+      "review_note": "[예시] HD현대일렉트릭 픽 근거 섹터 신호로 채택."
+    },
+    {
+      "signal_id": "ns_20260403_s_003",
+      "review_status": "APPROVED",
+      "review_note": "[예시] 한국가스공사 픽 배경 설명에 활용."
+    },
+    {
+      "signal_id": "ns_20260403_st_001",
+      "review_status": "APPROVED",
+      "review_note": "[예시] NAVER 상세 리포트 근거 신호로 직접 채택. linked_signal_ids 포함."
+    },
+    {
+      "signal_id": "ns_20260403_st_002",
+      "review_status": "DISCARDED",
+      "review_note": "[예시] 계약 규모 미공개로 신뢰도 불충분. 수치 기반 픽 근거로 대체."
+    },
+    {
+      "signal_id": "ns_20260404_st_003",
+      "review_status": "PENDING",
+      "review_note": "[예시] admin_review_needed=true. 정부 협의 공식 확인 후 재검토 필요."
+    },
+    {
+      "signal_id": "ns_20260402_e_001",
+      "review_status": "PENDING",
+      "review_note": "[예시] ETF 픽 참고 신호. 코스닥 지수 흐름 재확인 후 최종 채택 여부 결정."
+    }
+  ]
+}

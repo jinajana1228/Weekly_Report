@@ -1,0 +1,23 @@
+{
+  "week_id": "2026-W14",
+  "scope": "etf",
+  "generated_at": "2026-04-04T18:00:00+09:00",
+  "signals": [
+    {
+      "signal_id": "ns_20260402_e_001",
+      "scope": "etf",
+      "direction": "bullish",
+      "strength": "moderate",
+      "title": "[예시] 코스닥 바이오·IT 섹터 1Q 실적 기대감 형성, 개인 수급 유입 흐름",
+      "summary": "[예시] 코스닥 시장에서 바이오·IT 종목을 중심으로 1분기 실적 기대감이 형성되며 개인 투자자의 순매수가 재유입되는 흐름이 관찰됨. TIGER 코스닥150 ETF의 주요 구성 종목인 에코프로비엠, HLB 등이 단기 반등세를 주도하고 있으며, 코스닥 지수 860선 하단 지지가 확인되는 구간.",
+      "source": "예시매체I",
+      "source_url": "https://example.com/news/article-109",
+      "published_at": "2026-04-02T14:00:00+09:00",
+      "keywords": ["코스닥", "바이오", "IT", "개인수급", "실적기대"],
+      "affected_sectors": ["ETF_DOMESTIC"],
+      "affected_tickers": ["232080"],
+      "admin_review_needed": false,
+      "is_used_in_report": true
+    }
+  ]
+}

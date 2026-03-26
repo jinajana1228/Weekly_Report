@@ -1,0 +1,253 @@
+{
+  "report_id": "RPT-2026-W12",
+  "week_id": "2026-W12",
+  "schema_version": "1.0",
+  "data_as_of": "2026-03-20",
+  "generated_at": "2026-03-22T22:00:00+09:00",
+  "published_at": "2026-03-23T09:00:00+09:00",
+  "archived_at": "2026-03-30T09:30:00+09:00",
+  "market_summary": {
+    "global": {
+      "headline": "[예시] 미국 소비자물가 둔화 신호에 금리 인하 기대 강화, 글로벌 증시 강세",
+      "key_index_changes": [
+        { "index": "S&P 500", "change_pct": 2.1 },
+        { "index": "NASDAQ", "change_pct": 2.7 },
+        { "index": "Nikkei 225", "change_pct": 1.4 },
+        { "index": "CSI 300", "change_pct": 0.9 }
+      ],
+      "sentiment": "positive"
+    },
+    "domestic": {
+      "kospi": {
+        "level": 2624.8,
+        "change_pct": 1.5,
+        "brief": "[예시] 통신·소재 강세, 전 업종 동반 상승 흐름"
+      },
+      "kosdaq": {
+        "level": 861.0,
+        "change_pct": 1.8,
+        "brief": "[예시] 소형주 강세, 외국인 순매수 전환"
+      },
+      "sector_highlights": [
+        {
+          "sector": "TELECOM",
+          "direction": "up",
+          "note": "[예시] 5G 투자 회수 기대, 통신사 주주환원 강화"
+        },
+        {
+          "sector": "MATERIAL",
+          "direction": "up",
+          "note": "[예시] 철강 수요 회복 기대, 중국 부양책 효과"
+        },
+        {
+          "sector": "REALESTATE",
+          "direction": "neutral",
+          "note": "[예시] 건설 수주 회복 기대, PF 우려 상존"
+        }
+      ],
+      "week_theme": "[예시] 인플레이션 둔화 확인 후 전반적 위험자산 선호 재개, 소외 섹터 순환매 흐름"
+    }
+  },
+  "picks": [
+    {
+      "rank": 1,
+      "ticker": "017670",
+      "name": "SK텔레콤",
+      "market": "KOSPI",
+      "sector": "TELECOM",
+      "asset_type": "stock",
+      "one_line_reason": "[예시] 높은 배당 수익률과 AI 사업 확장 기대, 통신주 저평가 해소 구간",
+      "stance": "[예시] 배당 매력 기반 단기 보유 관심. 52,000원 이하 구간 관심",
+      "price_zone": {
+        "reference_price": 53500,
+        "currency": "KRW",
+        "watch_low": 52000,
+        "watch_high": 57000
+      },
+      "catalyst_summary": "[예시] AI 개인비서 서비스 유료화 진행, 자회사 SK브로드밴드 실적 개선",
+      "risk_summary": "[예시] 통신업 성장 한계, ARPU 정체 지속 가능성",
+      "same_sector_alternatives": [
+        {
+          "ticker": "030200",
+          "name": "KT",
+          "one_line_reason": "[예시] 구조조정 효과 가시화, 배당 개선 기대"
+        },
+        {
+          "ticker": "032640",
+          "name": "LG유플러스",
+          "one_line_reason": "[예시] 홈 IoT·B2B 매출 성장, 밸류에이션 저렴"
+        }
+      ],
+      "detail_report_id": "DTL-2026-W12-017670"
+    },
+    {
+      "rank": 2,
+      "ticker": "005490",
+      "name": "POSCO홀딩스",
+      "market": "KOSPI",
+      "sector": "MATERIAL",
+      "asset_type": "stock",
+      "one_line_reason": "[예시] 중국 부양책 수혜 기대, 이차전지 소재 사업 성장성 병존",
+      "stance": "[예시] 단기 모멘텀 주시. 380,000원 구간 돌파 시 추가 상승 여지",
+      "price_zone": {
+        "reference_price": 375000,
+        "currency": "KRW",
+        "watch_low": 365000,
+        "watch_high": 400000
+      },
+      "catalyst_summary": "[예시] 중국 인프라 투자 확대에 따른 철강 수요 회복, 이차전지 소재 수주 증가",
+      "risk_summary": "[예시] 중국산 저가 철강 공세, 이차전지 소재 가격 하락 리스크",
+      "same_sector_alternatives": [
+        {
+          "ticker": "004020",
+          "name": "현대제철",
+          "one_line_reason": "[예시] 자동차 강판 수요 회복, 국내 철강 수요 개선 수혜"
+        },
+        {
+          "ticker": "051910",
+          "name": "LG화학",
+          "one_line_reason": "[예시] 배터리 소재·석유화학 회복 기대, 분할 이후 저평가"
+        }
+      ],
+      "detail_report_id": "DTL-2026-W12-005490"
+    },
+    {
+      "rank": 3,
+      "ticker": "329180",
+      "name": "HD현대중공업",
+      "market": "KOSPI",
+      "sector": "INDUSTRIAL",
+      "asset_type": "stock",
+      "one_line_reason": "[예시] 조선 수주 호조 지속, LNG선·컨테이너선 고수익 선종 비중 확대",
+      "stance": "[예시] 단기 분할 매수 관심. 수주 잔고 대비 밸류에이션 매력 구간",
+      "price_zone": {
+        "reference_price": 198000,
+        "currency": "KRW",
+        "watch_low": 190000,
+        "watch_high": 215000
+      },
+      "catalyst_summary": "[예시] LNG 운반선 추가 수주 기대, 방산 수출 확대, 자율운항 선박 기술 수주 모멘텀",
+      "risk_summary": "[예시] 원자재·인건비 상승으로 원가 부담, 환율 변동성",
+      "same_sector_alternatives": [
+        {
+          "ticker": "010140",
+          "name": "삼성중공업",
+          "one_line_reason": "[예시] 드릴십·LNG 운반선 수주 증가, 흑자 전환 기대"
+        },
+        {
+          "ticker": "267260",
+          "name": "HD현대일렉트릭",
+          "one_line_reason": "[예시] 전력 인프라 수출 모멘텀, 변압기 수주 잔고 최대"
+        }
+      ],
+      "detail_report_id": "DTL-2026-W12-329180"
+    },
+    {
+      "rank": 4,
+      "ticker": "028260",
+      "name": "삼성물산",
+      "market": "KOSPI",
+      "sector": "REALESTATE",
+      "asset_type": "stock",
+      "one_line_reason": "[예시] 중동·데이터센터 건설 수주 기대, 삼성그룹 지배구조 수혜",
+      "stance": "[예시] 단기 저평가 해소 기대. 125,000원 구간 지지 확인 후 접근",
+      "price_zone": {
+        "reference_price": 127000,
+        "currency": "KRW",
+        "watch_low": 124000,
+        "watch_high": 135000
+      },
+      "catalyst_summary": "[예시] 해외 플랜트·데이터센터 수주 확대, 삼성그룹 지배구조 재편 수혜 가능성",
+      "risk_summary": "[예시] 국내 건설 경기 부진 장기화, PF 리스크 간접 노출",
+      "same_sector_alternatives": [
+        {
+          "ticker": "000720",
+          "name": "현대건설",
+          "one_line_reason": "[예시] 중동 플랜트 수주 기대, 원전 사업 확대"
+        },
+        {
+          "ticker": "375500",
+          "name": "DL이앤씨",
+          "one_line_reason": "[예시] 주택 분양 회복 수혜 기대, 해외 수주 확대"
+        }
+      ],
+      "detail_report_id": "DTL-2026-W12-028260"
+    },
+    {
+      "rank": 5,
+      "ticker": "069500",
+      "name": "KODEX 200",
+      "market": "ETF",
+      "sector": "ETF_DOMESTIC",
+      "asset_type": "etf",
+      "one_line_reason": "[예시] 코스피 전반 상승 국면, 분산 노출로 단기 시장 참여 기회",
+      "stance": "[예시] 코스피 리바운드 흐름 참여 목적 단기 관심",
+      "price_zone": {
+        "reference_price": 35800,
+        "currency": "KRW",
+        "watch_low": 34500,
+        "watch_high": 37500
+      },
+      "catalyst_summary": "[예시] 외국인 순매수 재개, 코스피 200 대형주 실적 시즌 기대",
+      "risk_summary": "[예시] 환율 상승 시 외국인 이탈 가능, 글로벌 증시 연동성 높음",
+      "etf_summary": {
+        "benchmark": "KOSPI 200 Index",
+        "manager": "삼성자산운용",
+        "top_holdings": [
+          { "name": "삼성전자", "weight_pct": 28.5 },
+          { "name": "SK하이닉스", "weight_pct": 8.2 },
+          { "name": "LG에너지솔루션", "weight_pct": 4.7 },
+          { "name": "현대차", "weight_pct": 3.4 },
+          { "name": "셀트리온", "weight_pct": 2.8 }
+        ],
+        "geographic_exposure": "대한민국 100% (코스피 시장)",
+        "hedge_policy": "환헤지 없음 (국내 ETF)",
+        "leverage_inverse": false,
+        "fee_summary": "[예시] 연 0.15% 수준 (보수 기준, 실비용은 최신 운용보고서 확인 필요)"
+      },
+      "same_sector_alternatives": [
+        {
+          "ticker": "232080",
+          "name": "TIGER 코스닥150",
+          "one_line_reason": "[예시] 코스닥 중소형주 노출, 더 높은 변동성과 성장성"
+        },
+        {
+          "ticker": "102110",
+          "name": "TIGER 200",
+          "one_line_reason": "[예시] 동일 지수 추종, 유동성 및 보수 비교 후 선택"
+        }
+      ],
+      "detail_report_id": "DTL-2026-W12-069500"
+    }
+  ],
+  "favored_sectors": ["TELECOM", "MATERIAL"],
+  "cautious_sectors": [],
+  "sector_returns": [
+    { "sector_code": "TELECOM", "weekly_return": 2.4 },
+    { "sector_code": "MATERIAL", "weekly_return": 1.9 },
+    { "sector_code": "INDUSTRIAL", "weekly_return": 1.6 },
+    { "sector_code": "REALESTATE", "weekly_return": 0.8 },
+    { "sector_code": "ETF_DOMESTIC", "weekly_return": 1.5 }
+  ],
+  "related_news": [
+    {
+      "title": "[예시] 미국 소비자물가 2월 기준 둔화 추세 확인",
+      "source": "예시매체A",
+      "url": "https://example.com/news/article-201",
+      "published_at": "2026-03-21T08:00:00+09:00",
+      "keywords": ["인플레이션", "CPI", "연준"],
+      "sentiment": "positive",
+      "related_sectors": ["FINANCE", "ETF_DOMESTIC"]
+    },
+    {
+      "title": "[예시] 조선 3사 1분기 수주 목표 조기 달성 가능성",
+      "source": "예시매체B",
+      "url": "https://example.com/news/article-202",
+      "published_at": "2026-03-20T10:30:00+09:00",
+      "keywords": ["조선", "수주", "LNG"],
+      "sentiment": "positive",
+      "related_sectors": ["INDUSTRIAL"]
+    }
+  ],
+  "disclaimer": "본 리포트의 모든 내용은 예시 데이터로 작성되었으며 실제 투자 조언이 아닙니다. 투자 판단의 책임은 투자자 본인에게 있으며, 이 서비스는 투자 권유를 목적으로 하지 않습니다."
+}

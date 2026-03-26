@@ -1,0 +1,25 @@
+# dependencies
+node_modules/
+
+# Next.js build output
+.next/
+out/
+dist/
+
+# environment variables
+.env.local
+.env*.local
+
+# logs
+*.log
+npm-debug.log*
+
+# test coverage
+coverage/
+
+# screenshots / local captures
+screenshots/
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,101 @@
+{
+  "detail_report_id": "DTL-2026-W13-360750",
+  "report_id": "RPT-2026-W13",
+  "week_id": "2026-W13",
+  "ticker": "360750",
+  "name": "TIGER 미국S&P500",
+  "sector": "ETF_OVERSEAS",
+  "asset_type": "etf",
+  "data_as_of": "2026-03-27",
+  "linked_signal_ids": [],
+  "company_overview": "[예시] 미래에셋자산운용이 운용하는 국내 상장 ETF로, 미국 S&P500 지수를 환헤지 없이 추종한다. 미국 대형주 500개 종목에 분산 투자하며, 원/달러 환율 변동이 수익률에 직접 반영된다.",
+  "price_reference": {
+    "reference_price": 16500,
+    "currency": "KRW",
+    "watch_low": 15800,
+    "watch_high": 17400
+  },
+  "stance": "[예시] 달러 분산 및 미국 증시 노출 목적 단기 편입 관심. S&P500 지수와 원/달러 환율 흐름을 병행 모니터링 필요. 환율 하락 구간에서는 수익률 상쇄 주의.",
+  "bull_points": [
+    "[예시] 연준 금리 인하 기대 재부상 시 미국 성장주 중심의 지수 상승 기대",
+    "[예시] 빅테크(애플·마이크로소프트·엔비디아) 실적 견조로 S&P500 상단 지지",
+    "[예시] 원/달러 환율 상단 유지 시 환차익까지 기대 가능",
+    "[예시] 국내 주식 대비 글로벌 분산 효과, 포트폴리오 변동성 완충"
+  ],
+  "bear_points": [
+    "[예시] 원/달러 환율 하락 시 S&P500 수익률 상쇄 — 환헤지 없으므로 직접 영향",
+    "[예시] 미국 경기 침체 우려 재부상 시 대형주 전반 동반 조정 가능",
+    "[예시] 연준 추가 긴축 신호 시 성장주 밸류에이션 압박"
+  ],
+  "catalysts_2_to_4_weeks": [
+    "[예시] 미국 1분기 어닝 시즌 본격화 (4월 중) — 빅테크 실적 발표 주목",
+    "[예시] 연준 FOMC 회의 (4월 예정) — 금리 동결 재확인 시 리스크 완화",
+    "[예시] 미국 3월 소비자물가지수(CPI) 발표 — 금리 경로 결정 변수"
+  ],
+  "risks": [
+    "[예시] 환율 리스크: 원/달러 하락 지속 시 KRW 기준 수익률 크게 하락",
+    "[예시] 미국 경기 지표 둔화: PCE·고용 지표 약화 시 지수 조정 가능",
+    "[예시] 연준 기조 변화: 예상보다 인플레이션 재반등 시 인하 기대 급격 후퇴",
+    "[예시] 빅테크 실적 실망: S&P500 상위 10개 종목 비중이 높아 개별 실적 영향 큼"
+  ],
+  "financial_summary": {
+    "schema_note": "ETF는 개별 재무 지표가 아닌 지수 기반 수익률과 비용 구조로 평가합니다. 아래는 예시 구조입니다.",
+    "ytd_return_pct": "[예시] +7.3 (연초 이후 수익률, KRW 기준)",
+    "1y_return_pct": "[예시] +24.1 (1년 수익률, KRW 기준)",
+    "tracking_error_pct": "[예시] 0.2 (연간 기준)",
+    "total_expense_ratio_pct": "[예시] 0.07",
+    "aum_billion_krw": "[예시] 2,450"
+  },
+  "etf_overview": "[예시] TIGER 미국S&P500은 미국 주요 거래소에 상장된 500개 대형주로 구성된 S&P500 지수를 추종하는 국내 상장 ETF이다. 환헤지를 적용하지 않아 원/달러 환율 변동이 수익률에 그대로 반영된다. 국내 투자자가 미국 대형주 시장에 간편하게 접근하는 수단으로 활용된다.",
+  "benchmark": "S&P 500 Index (USD 기준, 환헤지 없음)",
+  "manager": "미래에셋자산운용",
+  "top_holdings": [
+    { "name": "Apple Inc.", "weight_pct": 7.1 },
+    { "name": "Microsoft Corp.", "weight_pct": 6.8 },
+    { "name": "NVIDIA Corp.", "weight_pct": 5.9 },
+    { "name": "Amazon.com Inc.", "weight_pct": 3.6 },
+    { "name": "Meta Platforms Inc.", "weight_pct": 2.5 }
+  ],
+  "geographic_exposure": {
+    "US": 100.0
+  },
+  "sector_exposure": {
+    "schema_note": "아래는 예시 구조입니다. 실제 비중은 운용보고서 기준으로 업데이트 필요.",
+    "Information Technology": "[예시] 29.8",
+    "Financials": "[예시] 13.2",
+    "Health Care": "[예시] 12.1",
+    "Consumer Discretionary": "[예시] 10.7",
+    "Communication Services": "[예시] 8.9",
+    "Industrials": "[예시] 8.5",
+    "Other": "[예시] 16.8"
+  },
+  "hedge_policy": "[예시] 환헤지 없음(Non-hedged). 원/달러 환율 변동이 ETF 순자산가치(NAV) 및 시장 가격에 직접 반영됨. 달러 강세 시 수익률 상향, 달러 약세 시 수익률 하향.",
+  "leverage_inverse_flag": false,
+  "fee_summary": "[예시] 총보수 연 0.07% (운용보수 기준). 기타 실비용 포함 실제 총비용비율(TER)은 운용보고서에서 확인 필요.",
+  "etf_specific_risks": [
+    "[예시] 환율 리스크: 비헤지형이므로 원/달러 환율 변동이 KRW 기준 수익률에 직접 영향",
+    "[예시] 지수 집중 리스크: 상위 10개 종목이 지수의 약 35%를 차지, 빅테크 약세 시 지수 하락 주도",
+    "[예시] 추적 오차 리스크: 현지 시장과 국내 거래 시간 차이로 발생하는 NAV 괴리율",
+    "[예시] 유동성 리스크: 거래량 급감 시 스프레드 확대로 매수·매도 비용 증가 가능"
+  ],
+  "related_news": [
+    {
+      "title": "[예시] 연준 의장, 올해 금리 인하 3회 가능성 재확인",
+      "source": "예시매체A",
+      "url": "https://example.com/news/article-e001",
+      "published_at": "2026-03-28T10:30:00+09:00",
+      "keywords": ["연준", "금리인하", "S&P500"],
+      "sentiment": "positive",
+      "related_sectors": ["ETF_OVERSEAS"]
+    },
+    {
+      "title": "[예시] 미국 빅테크 1분기 실적 기대치 상향 조정",
+      "source": "예시매체B",
+      "url": "https://example.com/news/article-e002",
+      "published_at": "2026-03-27T14:00:00+09:00",
+      "keywords": ["빅테크", "실적", "AI"],
+      "sentiment": "positive",
+      "related_sectors": ["ETF_OVERSEAS", "TECH"]
+    }
+  ]
+}
