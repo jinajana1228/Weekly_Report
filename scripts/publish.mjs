@@ -284,16 +284,19 @@ function runChecks(weekId, verbose) {
 
 // ── Phase 함수 ─────────────────────────────────────────────────────────────────
 
-function phaseA_archiveCurrentMain(currentWeekId, dryRun, log) {
-  log('Phase A', `current/current.json → archive/${currentWeekId}.json`)
+function phaseA_archiveCurrentMain(currentWeekId, dryRun, log, archivedAt) {
+  log('Phase A', `current/current.json → archive/${currentWeekId}.json (archived_at 추가)`)
   const src = PATHS.currentMain
   const dst = path.join(PATHS.archiveBase, `${currentWeekId}.json`)
+  const current = readJson(src)
   if (dryRun) {
-    log('Phase A', `  [DRY] COPY data/current/current.json → data/archive/${currentWeekId}.json`)
+    log('Phase A', `  [DRY] WRITE data/archive/${currentWeekId}.json`)
+    log('Phase A', `    archived_at: ${JSON.stringify(current?.archived_at ?? null)} → "${archivedAt}"`)
   } else {
     ensureDir(PATHS.archiveBase)
-    fs.copyFileSync(src, dst)
-    log('Phase A', `  ✓ 복사 완료: data/archive/${currentWeekId}.json`)
+    const archived = { ...current, archived_at: archivedAt }
+    writeJson(dst, archived)
+    log('Phase A', `  ✓ 아카이브 완료: data/archive/${currentWeekId}.json (archived_at: ${archivedAt})`)
   }
 }
 
@@ -315,16 +318,24 @@ function phaseB_archiveCurrentDetails(currentWeekId, dryRun, log) {
   }
 }
 
-function phaseC_draftToCurrentMain(weekId, dryRun, log) {
-  log('Phase C', `draft/${weekId}.json → current/current.json`)
+function phaseC_draftToCurrentMain(weekId, dryRun, log, publishedAt) {
+  log('Phase C', `draft/${weekId}.json → current/current.json (published_at 설정, draft_note 제거)`)
   const src = path.join(PATHS.draftBase, `${weekId}.json`)
   const dst = PATHS.currentMain
+  const draft = readJson(src)
   if (dryRun) {
-    log('Phase C', `  [DRY] COPY data/draft/${weekId}.json → data/current/current.json`)
+    log('Phase C', `  [DRY] WRITE data/current/current.json`)
+    log('Phase C', `    published_at: ${JSON.stringify(draft?.published_at ?? null)} → "${publishedAt}"`)
+    if (draft && 'draft_note' in draft) {
+      const preview = String(draft.draft_note ?? '').substring(0, 40)
+      log('Phase C', `    draft_note  : "${preview}${draft.draft_note?.length > 40 ? '...' : ''}" → (제거)`)
+    }
   } else {
     ensureDir(path.dirname(dst))
-    fs.copyFileSync(src, dst)
-    log('Phase C', `  ✓ 복사 완료: data/current/current.json`)
+    const current = { ...draft, published_at: publishedAt }
+    delete current.draft_note
+    writeJson(dst, current)
+    log('Phase C', `  ✓ 완료: data/current/current.json (published_at: ${publishedAt}, draft_note 제거)`)
   }
 }
 
@@ -564,16 +575,16 @@ function main() {
   let lastCompletedPhase = 'Phase 0'
 
   try {
-    // Phase A: current 메인 → archive
-    phaseA_archiveCurrentMain(currentWeekId, dryRun, log)
+    // Phase A: current 메인 → archive (archived_at 추가)
+    phaseA_archiveCurrentMain(currentWeekId, dryRun, log, publishedAt)
     lastCompletedPhase = 'Phase A'
 
     // Phase B: current details → archive details
     phaseB_archiveCurrentDetails(currentWeekId, dryRun, log)
     lastCompletedPhase = 'Phase B'
 
-    // Phase C: draft 메인 → current 메인
-    phaseC_draftToCurrentMain(weekId, dryRun, log)
+    // Phase C: draft 메인 → current 메인 (published_at 설정, draft_note 제거)
+    phaseC_draftToCurrentMain(weekId, dryRun, log, publishedAt)
     lastCompletedPhase = 'Phase C'
 
     // Phase D: draft details → current details (기존 current details 교체)

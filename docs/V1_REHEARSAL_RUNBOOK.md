@@ -215,10 +215,15 @@ npm run publish -- \
   ⚠  signal_review.json 없음 (...) — 발행 차단 조건 아님.
 
 [DRY-RUN] 예정 파일 변경 (실제 수정 없음)
-  [Phase A] [DRY] COPY data/current/current.json → data/archive/2026-W13.json
+  [Phase A] current/current.json → archive/2026-W13.json (archived_at 추가)
+  [Phase A]   [DRY] WRITE data/archive/2026-W13.json
+  [Phase A]     archived_at: null → "20XX-XX-XXTXX:XX:XX.XXXZ"
   [Phase B] [DRY] COPY data/current/details/etf_360750.json → data/archive/details/etf_360750.json
   ...
-  [Phase C] [DRY] COPY data/draft/2026-W14.json → data/current/current.json
+  [Phase C] draft/2026-W14.json → current/current.json (published_at 설정, draft_note 제거)
+  [Phase C]   [DRY] WRITE data/current/current.json
+  [Phase C]     published_at: null → "20XX-XX-XXTXX:XX:XX.XXXZ"
+  [Phase C]     draft_note  : "[예시] 2026-W14 초안. NAVER TECH 섹터..." → (제거)
   [Phase D] [DRY] COPY data/draft/details/stock_035420.json → data/current/details/stock_035420.json
   ...
   [Phase E] [DRY] UPDATE manifest.json
@@ -322,9 +327,12 @@ npm run publish -- \
 
 ```
 [ ] R-4-1. data/current/current.json → report_id, week_id = 2026-W14 기준인가?
+           published_at이 null이 아닌 ISO 8601 값으로 채워져 있는가?
+           draft_note 필드가 존재하지 않는가?
 
 [ ] R-4-2. data/archive/2026-W13.json → 신규 생성됐는가?
-           내용은 이전 current.json과 동일한가?
+           archived_at이 이번 publish 시각으로 채워져 있는가?
+           published_at은 이전 발행 시각(W13 원본)으로 유지됐는가?
 
 [ ] R-4-3. data/current/details/ → draft/details의 5개 파일로 교체됐는가?
            stock_035420, stock_373220, stock_267260, stock_036460, etf_232080

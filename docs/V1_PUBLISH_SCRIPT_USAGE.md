@@ -71,12 +71,14 @@
 | overlap_history 중복 ticker | WARNING | 참고 검증. 차단 아님 |
 | archive/details 파일명 충돌 | WARNING | 덮어쓰기 예정 안내. 차단 아님 |
 
-### Phase A: current 메인 → archive
+### Phase A: current 메인 → archive (`archived_at` 추가)
 
-`data/current/current.json`을 `data/archive/{currentWeekId}.json`으로 복사한다.
+`data/current/current.json`을 읽어 `archived_at` 필드를 추가한 뒤 `data/archive/{currentWeekId}.json`으로 기록한다.
 
 - 대상: `data/current/current.json` → `data/archive/{currentWeekId}.json`
-- 원본 삭제 없음 (Phase D에서 교체)
+- **메타 후처리**: `archived_at = publishedAt` (이번 publish 실행 시각) 추가
+- `published_at`은 기존 current 값을 그대로 유지 (원본 발행 시각 보존)
+- 원본(`current.json`) 삭제 없음 (Phase C/D에서 교체)
 
 ### Phase B: current details → archive details
 
@@ -85,11 +87,14 @@
 - 동일 파일명이 이미 archive/details에 있으면 **경고 출력 후 덮어쓰기** (V1 운영 원칙: archive detail 충돌 덮어쓰기 허용)
 - 원본 삭제 없음 (Phase D에서 교체)
 
-### Phase C: draft 메인 → current 메인
+### Phase C: draft 메인 → current 메인 (`published_at` 설정 + `draft_note` 제거)
 
-`data/draft/{week_id}.json`을 `data/current/current.json`으로 복사한다.
+`data/draft/{week_id}.json`을 읽어 메타 필드를 후처리한 뒤 `data/current/current.json`으로 기록한다.
 
 - 기존 `current.json`은 이미 Phase A에서 archive됨
+- **메타 후처리**:
+  - `published_at = publishedAt` (이번 publish 실행 시각으로 채움. draft 시절 `null` 상태를 확정값으로 대체)
+  - `draft_note` 필드 제거 (draft 전용 필드. current에 잔존하면 안 됨)
 
 ### Phase D: draft details → current details
 
@@ -157,12 +162,14 @@ git commit 실패 시 경고만 출력 (파일 변경은 이미 완료된 상태
 | 구분 | `--dry-run` 포함 | `--dry-run` 미포함 |
 |------|-----------------|-------------------|
 | 파일 복사/이동 | 없음 | 실행 |
+| archive 메타 후처리 (`archived_at` 추가) | 없음 | 실행 (Phase A) |
+| current 메타 후처리 (`published_at` 설정, `draft_note` 제거) | 없음 | 실행 (Phase C) |
 | 파일 삭제 | 없음 | 실행 (Phase H) |
 | manifest.json 갱신 | 없음 | 실행 |
 | overlap_history.json 갱신 | 없음 | 실행 |
 | approval.json 초기화 | 없음 | 실행 |
 | git commit | 없음 | 실행 (Phase I) |
-| 예정 변경 내용 출력 | ✓ | ✓ |
+| 예정 변경 내용 출력 (메타 필드 before/after 포함) | ✓ | ✓ |
 | pre-check 검증 | ✓ | ✓ |
 
 **권장 워크플로:**
