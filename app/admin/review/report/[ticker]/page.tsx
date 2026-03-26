@@ -8,6 +8,7 @@ import {
   loadSignalReview,
 } from "@/lib/dataLoader";
 import { isETFDetail } from "@/lib/types";
+import { fmtNum } from "@/lib/fmt";
 import SectorBadge from "@/components/ui/SectorBadge";
 import BullBearSection from "@/components/detail/BullBearSection";
 import ETFSection from "@/components/detail/ETFSection";
@@ -83,14 +84,14 @@ export default function AdminDraftDetailPage({
           <div>
             <p className="text-xs text-zinc-500 mb-1">기준가</p>
             <p className="text-2xl font-mono font-semibold text-zinc-50">
-              {pick.price_zone.reference_price.toLocaleString()}
+              {fmtNum(pick.price_zone.reference_price)}
               <span className="text-sm text-zinc-500 ml-1.5">{pick.price_zone.currency}</span>
             </p>
           </div>
           <div>
             <p className="text-xs text-zinc-500 mb-1">관심 구간</p>
             <p className="font-mono text-zinc-300 text-sm">
-              {pick.price_zone.watch_low.toLocaleString()} – {pick.price_zone.watch_high.toLocaleString()}
+              {fmtNum(pick.price_zone.watch_low)} – {fmtNum(pick.price_zone.watch_high)}
             </p>
           </div>
         </div>
