@@ -43,8 +43,8 @@ export interface SameAlternative {
 export interface PriceZone {
   reference_price: number;
   currency: string;
-  watch_low: number;
-  watch_high: number;
+  watch_low: number | null;
+  watch_high: number | null;
 }
 
 export interface ETFSummary {
@@ -72,8 +72,8 @@ export interface Pick {
   price_zone: PriceZone;
   catalyst_summary: string;
   risk_summary: string;
-  same_sector_alternatives: SameAlternative[];
-  detail_report_id: string;
+  same_sector_alternatives: SameAlternative[] | null;
+  detail_report_id: string | null;
   etf_summary?: ETFSummary;
 }
 
@@ -96,8 +96,8 @@ export interface MainReport {
       sentiment: Sentiment;
     };
     domestic: {
-      kospi: { level: number; change_pct: number; brief: string };
-      kosdaq: { level: number; change_pct: number; brief: string };
+      kospi: { level: number; change_pct: number | null; brief: string };
+      kosdaq: { level: number; change_pct: number | null; brief: string };
       sector_highlights: SectorHighlight[];
       week_theme: string;
     };

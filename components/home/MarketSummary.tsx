@@ -1,5 +1,6 @@
 import type { MainReport } from "@/lib/types";
 import SectorBadge from "@/components/ui/SectorBadge";
+import { fmtNum, fmtChangePct } from "@/lib/fmt";
 
 export default function MarketSummary({
   market,
@@ -46,15 +47,18 @@ export default function MarketSummary({
             <div key={label} className="bg-zinc-700/60 border border-zinc-600/40 rounded-lg p-3">
               <p className="text-xs text-zinc-500 mb-1">{label}</p>
               <p className="text-lg font-mono font-semibold text-zinc-100">
-                {data.level.toLocaleString()}
+                {fmtNum(data.level)}
               </p>
               <p
                 className={`text-xs font-mono font-medium ${
-                  data.change_pct >= 0 ? "text-emerald-400" : "text-rose-400"
+                  data.change_pct == null
+                    ? "text-zinc-500"
+                    : data.change_pct >= 0
+                    ? "text-emerald-400"
+                    : "text-rose-400"
                 }`}
               >
-                {data.change_pct >= 0 ? "+" : ""}
-                {data.change_pct}%
+                {fmtChangePct(data.change_pct)}
               </p>
               <p className="text-xs text-zinc-500 mt-1 leading-snug">
                 {data.brief}

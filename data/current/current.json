@@ -57,10 +57,10 @@
       "asset_type": "stock",
       "one_line_reason": "C-2 1위(95점). 영업이익률 26.3%(2025). 52주 포지션 82% — 강한 상승 모멘텀.",
       "stance": "[편집 필요] 강세 관찰 — C-2 95점",
-      "price_zone": "현재가 965,000원 (52주 포지션 82%)",
+      "price_zone": { "reference_price": 965000, "currency": "KRW", "watch_low": null, "watch_high": null },
       "catalyst_summary": "[편집 필요]",
       "risk_summary": "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요.",
-      "same_sector_alternatives": null,
+      "same_sector_alternatives": [],
       "detail_report_id": null
     },
     {
@@ -72,10 +72,10 @@
       "asset_type": "stock",
       "one_line_reason": "C-2 2위(85점). 영업이익률 69.61%(2025). 52주 포지션 57% — 중간 포지션.",
       "stance": "[편집 필요] 강세 관찰 — C-2 85점",
-      "price_zone": "현재가 342,500원 (52주 포지션 57%)",
+      "price_zone": { "reference_price": 342500, "currency": "KRW", "watch_low": null, "watch_high": null },
       "catalyst_summary": "[편집 필요]",
       "risk_summary": "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요.",
-      "same_sector_alternatives": null,
+      "same_sector_alternatives": [],
       "detail_report_id": null
     },
     {
@@ -87,10 +87,10 @@
       "asset_type": "stock",
       "one_line_reason": "C-2 3위(85점). 영업이익률 31.38%(2025). 52주 포지션 55% — 중간 포지션.",
       "stance": "[편집 필요] 강세 관찰 — C-2 85점",
-      "price_zone": "현재가 203,000원 (52주 포지션 55%)",
+      "price_zone": { "reference_price": 203000, "currency": "KRW", "watch_low": null, "watch_high": null },
       "catalyst_summary": "[편집 필요]",
       "risk_summary": "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요.",
-      "same_sector_alternatives": null,
+      "same_sector_alternatives": [],
       "detail_report_id": null
     },
     {
@@ -102,10 +102,10 @@
       "asset_type": "stock",
       "one_line_reason": "C-2 4위(82점). 영업이익률 11.63%(2025). 52주 포지션 63% — 양호한 모멘텀.",
       "stance": "[편집 필요] 강세 관찰 — C-2 82점",
-      "price_zone": "현재가 511,000원 (52주 포지션 63%)",
+      "price_zone": { "reference_price": 511000, "currency": "KRW", "watch_low": null, "watch_high": null },
       "catalyst_summary": "[편집 필요]",
       "risk_summary": "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요.",
-      "same_sector_alternatives": null,
+      "same_sector_alternatives": [],
       "detail_report_id": null
     },
     {
@@ -117,10 +117,10 @@
       "asset_type": "stock",
       "one_line_reason": "C-2 5위(80점). quality 중립값 적용 (영업이익 미수집). 52주 포지션 80% — 강한 상승 모멘텀.",
       "stance": "[편집 필요] 강세 관찰 — C-2 80점",
-      "price_zone": "현재가 152,200원 (52주 포지션 80%)",
+      "price_zone": { "reference_price": 152200, "currency": "KRW", "watch_low": null, "watch_high": null },
       "catalyst_summary": "[편집 필요]",
       "risk_summary": "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요. / quality_score 중립값(20) 적용 — 영업이익 데이터 미수집. 수동 확인 권장.",
-      "same_sector_alternatives": null,
+      "same_sector_alternatives": [],
       "detail_report_id": null
     }
   ],

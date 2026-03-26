@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Pick } from "@/lib/types";
 import SectorBadge from "@/components/ui/SectorBadge";
+import { fmtNum } from "@/lib/fmt";
 
 interface Props {
   pick: Pick;
@@ -32,7 +33,7 @@ export default function PickCard({ pick, basePath = "/report" }: Props) {
         </div>
         <div className="text-right shrink-0">
           <p className="text-sm font-mono font-medium text-zinc-200">
-            {pick.price_zone.reference_price.toLocaleString()}
+            {fmtNum(pick.price_zone.reference_price)}
           </p>
           <p className="text-xs text-zinc-500">{pick.price_zone.currency}</p>
         </div>
@@ -53,14 +54,14 @@ export default function PickCard({ pick, basePath = "/report" }: Props) {
         <span className="text-zinc-500">
           관심 구간:{" "}
           <span className="font-mono text-zinc-300">
-            {pick.price_zone.watch_low.toLocaleString()} –{" "}
-            {pick.price_zone.watch_high.toLocaleString()}
+            {fmtNum(pick.price_zone.watch_low)} –{" "}
+            {fmtNum(pick.price_zone.watch_high)}
           </span>
         </span>
       </div>
 
       {/* Alternatives */}
-      {pick.same_sector_alternatives.length > 0 && (
+      {(pick.same_sector_alternatives ?? []).length > 0 && (
         <div className="mt-3 pt-3 border-t border-zinc-700">
           <p className="label-meta mb-2">동일 섹터 대안</p>
           <div className="space-y-2 bg-zinc-700/50 rounded-md p-3">
