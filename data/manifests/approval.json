@@ -1,9 +1,13 @@
 {
   "draft_report_id": "RPT-2026-W14",
   "draft_week_id": "2026-W14",
-  "decision": "pending",
-  "reviewed_by": null,
-  "reviewed_at": null,
-  "notes": null,
-  "news_signal_review_status": null
+  "decision": "approved",
+  "reviewed_by": "jina",
+  "reviewed_at": "2026-03-26T13:46:46.100Z",
+  "notes": "C-5 승인 반영 완료",
+  "news_signal_review_status": null,
+  "draft_exists": true,
+  "blocking_issues": [],
+  "data_quality_acknowledged": true,
+  "publish_ready": true
 }
