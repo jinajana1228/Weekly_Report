@@ -12,15 +12,18 @@ import ApprovalBadge from "@/components/ui/ApprovalBadge";
 import OverlapHistoryPanel from "@/components/admin/OverlapHistory";
 import SignalReviewSummary from "@/components/admin/SignalReviewSummary";
 import SignOutButton from "@/components/admin/SignOutButton";
+import ApproveAction from "@/components/admin/ApproveAction";
 
 export default function AdminReviewPage() {
   const manifest = loadManifest();
   const approval = loadApproval();
   const overlapHistory = loadOverlapHistory();
   const current = loadCurrentReport();
-  const draft = manifest ? loadDraftReport(manifest.draft_week_id) : null;
+  // draft 로딩: approval.draft_week_id 우선 (auto:draft가 approval만 갱신하고 manifest는 미변경)
+  const draftWeekId = approval?.draft_week_id ?? manifest?.draft_week_id ?? null;
+  const draft = draftWeekId ? loadDraftReport(draftWeekId) : null;
   // Read-only: load signal review for the draft week (gracefully null if no signal files)
-  const signalReview = manifest ? loadSignalReview(manifest.draft_week_id) : null;
+  const signalReview = draftWeekId ? loadSignalReview(draftWeekId) : null;
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-10 space-y-8">
@@ -37,7 +40,7 @@ export default function AdminReviewPage() {
       <section>
         <p className="label-meta mb-1">Draft 검수</p>
         <h1 className="text-2xl font-bold text-zinc-50">
-          {manifest?.draft_week_id ?? "—"} 검수
+          {draftWeekId ?? "—"} 검수
         </h1>
         <div className="border-b border-zinc-700 mt-4" />
       </section>
@@ -77,31 +80,12 @@ export default function AdminReviewPage() {
             )}
           </div>
 
-          {/* Action buttons (read-only UI — no write action) */}
-          <div className="flex flex-col gap-2 items-end shrink-0">
-            <p className="label-meta mb-1">액션</p>
-            <button
-              disabled
-              className="text-xs font-medium px-4 py-2 rounded bg-zinc-600 text-zinc-300 cursor-not-allowed border border-zinc-500/60"
-              title="쓰기 동작 미구현"
-            >
-              승인
-            </button>
-            <button
-              disabled
-              className="text-xs font-medium px-4 py-2 rounded border border-zinc-600/60 text-zinc-400 cursor-not-allowed"
-              title="쓰기 동작 미구현"
-            >
-              반려
-            </button>
-            <button
-              disabled
-              className="text-xs font-medium px-4 py-2 rounded border border-zinc-600/60 text-zinc-400 cursor-not-allowed"
-              title="쓰기 동작 미구현"
-            >
-              보류
-            </button>
-          </div>
+          {/* 승인 액션 — GitHub Actions 자동 발행 트리거 */}
+          <ApproveAction
+            weekId={draftWeekId}
+            hasDraft={!!draft}
+            currentDecision={approval?.decision ?? null}
+          />
         </div>
 
         {/* Notes input (placeholder, no write) */}
