@@ -19,7 +19,8 @@
     "evaluate:hf": "node scripts/evaluate-hard-filters.mjs",
     "score:c2": "node scripts/score-phase-c2.mjs",
     "draft:c3": "node scripts/generate-draft-c3.mjs",
-    "detail:generate": "node scripts/generate-detail-reports.mjs"
+    "detail:generate": "node scripts/generate-detail-reports.mjs",
+    "auto:draft": "node scripts/run-weekly-auto-draft.mjs"
   },
   "dependencies": {
     "next": "14.2.29",
