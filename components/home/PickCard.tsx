@@ -50,15 +50,17 @@ export default function PickCard({ pick, basePath = "/report" }: Props) {
       <p className="text-xs text-zinc-500 leading-relaxed mb-3">{pick.stance}</p>
 
       {/* Watch range */}
-      <div className="flex gap-4 mb-3 text-xs">
-        <span className="text-zinc-500">
-          관심 구간:{" "}
-          <span className="font-mono text-zinc-300">
-            {fmtNum(pick.price_zone.watch_low)} –{" "}
-            {fmtNum(pick.price_zone.watch_high)}
+      {(pick.price_zone.watch_low != null || pick.price_zone.watch_high != null) && (
+        <div className="flex gap-4 mb-3 text-xs">
+          <span className="text-zinc-500">
+            관심 구간:{" "}
+            <span className="font-mono text-zinc-300">
+              {fmtNum(pick.price_zone.watch_low)} –{" "}
+              {fmtNum(pick.price_zone.watch_high)}
+            </span>
           </span>
-        </span>
-      </div>
+        </div>
+      )}
 
       {/* Alternatives */}
       {(pick.same_sector_alternatives ?? []).length > 0 && (

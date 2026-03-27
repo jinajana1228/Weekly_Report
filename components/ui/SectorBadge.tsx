@@ -1,6 +1,6 @@
 import type { SectorCode } from "@/lib/types";
 
-const SECTOR_LABELS: Record<SectorCode, string> = {
+export const SECTOR_LABELS: Record<SectorCode, string> = {
   TECH: "테크",
   BATTERY: "배터리",
   HEALTHCARE: "헬스케어",

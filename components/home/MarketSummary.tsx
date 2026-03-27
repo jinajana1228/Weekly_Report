@@ -49,17 +49,15 @@ export default function MarketSummary({
               <p className="text-lg font-mono font-semibold text-zinc-100">
                 {fmtNum(data.level)}
               </p>
-              <p
-                className={`text-xs font-mono font-medium ${
-                  data.change_pct == null
-                    ? "text-zinc-500"
-                    : data.change_pct >= 0
-                    ? "text-emerald-400"
-                    : "text-rose-400"
-                }`}
-              >
-                {fmtChangePct(data.change_pct)}
-              </p>
+              {data.change_pct != null && (
+                <p
+                  className={`text-xs font-mono font-medium ${
+                    data.change_pct >= 0 ? "text-emerald-400" : "text-rose-400"
+                  }`}
+                >
+                  {fmtChangePct(data.change_pct)}
+                </p>
+              )}
               <p className="text-xs text-zinc-500 mt-1 leading-snug">
                 {data.brief}
               </p>

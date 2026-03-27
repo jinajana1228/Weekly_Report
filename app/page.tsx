@@ -2,7 +2,7 @@ import { loadCurrentReport } from "@/lib/dataLoader";
 import PickCard from "@/components/home/PickCard";
 import MarketSummary from "@/components/home/MarketSummary";
 import NewsCard from "@/components/ui/NewsCard";
-import SectorBadge from "@/components/ui/SectorBadge";
+import SectorBadge, { SECTOR_LABELS } from "@/components/ui/SectorBadge";
 import Link from "next/link";
 
 export default function HomePage() {
@@ -74,7 +74,7 @@ export default function HomePage() {
                       key={s}
                       className="text-xs font-medium text-amber-400/80 bg-amber-950/20 border border-amber-800/30 rounded px-2 py-0.5"
                     >
-                      {s}
+                      {SECTOR_LABELS[s] ?? s}
                     </span>
                   ))}
                 </div>
