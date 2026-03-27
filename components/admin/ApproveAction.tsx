@@ -14,8 +14,9 @@ export default function ApproveAction({
   currentDecision,
 }: ApproveActionProps) {
   const [status, setStatus] = useState<
-    "idle" | "confirm" | "loading" | "success" | "error"
+    "idle" | "confirm" | "success" | "error"
   >("idle");
+  const [loading, setLoading] = useState(false);
   const [reviewedBy, setReviewedBy] = useState("");
   const [message, setMessage] = useState("");
 
@@ -24,7 +25,7 @@ export default function ApproveAction({
   async function handleApprove() {
     if (!weekId || !reviewedBy.trim()) return;
 
-    setStatus("loading");
+    setLoading(true);
     setMessage("");
 
     try {
@@ -50,6 +51,8 @@ export default function ApproveAction({
     } catch {
       setStatus("error");
       setMessage("네트워크 오류가 발생했습니다.");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -107,14 +110,14 @@ export default function ApproveAction({
           />
           <button
             onClick={handleApprove}
-            disabled={!reviewedBy.trim() || status === "loading"}
+            disabled={!reviewedBy.trim() || loading}
             className={`text-xs font-medium px-4 py-2 rounded border transition-colors w-[160px] ${
               reviewedBy.trim()
                 ? "bg-emerald-700/60 text-emerald-100 border-emerald-600/60 hover:bg-emerald-700/80"
                 : "bg-zinc-600 text-zinc-400 border-zinc-500/60 cursor-not-allowed"
             }`}
           >
-            {status === "loading" ? "처리 중..." : `${weekId} 승인 확정`}
+            {loading ? "처리 중..." : `${weekId} 승인 확정`}
           </button>
           <button
             onClick={() => { setStatus("idle"); setReviewedBy(""); }}
