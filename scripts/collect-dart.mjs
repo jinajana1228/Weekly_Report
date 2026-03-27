@@ -127,13 +127,27 @@ async function collectFinancials(stocks, apiKey) {
         const rows = data.list ?? []
         if (rows.length === 0) continue
 
-        // 핵심 계정만 추출
-        const keyAccounts = ['매출액', '영업이익', '당기순이익', '자산총계', '부채총계', '자본총계', '영업활동으로인한현금흐름']
+        // 핵심 계정만 추출 (account_nm 변형 대응 alias 맵)
+        const keyAccountAliases = {
+          '매출액': '매출액',
+          '영업이익': '영업이익',
+          '영업이익(손실)': '영업이익',
+          '당기순이익': '당기순이익',
+          '당기순손익': '당기순이익',
+          '당기순이익(손실)': '당기순이익',
+          '당기순이익(당기순손실)': '당기순이익',
+          '자산총계': '자산총계',
+          '부채총계': '부채총계',
+          '자본총계': '자본총계',
+          '영업활동으로인한현금흐름': '영업활동으로인한현금흐름',
+          '영업활동현금흐름': '영업활동으로인한현금흐름',
+        }
         const financials = {}
 
         for (const row of rows) {
-          if (keyAccounts.includes(row.account_nm)) {
-            financials[row.account_nm] = {
+          const normalizedKey = keyAccountAliases[row.account_nm]
+          if (normalizedKey && !(normalizedKey in financials)) {
+            financials[normalizedKey] = {
               thstrm_amount: row.thstrm_amount,  // 당기
               frmtrm_amount: row.frmtrm_amount,  // 전기
             }
@@ -234,31 +248,39 @@ async function collectAudit(stocks, apiKey) {
 
     for (const bsns_year of [primaryYear, fallbackYear]) {
       try {
-        const data = await dartGet('/fnlttAuditOpnn.json', {
+        const data = await dartGet('/accnutAdtorNmNdAdtOpinion.json', {
           corp_code: stock.dart_corp_code,
           bsns_year,
           reprt_code: '11011',  // 사업보고서
         }, apiKey)
 
         const row = (data.list ?? [])[0] ?? null
+        if (!row) {
+          // 013 (데이터 없음) — 이 연도 데이터 없음, fallback 연도 시도
+          await sleep(DART_DELAY_MS)
+          continue
+        }
+        // accnutAdtorNmNdAdtOpinion 필드 매핑:
+        //   adtor       → 감사인명 (감사법인 이름)
+        //   adt_opinion → 감사의견 ("적정의견", "한정의견" 등)
         records.push({
           ticker: stock.ticker,
           dart_corp_code: stock.dart_corp_code,
           bsns_year,
-          audit_opinion: row?.adtor ?? null,
-          audit_firm: row?.adt_org ?? null,
-          going_concern: row?.going_cncern ?? null,
+          audit_opinion: row.adt_opinion ?? null,
+          audit_firm: row.adtor ?? null,
+          going_concern: null,  // 해당 엔드포인트에 별도 필드 없음
           _note: bsns_year !== primaryYear
             ? `${primaryYear} 미공시, ${bsns_year}로 fallback`
             : null,
         })
         recorded = true
         await sleep(DART_DELAY_MS)
-        break  // 성공 시 다음 연도 시도 불필요
+        break  // 데이터 있음 — 다음 연도 시도 불필요
       } catch (err) {
         // 013(데이터 없음) 또는 기타 오류 → fallback 연도 시도
         if (bsns_year === fallbackYear) {
-          // 두 연도 모두 실패 → records에 null 추가 (errors 아님)
+          // 두 연도 모두 오류 → records에 null 추가 (errors 아님)
           records.push({
             ticker: stock.ticker,
             dart_corp_code: stock.dart_corp_code,
@@ -272,6 +294,19 @@ async function collectAudit(stocks, apiKey) {
         }
         // primaryYear 실패 시 → 자동으로 fallbackYear 시도
       }
+    }
+
+    if (!recorded) {
+      // 두 연도 모두 013 (데이터 없음) — 사업보고서 미제출 또는 미공개
+      records.push({
+        ticker: stock.ticker,
+        dart_corp_code: stock.dart_corp_code,
+        bsns_year: null,
+        audit_opinion: null,
+        audit_firm: null,
+        going_concern: null,
+        _note: `${primaryYear}·${fallbackYear} 모두 사업보고서 감사의견 미공시 (DART 013)`,
+      })
     }
   }
 

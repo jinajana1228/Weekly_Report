@@ -33,15 +33,46 @@ const ROOT = path.resolve(__dirname, '..')
 
 // ── 경로 상수 ──────────────────────────────────────────────────────────────────
 const APPROVAL_PATH = path.join(ROOT, 'data/manifests/approval.json')
+const DRAFT_DIR     = path.join(ROOT, 'data/draft')
 
 // ── 허용 enum 값 ───────────────────────────────────────────────────────────────
 const ALLOWED_DECISIONS = ['approved', 'rejected', 'on_hold', 'pending']
+
+// ── C-4 헬퍼 ───────────────────────────────────────────────────────────────────
+
+function draftFilePath(weekId) {
+  return path.join(DRAFT_DIR, `${weekId}.json`)
+}
+
+function draftExists(weekId) {
+  if (!weekId) return false
+  return fs.existsSync(draftFilePath(weekId))
+}
+
+/**
+ * publish_ready: approved + draft_exists + data_quality_acknowledged + blocking_issues 없음
+ * 이 값은 자동 계산만 하며, 사용자가 직접 설정할 수 없습니다.
+ * publish_ready === true 여도 publish는 별도 수동 수행 필요합니다.
+ */
+function computePublishReady(next) {
+  return (
+    next.decision === 'approved' &&
+    next.draft_exists === true &&
+    next.data_quality_acknowledged === true &&
+    (next.blocking_issues?.length ?? 1) === 0
+  )
+}
 const ALLOWED_NEWS_SIGNAL_STATUSES = ['SUFFICIENT', 'PARTIAL', 'SPARSE']
 
 // ── 확정 필드 목록 ─────────────────────────────────────────────────────────────
 // draft_report_id / draft_week_id 는 수정 불가
-const WRITABLE_FIELDS = ['decision', 'reviewed_by', 'reviewed_at', 'notes', 'news_signal_review_status']
-const READONLY_FIELDS = ['draft_report_id', 'draft_week_id']
+// draft_exists / publish_ready 는 자동 계산 (사용자 직접 설정 불가)
+const WRITABLE_FIELDS = [
+  'decision', 'reviewed_by', 'reviewed_at', 'notes', 'news_signal_review_status',
+  'blocking_issues', 'data_quality_acknowledged',  // C-4 추가
+]
+const READONLY_FIELDS  = ['draft_report_id', 'draft_week_id']
+const COMPUTED_FIELDS  = ['draft_exists', 'publish_ready']   // C-4 자동 계산
 
 // ── 유틸 ───────────────────────────────────────────────────────────────────────
 function readJson(filePath) {
@@ -64,6 +95,8 @@ function parseArgs() {
     note: null,
     newsSignalReviewStatus: null,
     weekId: null,
+    blockingIssues: null,          // C-4: 쉼표 구분 문자열 또는 'none'
+    acknowledgeDataQuality: false,  // C-4: 플래그
     dryRun: false,
     json: false,
     verbose: false,
@@ -84,6 +117,10 @@ function parseArgs() {
         result.newsSignalReviewStatus = next; i++; break
       case '--week-id':
         result.weekId = next; i++; break
+      case '--blocking-issues':
+        result.blockingIssues = next; i++; break
+      case '--acknowledge-data-quality':
+        result.acknowledgeDataQuality = true; break
       case '--dry-run':
         result.dryRun = true; break
       case '--json':
@@ -152,6 +189,18 @@ function validate(args, current) {
     }
   }
 
+  // C-4: draft 파일 존재 확인 (pending 외 상태로 전환 시 차단)
+  if (args.decision && args.decision !== 'pending') {
+    const weekId = args.weekId ?? current?.draft_week_id
+    if (!weekId) {
+      errors.push('draft_week_id가 없습니다. approval.json에 draft_week_id를 먼저 설정하세요.')
+    } else if (!draftExists(weekId)) {
+      errors.push(
+        `data/draft/${weekId}.json 파일이 없습니다. Phase C-3을 먼저 실행하세요: npm run draft:c3 -- --week-id ${weekId}`
+      )
+    }
+  }
+
   // pending으로 되돌리는 경우 경고
   if (args.decision === 'pending') {
     warnings.push('decision을 "pending"으로 설정합니다. 이전 승인/반려 상태가 초기화됩니다.')
@@ -171,15 +220,34 @@ function validate(args, current) {
 function buildNext(args, current, reviewedAt) {
   const next = { ...current }
 
-  next.decision = args.decision
+  next.decision    = args.decision
   next.reviewed_by = args.reviewedBy
   next.reviewed_at = reviewedAt
-  next.notes = args.note !== null ? args.note : (current.notes ?? null)
+  next.notes       = args.note !== null ? args.note : (current.notes ?? null)
 
   if (args.newsSignalReviewStatus !== null) {
     next.news_signal_review_status = args.newsSignalReviewStatus
   }
   // newsSignalReviewStatus === null 이면 기존 값 유지 (next에 이미 복사됨)
+
+  // C-4: blocking_issues
+  if (args.blockingIssues !== null) {
+    next.blocking_issues = (args.blockingIssues === 'none' || args.blockingIssues.trim() === '')
+      ? []
+      : args.blockingIssues.split(',').map(s => s.trim()).filter(Boolean)
+  } else {
+    next.blocking_issues = current.blocking_issues ?? []
+  }
+
+  // C-4: data_quality_acknowledged
+  next.data_quality_acknowledged = args.acknowledgeDataQuality
+    ? true
+    : (current.data_quality_acknowledged ?? false)
+
+  // C-4: 자동 계산 필드
+  const weekId = args.weekId ?? current.draft_week_id
+  next.draft_exists   = draftExists(weekId)
+  next.publish_ready  = computePublishReady(next)
 
   return next
 }
@@ -244,13 +312,19 @@ function printHuman({ args, current, next, diff, errors, warnings, reviewedAt })
     console.log('')
   }
 
-  // decision / news_signal_review_status 역할 구분 안내
+  // decision / C-4 필드 / news_signal_review_status 역할 구분 안내
   if (!isBlocked) {
     console.log('────────────────────────────────────────────────────────────')
     console.log('[역할 구분 안내]')
-    console.log(`  decision                : "${next?.decision ?? args.decision}" — 발행 게이트 (유일한 차단 조건)`)
+    console.log(`  decision                  : "${next?.decision ?? args.decision}" — 발행 게이트 (유일한 차단 조건)`)
     const nss = next?.news_signal_review_status ?? current?.news_signal_review_status ?? null
-    console.log(`  news_signal_review_status: "${nss ?? 'null'}" — 참고 정보 전용 (발행 차단 조건 아님)`)
+    console.log(`  news_signal_review_status : "${nss ?? 'null'}" — 참고 정보 전용 (발행 차단 조건 아님)`)
+    console.log('  ── C-4 필드 ──')
+    console.log(`  draft_exists              : ${next?.draft_exists ?? '?'} — draft 파일 존재 여부 (자동 계산)`)
+    const bi = next?.blocking_issues ?? []
+    console.log(`  blocking_issues           : [${bi.join(', ') || '없음'}] — 승인 차단 이슈`)
+    console.log(`  data_quality_acknowledged : ${next?.data_quality_acknowledged ?? false} — 데이터 한계 인지 여부`)
+    console.log(`  publish_ready             : ${next?.publish_ready ?? false} — 자동 계산. true여도 publish는 수동 수행`)
     console.log('')
   }
 

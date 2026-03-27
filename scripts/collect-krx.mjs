@@ -253,7 +253,7 @@ async function collectListing(tickers, basDd) {
   let allListings = {}
 
   try {
-    const data = await krxPost(BLD.LISTING_STOCK, { basDd })
+    const data = await krxPost(BLD.LISTING_STOCK, { basDd, mktId: 'ALL' })
     const rows = data.OutBlock_1 ?? data.output ?? []
     for (const row of rows) {
       const code = row.isuCd ?? row.ISU_SRT_CD ?? ''

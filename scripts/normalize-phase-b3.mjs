@@ -144,12 +144,19 @@ function buildNormalizedEntities(weekId) {
     }
 
     // ── 상장 정보 (source: krx_listing / KRX OAP) ──────────────────────────
+    // KRX OAP 수집 불가 시: universe config의 listing_date를 fallback으로 포함
+    // (HF_NEWLY_LISTED 판단에 사용. listed_shares는 fallback 없음)
     const lr = listingMap.get(t.ticker)
     if (!lr || lr.error) {
       entity.listing = {
         status: 'unavailable',
         reason: lr?.error ?? '스냅샷 없음 — KRX OAP 브라우저 세션 필요',
         source: 'krx_listing',
+        ...(t.listing_date ? {
+          listing_date: t.listing_date,
+          listing_date_source: 'universe_config',
+          listing_date_note: 'KRX 수집 불가 시 참조용 정적 상장일 — 공개 자료 기반 수동 입력',
+        } : {}),
       }
     } else {
       entity.listing = {

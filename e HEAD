@@ -1,0 +1,140 @@
+{
+  "report_id": "RPT-2026-W14",
+  "week_id": "2026-W14",
+  "schema_version": "1.0",
+  "data_as_of": "2026-03-26",
+  "generated_at": "2026-03-26T13:46:46.100Z",
+  "published_at": "2026-03-26T13:46:46.100Z",
+  "market_summary": {
+    "global": {
+      "headline": "[편집 필요] — 이번 주 글로벌 시장 핵심 이슈",
+      "key_index_changes": [
+        {
+          "index": "S&P 500",
+          "change_pct": -0.5
+        }
+      ],
+      "sentiment": "cautious"
+    },
+    "domestic": {
+      "kospi": {
+        "level": 5460.46,
+        "change_pct": null,
+        "brief": "[편집 필요] — KOSPI 5460.46 (2026-03-26 기준)"
+      },
+      "kosdaq": {
+        "level": 1136.64,
+        "change_pct": null,
+        "brief": "[편집 필요] — KOSDAQ 1136.64 (2026-03-26 기준)"
+      },
+      "sector_highlights": [
+        {
+          "sector": "INDUSTRIAL",
+          "direction": "up",
+          "note": "[편집 필요] — HD현대일렉트릭(267260) 등 INDUSTRIAL 섹터 동향 (C-2 점수 95점)"
+        },
+        {
+          "sector": "MATERIAL",
+          "direction": "up",
+          "note": "[편집 필요] — POSCO홀딩스(005490) 등 MATERIAL 섹터 동향 (C-2 점수 85점)"
+        },
+        {
+          "sector": "HEALTHCARE",
+          "direction": "up",
+          "note": "[편집 필요] — 셀트리온(068270) 등 HEALTHCARE 섹터 동향 (C-2 점수 85점)"
+        }
+      ],
+      "week_theme": "[편집 필요] — 이번 주 국내 시장 핵심 테마"
+    }
+  },
+  "picks": [
+    {
+      "rank": 1,
+      "ticker": "267260",
+      "name": "HD현대일렉트릭",
+      "market": "KOSPI",
+      "sector": "INDUSTRIAL",
+      "asset_type": "stock",
+      "one_line_reason": "C-2 1위(95점). 영업이익률 26.3%(2025). 52주 포지션 82% — 강한 상승 모멘텀.",
+      "stance": "[편집 필요] 강세 관찰 — C-2 95점",
+      "price_zone": "현재가 965,000원 (52주 포지션 82%)",
+      "catalyst_summary": "[편집 필요]",
+      "risk_summary": "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요.",
+      "same_sector_alternatives": null,
+      "detail_report_id": null
+    },
+    {
+      "rank": 2,
+      "ticker": "005490",
+      "name": "POSCO홀딩스",
+      "market": "KOSPI",
+      "sector": "MATERIAL",
+      "asset_type": "stock",
+      "one_line_reason": "C-2 2위(85점). 영업이익률 69.61%(2025). 52주 포지션 57% — 중간 포지션.",
+      "stance": "[편집 필요] 강세 관찰 — C-2 85점",
+      "price_zone": "현재가 342,500원 (52주 포지션 57%)",
+      "catalyst_summary": "[편집 필요]",
+      "risk_summary": "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요.",
+      "same_sector_alternatives": null,
+      "detail_report_id": null
+    },
+    {
+      "rank": 3,
+      "ticker": "068270",
+      "name": "셀트리온",
+      "market": "KOSPI",
+      "sector": "HEALTHCARE",
+      "asset_type": "stock",
+      "one_line_reason": "C-2 3위(85점). 영업이익률 31.38%(2025). 52주 포지션 55% — 중간 포지션.",
+      "stance": "[편집 필요] 강세 관찰 — C-2 85점",
+      "price_zone": "현재가 203,000원 (52주 포지션 55%)",
+      "catalyst_summary": "[편집 필요]",
+      "risk_summary": "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요.",
+      "same_sector_alternatives": null,
+      "detail_report_id": null
+    },
+    {
+      "rank": 4,
+      "ticker": "329180",
+      "name": "HD현대중공업",
+      "market": "KOSPI",
+      "sector": "INDUSTRIAL",
+      "asset_type": "stock",
+      "one_line_reason": "C-2 4위(82점). 영업이익률 11.63%(2025). 52주 포지션 63% — 양호한 모멘텀.",
+      "stance": "[편집 필요] 강세 관찰 — C-2 82점",
+      "price_zone": "현재가 511,000원 (52주 포지션 63%)",
+      "catalyst_summary": "[편집 필요]",
+      "risk_summary": "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요.",
+      "same_sector_alternatives": null,
+      "detail_report_id": null
+    },
+    {
+      "rank": 5,
+      "ticker": "105560",
+      "name": "KB금융",
+      "market": "KOSPI",
+      "sector": "FINANCE",
+      "asset_type": "stock",
+      "one_line_reason": "C-2 5위(80점). quality 중립값 적용 (영업이익 미수집). 52주 포지션 80% — 강한 상승 모멘텀.",
+      "stance": "[편집 필요] 강세 관찰 — C-2 80점",
+      "price_zone": "현재가 152,200원 (52주 포지션 80%)",
+      "catalyst_summary": "[편집 필요]",
+      "risk_summary": "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요. / quality_score 중립값(20) 적용 — 영업이익 데이터 미수집. 수동 확인 권장.",
+      "same_sector_alternatives": null,
+      "detail_report_id": null
+    }
+  ],
+  "favored_sectors": [
+    "INDUSTRIAL",
+    "MATERIAL",
+    "HEALTHCARE"
+  ],
+  "cautious_sectors": [
+    "BATTERY",
+    "ENERGY",
+    "CONSUMER"
+  ],
+  "sector_returns": [],
+  "related_news": [],
+  "disclaimer": "이 리포트는 투자 참고용 정보 제공을 목적으로 하며, 특정 종목의 매수·매도를 권유하지 않습니다. 투자 결정 및 그에 따른 손익은 투자자 본인의 책임입니다."
+}

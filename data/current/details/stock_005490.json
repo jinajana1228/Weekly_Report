@@ -8,7 +8,7 @@
   "asset_type": "stock",
   "data_as_of": "2026-03-26",
   "linked_signal_ids": [],
-  "company_overview": "POSCO홀딩스는 소재 분야 KOSPI 상장 기업으로, 중국 부동산·인프라 경기 회복에 따른 철강 수요 개선 기대. 이차전지 양극재용 니켈 사업 확대와 리튬 가격 안정화. 영업이익률 69.6%(2025년 별도 기준) 수준의 수익 구조를 보이고 있다.",
+  "company_overview": "POSCO홀딩스는 소재 분야 KOSPI 상장 기업으로, 중국 부동산·인프라 경기 회복에 따른 철강 수요 개선 기대. 이차전지 양극재용 니켈 사업 확대와 리튬 가격 안정화.",
   "price_reference": {
     "reference_price": 342500,
     "currency": "KRW",
@@ -16,11 +16,10 @@
     "watch_high": null,
     "week52_high": 427500,
     "week52_low": 230000,
-    "position_in_52w_pct": 57
+    "position_in_52w_pct": 56
   },
   "stance": "52주 중간 포지션으로 추가 상승 여력 보유 — 중국 경기 회복 흐름과 이차전지 소재 사업 재평가가 핵심 변수. 단기 트레이딩보다 중기 분할 매수 관점 적합.",
   "bull_points": [
-    "영업이익률 69.6%(2025년 별도 기준) — 업종 내 수익성 강점",
     "중국 부동산·인프라 경기 회복에 따른 철강 수요 개선 기대",
     "이차전지 양극재용 니켈 사업 확대와 리튬 가격 안정화",
     "2026년 상반기 실적 개선 가시화 여부 주목"
@@ -39,10 +38,11 @@
     "리튬·니켈 가격 변동성 및 배터리 소재 사업 수익화 지연 리스크"
   ],
   "financial_summary": {
-    "revenue": "1조 4,033억원",
-    "operating_income": "9,768억원",
-    "operating_margin_pct": "69.6%",
-    "schema_note": "2025년 별도(OFS) 기준 ― DART 사업보고서. PER/PBR/ROE: 시가총액 데이터 미확보로 산출 불가."
+    "roe_pct": "0.8%",
+    "revenue": "69조 949억원",
+    "operating_income": "1조 8,271억원",
+    "operating_margin_pct": "2.6%",
+    "schema_note": "2025년 DART 사업보고서(별도 재무제표) 기준. 연결 기준 수치와 차이가 있을 수 있습니다. ROE: 2025년 사업보고서 별도 기준 (평균자본총계). PER·PBR: 발행주식수·시가총액 미확보로 제공되지 않습니다."
   },
   "related_news": []
 }

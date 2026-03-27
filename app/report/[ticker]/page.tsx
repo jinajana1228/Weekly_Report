@@ -14,6 +14,23 @@ import ETFSection from "@/components/detail/ETFSection";
 import LinkedSignalsSection from "@/components/detail/LinkedSignalsSection";
 import NewsCard from "@/components/ui/NewsCard";
 
+// ─── 재무 필드 한글 라벨 ──────────────────────────────────────────────────────
+const FINANCIAL_LABELS: Record<string, string> = {
+  revenue:                 "매출액",
+  operating_income:        "영업이익",
+  operating_margin_pct:    "영업이익률",
+  per:                     "PER",
+  pbr:                     "PBR",
+  roe_pct:                 "ROE",
+  revenue_growth_yoy_pct:  "매출 성장률 (YoY)",
+  dividend_yield_pct:      "배당수익률",
+  ytd_return_pct:          "연초대비 수익률",
+  "1y_return_pct":         "1년 수익률",
+  tracking_error_pct:      "추적오차율",
+  total_expense_ratio_pct: "총보수",
+  aum_billion_krw:         "순자산",
+}
+
 export function generateStaticParams() {
   const report = loadCurrentReport();
   return (report?.picks ?? []).map((p) => ({ ticker: p.ticker }));
@@ -36,6 +53,12 @@ export default function ReportDetailPage({
   const allSignals = loadNewsSignals(report.week_id);
   const signalReview = loadSignalReview(report.week_id);
   const reviewItems = signalReview?.review_items ?? [];
+
+  // 52주 데이터 (detail이 있을 때만)
+  const w52High = detail?.price_reference.week52_high ?? null;
+  const w52Low  = detail?.price_reference.week52_low  ?? null;
+  const w52Pos  = detail?.price_reference.position_in_52w_pct ?? null;
+  const has52w  = w52High != null && w52Low != null;
 
   return (
     <div className="max-w-3xl mx-auto px-6 py-10 space-y-8">
@@ -72,7 +95,9 @@ export default function ReportDetailPage({
       {/* Price reference */}
       <div className="section-card">
         <p className="label-meta mb-4">가격 참고 구간</p>
-        <div className="flex gap-10 text-sm">
+
+        {/* 기준가 + 관심 구간 */}
+        <div className="flex flex-wrap gap-x-10 gap-y-3 text-sm">
           <div>
             <p className="text-xs text-zinc-500 mb-1">기준가</p>
             <p className="text-2xl font-mono font-semibold text-zinc-50">
@@ -92,6 +117,48 @@ export default function ReportDetailPage({
             </div>
           )}
         </div>
+
+        {/* 52주 가격 범위 */}
+        {has52w && (
+          <div className="mt-4 pt-4 border-t border-zinc-700/60">
+            <p className="text-xs text-zinc-500 mb-3">52주 가격 범위</p>
+            <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm mb-3">
+              <div>
+                <p className="text-xs text-zinc-600 mb-0.5">52주 고가</p>
+                <p className="font-mono text-zinc-300">{fmtNum(w52High)}</p>
+              </div>
+              <div>
+                <p className="text-xs text-zinc-600 mb-0.5">52주 저가</p>
+                <p className="font-mono text-zinc-300">{fmtNum(w52Low)}</p>
+              </div>
+              {w52Pos != null && (
+                <div>
+                  <p className="text-xs text-zinc-600 mb-0.5">현재 위치</p>
+                  <p className="font-mono text-zinc-300">{w52Pos}%</p>
+                </div>
+              )}
+            </div>
+            {w52Pos != null && (
+              <div>
+                <div className="flex justify-between text-xs text-zinc-600 mb-1.5">
+                  <span>저가</span>
+                  <span className="text-zinc-500">52주 구간 내 {w52Pos}% 위치</span>
+                  <span>고가</span>
+                </div>
+                <div className="relative h-1.5 bg-zinc-700/80 rounded-full">
+                  <div
+                    className="absolute top-0 left-0 h-1.5 bg-sky-600/50 rounded-full"
+                    style={{ width: `${w52Pos}%` }}
+                  />
+                  <div
+                    className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-sky-400 rounded-full ring-2 ring-zinc-800"
+                    style={{ left: `${w52Pos}%` }}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Stance */}
@@ -156,7 +223,9 @@ export default function ReportDetailPage({
                 .filter(([k]) => k !== "schema_note")
                 .map(([k, v]) => (
                   <div key={k} className="bg-zinc-700/60 border border-zinc-600/40 rounded-md p-2.5">
-                    <p className="text-xs text-zinc-500 mb-1">{k}</p>
+                    <p className="text-xs text-zinc-500 mb-1">
+                      {FINANCIAL_LABELS[k] ?? k}
+                    </p>
                     <p className="text-sm font-mono text-zinc-300">{String(v)}</p>
                   </div>
                 ))}

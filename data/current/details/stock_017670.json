@@ -1,0 +1,50 @@
+{
+  "detail_report_id": "DET-2026-W14-017670",
+  "report_id": "RPT-2026-W14",
+  "week_id": "2026-W14",
+  "ticker": "017670",
+  "name": "SK텔레콤",
+  "sector": "TELECOM",
+  "asset_type": "stock",
+  "data_as_of": "2026-03-27",
+  "linked_signal_ids": [],
+  "company_overview": "SK텔레콤은 통신 분야 KOSPI 상장 기업으로, AI 데이터센터(IDC) 투자 확대와 B2B 기업 솔루션 성장 기대. 5G 고객 증가와 ARPU 개선 흐름 지속.",
+  "price_reference": {
+    "reference_price": 79300,
+    "currency": "KRW",
+    "watch_low": null,
+    "watch_high": null,
+    "week52_high": 88600,
+    "week52_low": 50400,
+    "position_in_52w_pct": 76
+  },
+  "stance": "52주 중상단 — 통신업 특유의 안정적 현금흐름과 배당 매력이 방어주 수요를 지지. AI 인프라(IDC) 투자 확대에 따른 B2B 성장 기대도 긍정적 요인.",
+  "bull_points": [
+    "AI 데이터센터(IDC) 투자 확대와 B2B 기업 솔루션 성장 기대",
+    "5G 고객 증가와 ARPU 개선 흐름 지속",
+    "안정적 배당 정책 기조 유지 — 고배당 방어주 특성 유효"
+  ],
+  "bear_points": [
+    "통신 요금 규제 및 정책 리스크 — 요금제 인하 압력 상존",
+    "AI·IDC 투자 확대에 따른 단기 CAPEX 부담 증가 가능성",
+    "가입자 성장 둔화 국면 진입 우려"
+  ],
+  "catalysts_2_to_4_weeks": [
+    "AI 데이터센터(IDC) 투자 확대와 B2B 기업 솔루션 성장 기대",
+    "5G 고객 증가와 ARPU 개선 흐름 지속",
+    "안정적 배당 정책 기조 유지 — 고배당 방어주 특성 유효"
+  ],
+  "risks": [
+    "통신 요금 규제 및 정책 리스크 — 요금제 인하 압력 상존",
+    "AI·IDC 투자 확대에 따른 단기 CAPEX 부담 증가 가능성",
+    "가입자 성장 둔화 국면 진입 우려"
+  ],
+  "financial_summary": {
+    "roe_pct": "3.0%",
+    "revenue": "17조 992억원",
+    "operating_income": "1조 732억원",
+    "operating_margin_pct": "6.3%",
+    "schema_note": "2025년 DART 사업보고서(별도 재무제표) 기준. 연결 기준 수치와 차이가 있을 수 있습니다. ROE: 2025년 사업보고서 별도 기준 (평균자본총계). PER·PBR: 발행주식수·시가총액 미확보로 제공되지 않습니다."
+  },
+  "related_news": []
+}

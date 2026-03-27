@@ -1,0 +1,52 @@
+{
+  "detail_report_id": "DET-2026-W14-005930",
+  "report_id": "RPT-2026-W14",
+  "week_id": "2026-W14",
+  "ticker": "005930",
+  "name": "삼성전자",
+  "sector": "TECH",
+  "asset_type": "stock",
+  "data_as_of": "2026-03-26",
+  "linked_signal_ids": [],
+  "company_overview": "삼성전자는 테크 분야 KOSPI 상장 기업으로, AI 데이터센터 투자 확대에 따른 HBM 수요 급증. 메모리 반도체 가격 회복 사이클 본격화.",
+  "price_reference": {
+    "reference_price": 181300,
+    "currency": "KRW",
+    "watch_low": null,
+    "watch_high": null,
+    "week52_high": 223000,
+    "week52_low": 52900,
+    "position_in_52w_pct": 75
+  },
+  "stance": "52주 중상단 — 메모리 반도체 가격 회복과 AI 서버향 HBM 수요 증가가 실적 정상화의 핵심 변수. 단기 변동성보다 중기 업황 사이클 회복에 집중.",
+  "bull_points": [
+    "AI 데이터센터 투자 확대에 따른 HBM 수요 급증",
+    "메모리 반도체 가격 회복 사이클 본격화",
+    "2026년 파운드리 수율 개선 및 GAA 공정 기반 고객 확대",
+    "글로벌 반도체 업황 반등 지속 여부 주목"
+  ],
+  "bear_points": [
+    "중국 메모리 업체 저가 공세 — DRAM·낸드 시장 점유율 압박 가능성",
+    "파운드리 고객 이탈 및 수율 리스크",
+    "글로벌 경기 둔화 시 스마트폰·PC 수요 감소 우려"
+  ],
+  "catalysts_2_to_4_weeks": [
+    "AI 데이터센터 투자 확대에 따른 HBM 수요 급증",
+    "메모리 반도체 가격 회복 사이클 본격화",
+    "2026년 파운드리 수율 개선 및 GAA 공정 기반 고객 확대",
+    "글로벌 반도체 업황 반등 지속 여부 주목"
+  ],
+  "risks": [
+    "중국 메모리 업체 저가 공세 — DRAM·낸드 시장 점유율 압박 가능성",
+    "파운드리 고객 이탈 및 수율 리스크",
+    "글로벌 경기 둔화 시 스마트폰·PC 수요 감소 우려"
+  ],
+  "financial_summary": {
+    "roe_pct": "10.8%",
+    "revenue": "333조 6,059억원",
+    "operating_income": "43조 6,011억원",
+    "operating_margin_pct": "13.1%",
+    "schema_note": "2025년 DART 사업보고서(별도 재무제표) 기준. 연결 기준 수치와 차이가 있을 수 있습니다. ROE: 2025년 사업보고서 별도 기준 (평균자본총계). PER·PBR: 발행주식수·시가총액 미확보로 제공되지 않습니다."
+  },
+  "related_news": []
+}

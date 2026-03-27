@@ -10,7 +10,8 @@
     "asset_type": "stock | etf",
     "dart_corp_code": "DART 고유번호 (8자리 문자열) — ETF 및 미확인은 null",
     "etf_krx_code": "ETF 구성종목 KRX 코드 — ETF 전용, 일반주식은 null",
-    "active": "false로 설정하면 수집에서 제외 (임시 제외용)"
+    "active": "false로 설정하면 수집에서 제외 (임시 제외용)",
+    "listing_date": "KRX 최초 상장일 (YYYYMMDD) — KRX OAP 수집 불가 시 HF_NEWLY_LISTED 판단 fallback용. 공개 자료 기반 수동 입력, 수동 검증 권장."
   },
   "tickers": [
     {
@@ -21,7 +22,8 @@
       "asset_type": "stock",
       "dart_corp_code": "00126380",
       "etf_krx_code": null,
-      "active": true
+      "active": true,
+      "listing_date": "19750611"
     },
     {
       "ticker": "035420",
@@ -29,9 +31,10 @@
       "market": "KOSPI",
       "sector": "TECH",
       "asset_type": "stock",
-      "dart_corp_code": "00293886",
+      "dart_corp_code": "00266961",
       "etf_krx_code": null,
-      "active": true
+      "active": true,
+      "listing_date": "20021029"
     },
     {
       "ticker": "373220",
@@ -39,9 +42,10 @@
       "market": "KOSPI",
       "sector": "BATTERY",
       "asset_type": "stock",
-      "dart_corp_code": "01426674",
+      "dart_corp_code": "01515323",
       "etf_krx_code": null,
-      "active": true
+      "active": true,
+      "listing_date": "20220127"
     },
     {
       "ticker": "267260",
@@ -49,9 +53,10 @@
       "market": "KOSPI",
       "sector": "INDUSTRIAL",
       "asset_type": "stock",
-      "dart_corp_code": "00426364",
+      "dart_corp_code": "01205851",
       "etf_krx_code": null,
-      "active": true
+      "active": true,
+      "listing_date": "20170406"
     },
     {
       "ticker": "036460",
@@ -59,9 +64,10 @@
       "market": "KOSPI",
       "sector": "ENERGY",
       "asset_type": "stock",
-      "dart_corp_code": "00141009",
+      "dart_corp_code": "00261285",
       "etf_krx_code": null,
-      "active": true
+      "active": true,
+      "listing_date": "20050719"
     },
     {
       "ticker": "017670",
@@ -69,9 +75,10 @@
       "market": "KOSPI",
       "sector": "TELECOM",
       "asset_type": "stock",
-      "dart_corp_code": "00788485",
+      "dart_corp_code": "00159023",
       "etf_krx_code": null,
-      "active": true
+      "active": true,
+      "listing_date": "19840814"
     },
     {
       "ticker": "005490",
@@ -79,9 +86,10 @@
       "market": "KOSPI",
       "sector": "MATERIAL",
       "asset_type": "stock",
-      "dart_corp_code": "00431894",
+      "dart_corp_code": "00155319",
       "etf_krx_code": null,
-      "active": true
+      "active": true,
+      "listing_date": "19880610"
     },
     {
       "ticker": "329180",
@@ -89,9 +97,10 @@
       "market": "KOSPI",
       "sector": "INDUSTRIAL",
       "asset_type": "stock",
-      "dart_corp_code": "00164788",
+      "dart_corp_code": "01390344",
       "etf_krx_code": null,
-      "active": true
+      "active": true,
+      "listing_date": "20210917"
     },
     {
       "ticker": "028260",
@@ -99,9 +108,10 @@
       "market": "KOSPI",
       "sector": "REALESTATE",
       "asset_type": "stock",
-      "dart_corp_code": "00126673",
+      "dart_corp_code": "00149655",
       "etf_krx_code": null,
-      "active": true
+      "active": true,
+      "listing_date": "19750527"
     },
     {
       "ticker": "068270",
@@ -109,9 +119,10 @@
       "market": "KOSPI",
       "sector": "HEALTHCARE",
       "asset_type": "stock",
-      "dart_corp_code": "00421045",
+      "dart_corp_code": "00413046",
       "etf_krx_code": null,
-      "active": true
+      "active": true,
+      "listing_date": "20020711"
     },
     {
       "ticker": "105560",
@@ -119,9 +130,10 @@
       "market": "KOSPI",
       "sector": "FINANCE",
       "asset_type": "stock",
-      "dart_corp_code": "00631483",
+      "dart_corp_code": "00688996",
       "etf_krx_code": null,
-      "active": true
+      "active": true,
+      "listing_date": "20081010"
     },
     {
       "ticker": "097950",
@@ -129,9 +141,10 @@
       "market": "KOSPI",
       "sector": "CONSUMER",
       "asset_type": "stock",
-      "dart_corp_code": "00104853",
+      "dart_corp_code": "00635134",
       "etf_krx_code": null,
-      "active": true
+      "active": true,
+      "listing_date": "19921001"
     },
     {
       "ticker": "232080",
@@ -141,7 +154,8 @@
       "asset_type": "etf",
       "dart_corp_code": null,
       "etf_krx_code": "232080",
-      "active": true
+      "active": true,
+      "listing_date": "20150324"
     },
     {
       "ticker": "069500",
@@ -151,7 +165,8 @@
       "asset_type": "etf",
       "dart_corp_code": null,
       "etf_krx_code": "069500",
-      "active": true
+      "active": true,
+      "listing_date": "20020704"
     },
     {
       "ticker": "360750",
@@ -161,7 +176,8 @@
       "asset_type": "etf",
       "dart_corp_code": null,
       "etf_krx_code": "360750",
-      "active": true
+      "active": true,
+      "listing_date": "20210413"
     }
   ]
 }

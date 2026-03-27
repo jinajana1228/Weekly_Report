@@ -1,0 +1,50 @@
+{
+  "detail_report_id": "DET-2026-W14-035420",
+  "report_id": "RPT-2026-W14",
+  "week_id": "2026-W14",
+  "ticker": "035420",
+  "name": "NAVER",
+  "sector": "TECH",
+  "asset_type": "stock",
+  "data_as_of": "2026-03-27",
+  "linked_signal_ids": [],
+  "company_overview": "NAVER은 테크 분야 KOSPI 상장 기업으로, AI 검색 플랫폼 전환(HyperCLOVA 기반) 및 광고 매출 회복 기대. 커머스·핀테크·클라우드 부문 성장 지속.",
+  "price_reference": {
+    "reference_price": 212500,
+    "currency": "KRW",
+    "watch_low": null,
+    "watch_high": null,
+    "week52_high": 295000,
+    "week52_low": 176200,
+    "position_in_52w_pct": 31
+  },
+  "stance": "52주 저점 근처 — 광고 경기 회복 시 실적 반등 여력 유효. AI 검색·커머스 플랫폼 전환 기대를 고려한 중기 저점 접근 관점. 단기 변동성 주의.",
+  "bull_points": [
+    "AI 검색 플랫폼 전환(HyperCLOVA 기반) 및 광고 매출 회복 기대",
+    "커머스·핀테크·클라우드 부문 성장 지속",
+    "글로벌 웹툰·콘텐츠 수익 확대"
+  ],
+  "bear_points": [
+    "광고 경기 둔화 지속 시 실적 회복 지연 가능성",
+    "AI 플랫폼 경쟁 심화 — 구글·카카오와의 검색·커머스 점유율 경쟁",
+    "일본 라인 사업 리스크 및 규제 불확실성 상존"
+  ],
+  "catalysts_2_to_4_weeks": [
+    "AI 검색 플랫폼 전환(HyperCLOVA 기반) 및 광고 매출 회복 기대",
+    "커머스·핀테크·클라우드 부문 성장 지속",
+    "글로벌 웹툰·콘텐츠 수익 확대"
+  ],
+  "risks": [
+    "광고 경기 둔화 지속 시 실적 회복 지연 가능성",
+    "AI 플랫폼 경쟁 심화 — 구글·카카오와의 검색·커머스 점유율 경쟁",
+    "일본 라인 사업 리스크 및 규제 불확실성 상존"
+  ],
+  "financial_summary": {
+    "roe_pct": "6.5%",
+    "revenue": "12조 350억원",
+    "operating_income": "2조 2,081억원",
+    "operating_margin_pct": "18.4%",
+    "schema_note": "2025년 DART 사업보고서(별도 재무제표) 기준. 연결 기준 수치와 차이가 있을 수 있습니다. ROE: 2025년 사업보고서 별도 기준 (평균자본총계). PER·PBR: 발행주식수·시가총액 미확보로 제공되지 않습니다."
+  },
+  "related_news": []
+}
