@@ -1,0 +1,47 @@
+{
+  "detail_report_id": "DET-2026-W13-373220",
+  "report_id": "RPT-2026-W13",
+  "week_id": "2026-W13",
+  "ticker": "373220",
+  "name": "LG에너지솔루션",
+  "sector": "BATTERY",
+  "asset_type": "stock",
+  "data_as_of": "2026-03-27",
+  "linked_signal_ids": [],
+  "company_overview": "LG에너지솔루션은 배터리 분야 KOSPI 상장 기업으로, 영업이익률 5.7%(2025) — 업종 내 수익성 기반 확보. 52주 포지션 49% — 중간 구간에서 추가 상승 여지.",
+  "price_reference": {
+    "reference_price": 394500,
+    "currency": "KRW",
+    "watch_low": null,
+    "watch_high": null,
+    "week52_high": 527000,
+    "week52_low": 266000,
+    "position_in_52w_pct": 49
+  },
+  "stance": "중립 점수(74점) 관찰 구간 — 추가 모멘텀 확인 후 접근. 발행 전 리스크 재검토 권장.",
+  "bull_points": [
+    "52주 포지션 49% — 중간 구간에서 추가 상승 여지",
+    "거래대금 충분 — 기관·외국인 수급 접근 가능한 대형주"
+  ],
+  "bear_points": [
+    "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영",
+    "가격 이력(5일/20일) 확보 후 재평가 필요"
+  ],
+  "catalysts_2_to_4_weeks": [
+    "영업이익률 5.7%(2025) — 업종 내 수익성 기반 확보",
+    "52주 포지션 49% — 중간 구간에서 추가 상승 여지",
+    "거래대금 충분 — 기관·외국인 수급 접근 가능한 대형주"
+  ],
+  "risks": [
+    "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영",
+    "가격 이력(5일/20일) 확보 후 재평가 필요"
+  ],
+  "financial_summary": {
+    "roe_pct": "0.3%",
+    "revenue": "23조 6,718억원",
+    "operating_income": "1조 3,461억원",
+    "operating_margin_pct": "5.7%",
+    "schema_note": "2025년 DART 사업보고서(별도 재무제표) 기준. 연결 기준 수치와 차이가 있을 수 있습니다. ROE: 2025년 사업보고서 별도 기준 (평균자본총계). PER·PBR: 발행주식수·시가총액 미확보로 제공되지 않습니다."
+  },
+  "related_news": []
+}

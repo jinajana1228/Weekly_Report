@@ -1,0 +1,46 @@
+{
+  "detail_report_id": "DET-2026-W13-105560",
+  "report_id": "RPT-2026-W13",
+  "week_id": "2026-W13",
+  "ticker": "105560",
+  "name": "KB금융",
+  "sector": "FINANCE",
+  "asset_type": "stock",
+  "data_as_of": "2026-03-27",
+  "linked_signal_ids": [],
+  "company_overview": "KB금융은 금융 분야 KOSPI 상장 기업으로, 52주 포지션 80% — 강한 상승 모멘텀 유지. 거래대금 충분 — 기관·외국인 수급 접근 가능한 대형주.",
+  "price_reference": {
+    "reference_price": 152200,
+    "currency": "KRW",
+    "watch_low": null,
+    "watch_high": null,
+    "week52_high": 172500,
+    "week52_low": 69300,
+    "position_in_52w_pct": 80
+  },
+  "stance": "양호한 점수(80점) 상승 흐름 — 중기 보유 관점 유효. 발행 전 catalyst 보강 권장.",
+  "bull_points": [
+    "52주 포지션 80% — 강한 상승 모멘텀 유지",
+    "거래대금 충분 — 기관·외국인 수급 접근 가능한 대형주"
+  ],
+  "bear_points": [
+    "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영",
+    "가격 이력(5일/20일) 확보 후 재평가 필요",
+    "quality_score 중립값(20) 적용 — 영업이익 데이터 미수집"
+  ],
+  "catalysts_2_to_4_weeks": [
+    "52주 포지션 80% — 강한 상승 모멘텀 유지",
+    "거래대금 충분 — 기관·외국인 수급 접근 가능한 대형주"
+  ],
+  "risks": [
+    "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영",
+    "가격 이력(5일/20일) 확보 후 재평가 필요",
+    "quality_score 중립값(20) 적용 — 영업이익 데이터 미수집",
+    "수동 확인 권장"
+  ],
+  "financial_summary": {
+    "roe_pct": "9.7%",
+    "schema_note": "금융업은 영업이익·매출액 구조가 일반 기업과 달라 직접 비교가 어렵습니다. 2025년 DART 사업보고서(별도) 기준. ROE: 2025년 사업보고서 별도 기준 (평균자본총계). PER·PBR: 발행주식수·시가총액 미확보로 제공되지 않습니다."
+  },
+  "related_news": []
+}

@@ -1,0 +1,47 @@
+{
+  "detail_report_id": "DET-2026-W13-267260",
+  "report_id": "RPT-2026-W13",
+  "week_id": "2026-W13",
+  "ticker": "267260",
+  "name": "HD현대일렉트릭",
+  "sector": "INDUSTRIAL",
+  "asset_type": "stock",
+  "data_as_of": "2026-03-27",
+  "linked_signal_ids": [],
+  "company_overview": "HD현대일렉트릭은 산업재 분야 KOSPI 상장 기업으로, 영업이익률 24.4%(2025) — 업종 내 수익성 기반 확보. 52주 포지션 76% — 강한 상승 모멘텀 유지.",
+  "price_reference": {
+    "reference_price": 915000,
+    "currency": "KRW",
+    "watch_low": null,
+    "watch_high": null,
+    "week52_high": 1116000,
+    "week52_low": 264500,
+    "position_in_52w_pct": 76
+  },
+  "stance": "고득점(95점) 강세 구간 — 수급 집중 확인 후 접근. 단기 과열 여부 발행 전 점검 권장.",
+  "bull_points": [
+    "52주 포지션 76% — 강한 상승 모멘텀 유지",
+    "거래대금 충분 — 기관·외국인 수급 접근 가능한 대형주"
+  ],
+  "bear_points": [
+    "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영",
+    "가격 이력(5일/20일) 확보 후 재평가 필요"
+  ],
+  "catalysts_2_to_4_weeks": [
+    "영업이익률 24.4%(2025) — 업종 내 수익성 기반 확보",
+    "52주 포지션 76% — 강한 상승 모멘텀 유지",
+    "거래대금 충분 — 기관·외국인 수급 접근 가능한 대형주"
+  ],
+  "risks": [
+    "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영",
+    "가격 이력(5일/20일) 확보 후 재평가 필요"
+  ],
+  "financial_summary": {
+    "roe_pct": "41.3%",
+    "revenue": "4조 795억원",
+    "operating_income": "9,953억원",
+    "operating_margin_pct": "24.4%",
+    "schema_note": "2025년 DART 사업보고서(별도 재무제표) 기준. 연결 기준 수치와 차이가 있을 수 있습니다. ROE: 2025년 사업보고서 별도 기준 (평균자본총계). PER·PBR: 발행주식수·시가총액 미확보로 제공되지 않습니다."
+  },
+  "related_news": []
+}
