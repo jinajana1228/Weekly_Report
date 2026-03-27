@@ -1,0 +1,249 @@
+# .github/workflows/publish-approved.yml
+#
+# admin 승인 후 자동 발행 워크플로우 (단계 2).
+#
+# ── 트리거 ───────────────────────────────────────────────────────────────────
+#   repository_dispatch (event_type: approve-and-publish)
+#   → admin UI의 "승인" 버튼 → /api/admin/approve → GitHub API dispatches
+#   → 이 워크플로우 실행
+#
+# ── 실행 순서 ────────────────────────────────────────────────────────────────
+#   1. Pre-flight: draft 존재 + approval pending 확인
+#   2. approval:commit — current.json 생성, archive, manifest 갱신
+#   3. detail:generate — data/current/details/ 생성
+#   4. publish — overlap_history, approval 초기화, draft 정리, git commit
+#   5. Verify + push
+#
+# ── 자동화 제외 ──────────────────────────────────────────────────────────────
+#   - draft 생성 (weekly-draft.yml이 담당)
+#   - 승인 판단 (admin이 담당 — 이 워크플로우는 승인 결정 이후만 처리)
+#
+# ── 안전장치 ─────────────────────────────────────────────────────────────────
+#   - concurrency: cancel-in-progress: false (발행 중 취소 방지)
+#   - pre-flight: draft 존재 + approval week_id 일치 확인
+#   - verify: current.json + detail 파일 + approval 초기화 확인
+#   - publish.mjs Phase I가 git commit (git add -A는 CI clean checkout에서 안전)
+
+name: Publish Approved Draft
+
+on:
+  repository_dispatch:
+    types: [approve-and-publish]
+
+  # 긴급 수동 실행 (GitHub Actions UI에서)
+  workflow_dispatch:
+    inputs:
+      week_id:
+        description: '대상 주차 (예: 2026-W15)'
+        required: true
+      reviewed_by:
+        description: '검수자 이름'
+        required: true
+
+# main 브랜치 쓰기 작업 직렬화
+# weekly-draft와 같은 group을 공유하여 approval.json 충돌 방지
+concurrency:
+  group: main-branch-write
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      # ── 파라미터 추출 ──────────────────────────────────────────────────────
+      - name: Extract parameters
+        id: params
+        run: |
+          # repository_dispatch vs workflow_dispatch
+          if [ -n "${{ github.event.client_payload.week_id }}" ]; then
+            WEEK_ID="${{ github.event.client_payload.week_id }}"
+            REVIEWED_BY="${{ github.event.client_payload.reviewed_by }}"
+          else
+            WEEK_ID="${{ github.event.inputs.week_id }}"
+            REVIEWED_BY="${{ github.event.inputs.reviewed_by }}"
+          fi
+          echo "WEEK_ID=$WEEK_ID" >> "$GITHUB_OUTPUT"
+          echo "REVIEWED_BY=$REVIEWED_BY" >> "$GITHUB_OUTPUT"
+          echo "::notice::week_id=$WEEK_ID, reviewed_by=$REVIEWED_BY"
+
+      # ── Pre-flight 검증 ────────────────────────────────────────────────────
+      - name: Pre-flight checks
+        run: |
+          WEEK_ID="${{ steps.params.outputs.WEEK_ID }}"
+          REVIEWED_BY="${{ steps.params.outputs.REVIEWED_BY }}"
+          ERRORS=0
+
+          if [ -z "$WEEK_ID" ]; then
+            echo "::error::week_id is required"
+            ERRORS=$((ERRORS + 1))
+          fi
+          if [ -z "$REVIEWED_BY" ]; then
+            echo "::error::reviewed_by is required"
+            ERRORS=$((ERRORS + 1))
+          fi
+
+          # draft 파일 존재 확인
+          DRAFT_FILE="data/draft/${WEEK_ID}.json"
+          if [ ! -f "$DRAFT_FILE" ]; then
+            echo "::error::Draft file not found: $DRAFT_FILE"
+            ERRORS=$((ERRORS + 1))
+          else
+            echo "✓ Draft exists: $DRAFT_FILE"
+          fi
+
+          # approval.json 종합 검증
+          APPROVAL_FILE="data/manifests/approval.json"
+          if [ ! -f "$APPROVAL_FILE" ]; then
+            echo "::error::approval.json not found"
+            ERRORS=$((ERRORS + 1))
+          else
+            # draft_week_id 일치 확인
+            DRAFT_WEEK=$(node -e "console.log(JSON.parse(require('fs').readFileSync('$APPROVAL_FILE','utf-8')).draft_week_id || '')")
+            if [ "$DRAFT_WEEK" != "$WEEK_ID" ]; then
+              echo "::error::approval.json draft_week_id='$DRAFT_WEEK', expected '$WEEK_ID'"
+              ERRORS=$((ERRORS + 1))
+            else
+              echo "✓ approval.json draft_week_id matches"
+            fi
+
+            # decision === "pending" 확인
+            DECISION=$(node -e "console.log(JSON.parse(require('fs').readFileSync('$APPROVAL_FILE','utf-8')).decision || '')")
+            if [ "$DECISION" != "pending" ]; then
+              echo "::error::approval.json decision='$DECISION', expected 'pending'"
+              ERRORS=$((ERRORS + 1))
+            else
+              echo "✓ approval.json decision=pending"
+            fi
+
+            # draft_exists === true 확인
+            DRAFT_EXISTS=$(node -e "console.log(JSON.parse(require('fs').readFileSync('$APPROVAL_FILE','utf-8')).draft_exists)")
+            if [ "$DRAFT_EXISTS" != "true" ]; then
+              echo "::error::approval.json draft_exists=$DRAFT_EXISTS, expected true"
+              ERRORS=$((ERRORS + 1))
+            else
+              echo "✓ approval.json draft_exists=true"
+            fi
+
+            # blocking_issues가 비어 있는지 확인
+            BLOCKING_COUNT=$(node -e "const a=JSON.parse(require('fs').readFileSync('$APPROVAL_FILE','utf-8')).blocking_issues;console.log(Array.isArray(a)?a.length:0)")
+            if [ "$BLOCKING_COUNT" != "0" ]; then
+              echo "::error::approval.json blocking_issues has $BLOCKING_COUNT items — resolve before publishing"
+              node -e "const a=JSON.parse(require('fs').readFileSync('$APPROVAL_FILE','utf-8')).blocking_issues;a.forEach((v,i)=>console.log('  ['+i+'] '+JSON.stringify(v)))"
+              ERRORS=$((ERRORS + 1))
+            else
+              echo "✓ approval.json blocking_issues=[] (없음)"
+            fi
+          fi
+
+          if [ $ERRORS -gt 0 ]; then
+            echo "::error::Pre-flight failed ($ERRORS errors)"
+            exit 1
+          fi
+          echo "✓ All pre-flight checks passed"
+
+      # ── Step 1: approval:commit ────────────────────────────────────────────
+      - name: "Step 1: Approve and commit to current"
+        run: |
+          node scripts/approve-commit.mjs \
+            --decision approved \
+            --reviewed-by "${{ steps.params.outputs.REVIEWED_BY }}" \
+            --acknowledge-data-quality \
+            --week-id "${{ steps.params.outputs.WEEK_ID }}"
+
+      # ── Step 2: detail:generate ────────────────────────────────────────────
+      - name: "Step 2: Generate detail reports"
+        run: |
+          node scripts/generate-detail-reports.mjs \
+            --week-id "${{ steps.params.outputs.WEEK_ID }}"
+
+      # ── Step 3: publish ────────────────────────────────────────────────────
+      # Phase F: overlap_history 갱신
+      # Phase G: approval.json 초기화 (pending)
+      # Phase H: draft 파일 삭제
+      # Phase I: git add -A + git commit (CI clean checkout이므로 안전)
+      - name: "Step 3: Publish"
+        run: |
+          node scripts/publish.mjs \
+            --week-id "${{ steps.params.outputs.WEEK_ID }}" \
+            --actor "${{ steps.params.outputs.REVIEWED_BY }}"
+
+      # ── Step 4: 검증 + push ────────────────────────────────────────────────
+      - name: "Step 4: Verify and push"
+        run: |
+          WEEK_ID="${{ steps.params.outputs.WEEK_ID }}"
+          ERRORS=0
+
+          # current.json week_id 확인
+          CURRENT_WEEK=$(node -e "console.log(JSON.parse(require('fs').readFileSync('data/current/current.json','utf-8')).week_id)")
+          if [ "$CURRENT_WEEK" != "$WEEK_ID" ]; then
+            echo "::error::current.json week_id='$CURRENT_WEEK', expected '$WEEK_ID'"
+            ERRORS=$((ERRORS + 1))
+          else
+            echo "✓ current.json week_id=$WEEK_ID"
+          fi
+
+          # current picks의 ticker별 detail 파일 존재 확인
+          MISSING_DETAILS=""
+          DETAIL_OK=0
+          TICKERS=$(node -e "
+            const c=JSON.parse(require('fs').readFileSync('data/current/current.json','utf-8'));
+            c.picks.forEach(p=>console.log(p.ticker+'|'+(p.asset_type||'stock')));
+          ")
+          while IFS='|' read -r TICKER ASSET_TYPE; do
+            [ -z "$TICKER" ] && continue
+            DETAIL_FILE="data/current/details/${ASSET_TYPE}_${TICKER}.json"
+            if [ ! -f "$DETAIL_FILE" ]; then
+              MISSING_DETAILS="${MISSING_DETAILS}  - ${DETAIL_FILE}\n"
+              ERRORS=$((ERRORS + 1))
+            else
+              DETAIL_OK=$((DETAIL_OK + 1))
+            fi
+          done <<< "$TICKERS"
+
+          if [ -n "$MISSING_DETAILS" ]; then
+            echo "::error::누락된 detail 파일:"
+            printf "$MISSING_DETAILS"
+          fi
+          echo "✓ Detail files: ${DETAIL_OK}개 존재"
+
+          # draft 파일 삭제 확인
+          if [ -f "data/draft/${WEEK_ID}.json" ]; then
+            echo "::warning::Draft file still exists (publish Phase H may have skipped)"
+          else
+            echo "✓ Draft file cleaned up"
+          fi
+
+          if [ $ERRORS -gt 0 ]; then
+            echo "::error::Verification failed ($ERRORS errors). Not pushing."
+            exit 1
+          fi
+
+          # remote 최신 상태 반영 후 push (draft workflow와의 쓰기 충돌 방지)
+          git pull --rebase origin main
+          git push
+          echo ""
+          echo "✓ Push completed — Vercel will auto-deploy"
+          echo "  Production URL will reflect $WEEK_ID edition with full detail"

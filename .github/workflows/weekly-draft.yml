@@ -36,10 +36,11 @@ on:
         required: false
         default: ''
 
-# 동시 실행 방지: 같은 워크플로우가 중복 실행되면 이전 실행을 취소
+# 동시 실행 방지: main 브랜치 쓰기 작업 직렬화
+# publish-approved와 같은 group을 공유하여 approval.json 충돌 방지
 concurrency:
-  group: weekly-auto-draft
-  cancel-in-progress: true
+  group: main-branch-write
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -203,6 +204,8 @@ jobs:
             git commit -F /tmp/commit-msg.txt
             rm -f /tmp/commit-msg.txt
 
+            # remote 최신 상태 반영 후 push (publish workflow와의 쓰기 충돌 방지)
+            git pull --rebase origin main
             git push
             echo ""
             echo "✓ commit + push 완료"
