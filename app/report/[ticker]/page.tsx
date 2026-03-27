@@ -82,13 +82,15 @@ export default function ReportDetailPage({
               </span>
             </p>
           </div>
-          <div>
-            <p className="text-xs text-zinc-500 mb-1">관심 구간</p>
-            <p className="font-mono text-zinc-300 text-sm">
-              {fmtNum(pick.price_zone.watch_low)} –{" "}
-              {fmtNum(pick.price_zone.watch_high)}
-            </p>
-          </div>
+          {(pick.price_zone.watch_low != null || pick.price_zone.watch_high != null) && (
+            <div>
+              <p className="text-xs text-zinc-500 mb-1">관심 구간</p>
+              <p className="font-mono text-zinc-300 text-sm">
+                {fmtNum(pick.price_zone.watch_low)} –{" "}
+                {fmtNum(pick.price_zone.watch_high)}
+              </p>
+            </div>
+          )}
         </div>
       </div>
 
@@ -187,9 +189,24 @@ export default function ReportDetailPage({
           )}
         </>
       ) : (
-        <div className="section-card text-center py-8">
-          <p className="text-sm text-zinc-500">상세 정보를 준비 중입니다.</p>
-        </div>
+        <>
+          {pick.catalyst_summary && (
+            <div className="section-card">
+              <p className="label-meta text-sky-400/70 mb-3">주요 촉매 (2~4주)</p>
+              <p className="text-sm text-zinc-300 leading-relaxed">{pick.catalyst_summary}</p>
+            </div>
+          )}
+
+          {pick.risk_summary && (
+            <div className="section-card">
+              <p className="label-meta mb-3">주요 리스크</p>
+              <p className="text-sm text-zinc-300 leading-relaxed">{pick.risk_summary}</p>
+            </div>
+          )}
+
+          <p className="text-xs text-zinc-500">데이터 기준일: {report.data_as_of}</p>
+          <p className="text-xs text-zinc-500">* 상세 분석 리포트는 순차 업데이트 예정입니다.</p>
+        </>
       )}
 
       {/* Back */}
