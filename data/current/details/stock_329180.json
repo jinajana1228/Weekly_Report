@@ -1,0 +1,48 @@
+{
+  "detail_report_id": "DET-2026-W14-329180",
+  "report_id": "RPT-2026-W14",
+  "week_id": "2026-W14",
+  "ticker": "329180",
+  "name": "HD현대중공업",
+  "sector": "INDUSTRIAL",
+  "asset_type": "stock",
+  "data_as_of": "2026-03-26",
+  "linked_signal_ids": [],
+  "company_overview": "HD현대중공업은 산업재 분야 KOSPI 상장 기업으로, LNG선·암모니아 운반선 발주 사이클 지속. 미국·유럽 에너지 안보 투자 확대에 따른 특수선 수주 기대. 영업이익률 11.6%(2025년 연결 기준) 수준의 수익 구조를 보이고 있다.",
+  "price_reference": {
+    "reference_price": 511000,
+    "currency": "KRW",
+    "watch_low": null,
+    "watch_high": null,
+    "week52_high": 652000,
+    "week52_low": 271500,
+    "position_in_52w_pct": 63
+  },
+  "stance": "LNG·컨테이너선 수주 모멘텀 유효 — 52주 중상단 위치이나 수주 잔고 급증으로 향후 2~3년 실적 가시성 확보. 분할 매수 관점 유효.",
+  "bull_points": [
+    "영업이익률 11.6%(2025년 연결 기준) — 업종 내 수익성 강점",
+    "LNG선·암모니아 운반선 발주 사이클 지속",
+    "미국·유럽 에너지 안보 투자 확대에 따른 특수선 수주 기대",
+    "2026년 선가 상승 흐름 속 수익성 개선 전망"
+  ],
+  "bear_points": [
+    "수주 잔고 대비 도크 가동 한계 — 인도 지연 리스크 상존",
+    "환율·원자재 원가 상승 시 마진 압박 가능성"
+  ],
+  "catalysts_2_to_4_weeks": [
+    "LNG선·암모니아 운반선 발주 사이클 지속",
+    "미국·유럽 에너지 안보 투자 확대에 따른 특수선 수주 기대",
+    "2026년 선가 상승 흐름 속 수익성 개선 전망"
+  ],
+  "risks": [
+    "수주 잔고 대비 도크 가동 한계 — 인도 지연 리스크 상존",
+    "환율·원자재 원가 상승 시 마진 압박 가능성"
+  ],
+  "financial_summary": {
+    "revenue": "17조 5,695억원",
+    "operating_income": "2조 427억원",
+    "operating_margin_pct": "11.6%",
+    "schema_note": "2025년 별도(OFS) 기준 ― DART 사업보고서. PER/PBR/ROE: 시가총액 데이터 미확보로 산출 불가."
+  },
+  "related_news": []
+}

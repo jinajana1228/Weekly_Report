@@ -116,23 +116,28 @@ export interface MainReport {
 export interface PriceReference {
   reference_price: number;
   currency: string;
-  watch_low: number;
-  watch_high: number;
+  watch_low: number | null;
+  watch_high: number | null;
+  week52_high?: number | null;
+  week52_low?: number | null;
+  position_in_52w_pct?: number | null;
 }
 
 export interface FinancialSummary {
   schema_note?: string;
-  per?: string;
-  pbr?: string;
-  revenue_growth_yoy_pct?: string;
-  operating_margin_pct?: string;
-  roe_pct?: string;
-  dividend_yield_pct?: string;
-  ytd_return_pct?: string;
-  "1y_return_pct"?: string;
-  tracking_error_pct?: string;
-  total_expense_ratio_pct?: string;
-  aum_billion_krw?: string;
+  revenue?: string | null;
+  operating_income?: string | null;
+  operating_margin_pct?: string | null;
+  per?: string | null;
+  pbr?: string | null;
+  roe_pct?: string | null;
+  revenue_growth_yoy_pct?: string | null;
+  dividend_yield_pct?: string | null;
+  ytd_return_pct?: string | null;
+  "1y_return_pct"?: string | null;
+  tracking_error_pct?: string | null;
+  total_expense_ratio_pct?: string | null;
+  aum_billion_krw?: string | null;
 }
 
 export interface StockDetail {

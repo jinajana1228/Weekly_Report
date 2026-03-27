@@ -8,12 +8,18 @@
     "start": "next start",
     "publish:dry-run": "node scripts/dry-run-publish.mjs",
     "approval:write": "node scripts/approve.mjs",
+    "approval:check": "node scripts/check-approval.mjs",
+    "approval:commit": "node scripts/approve-commit.mjs",
     "publish": "node scripts/publish.mjs",
     "collect:krx": "node scripts/collect-krx.mjs",
     "collect:dart": "node scripts/collect-dart.mjs",
     "collect:market": "node scripts/collect-market-indicators.mjs",
     "collect:all": "node scripts/run-phase-b2-collection.mjs",
-    "normalize:b3": "node scripts/normalize-phase-b3.mjs"
+    "normalize:b3": "node scripts/normalize-phase-b3.mjs",
+    "evaluate:hf": "node scripts/evaluate-hard-filters.mjs",
+    "score:c2": "node scripts/score-phase-c2.mjs",
+    "draft:c3": "node scripts/generate-draft-c3.mjs",
+    "detail:generate": "node scripts/generate-detail-reports.mjs"
   },
   "dependencies": {
     "next": "14.2.29",

@@ -1,0 +1,48 @@
+{
+  "detail_report_id": "DET-2026-W14-068270",
+  "report_id": "RPT-2026-W14",
+  "week_id": "2026-W14",
+  "ticker": "068270",
+  "name": "셀트리온",
+  "sector": "HEALTHCARE",
+  "asset_type": "stock",
+  "data_as_of": "2026-03-26",
+  "linked_signal_ids": [],
+  "company_overview": "셀트리온은 헬스케어 분야 KOSPI 상장 기업으로, 미국 내 유플라이마·짐펜트라 처방 점유율 확대 진행 중. 미국 바이오시밀러 장려 정책 기조 지속. 영업이익률 31.4%(2025년 연결 기준) 수준의 수익 구조를 보이고 있다.",
+  "price_reference": {
+    "reference_price": 203000,
+    "currency": "KRW",
+    "watch_low": null,
+    "watch_high": null,
+    "week52_high": 251000,
+    "week52_low": 144615,
+    "position_in_52w_pct": 55
+  },
+  "stance": "52주 중간대 — 바이오시밀러 미국 처방 확대 국면으로 중기 상승 여력 유효. 단기 급등보다 점진적 포지션 구축 전략이 적합.",
+  "bull_points": [
+    "영업이익률 31.4%(2025년 연결 기준) — 업종 내 수익성 강점",
+    "미국 내 유플라이마·짐펜트라 처방 점유율 확대 진행 중",
+    "미국 바이오시밀러 장려 정책 기조 지속",
+    "2026년 신규 파이프라인 허가 일정 가시화"
+  ],
+  "bear_points": [
+    "미국 오리지널 의약품사의 공격적 리베이트·가격 방어 대응 가능성",
+    "처방 확대 속도가 시장 기대치 하회 시 주가 변동성 확대 우려"
+  ],
+  "catalysts_2_to_4_weeks": [
+    "미국 내 유플라이마·짐펜트라 처방 점유율 확대 진행 중",
+    "미국 바이오시밀러 장려 정책 기조 지속",
+    "2026년 신규 파이프라인 허가 일정 가시화"
+  ],
+  "risks": [
+    "미국 오리지널 의약품사의 공격적 리베이트·가격 방어 대응 가능성",
+    "처방 확대 속도가 시장 기대치 하회 시 주가 변동성 확대 우려"
+  ],
+  "financial_summary": {
+    "revenue": "2조 9,286억원",
+    "operating_income": "9,190억원",
+    "operating_margin_pct": "31.4%",
+    "schema_note": "2025년 별도(OFS) 기준 ― DART 사업보고서. PER/PBR/ROE: 시가총액 데이터 미확보로 산출 불가."
+  },
+  "related_news": []
+}
