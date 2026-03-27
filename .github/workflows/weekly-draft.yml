@@ -1,0 +1,214 @@
+# .github/workflows/weekly-draft.yml
+#
+# 매주 월요일 00:10 KST (일요일 15:10 UTC)에
+# 주간 리포트 초안(draft)을 자동 생성하고 결과를 commit/push합니다.
+#
+# ── 자동화 범위 (단계 1) ─────────────────────────────────────────────────────
+#   실행: collect → normalize → hard filter → score → draft
+#   commit 대상: data/draft/{week_id}.json + data/manifests/approval.json
+#
+# ── 자동화 제외 ──────────────────────────────────────────────────────────────
+#   - approval:commit (수동 승인)
+#   - detail:generate (승인 후 수동)
+#   - publish (수동)
+#   - current / archive / manifest 변경 없음
+#   - Vercel 배포 영향 없음 (current 미변경이므로)
+#
+# ── commit 대상 제한 ─────────────────────────────────────────────────────────
+#   git add는 아래 2개 파일만 명시 지정:
+#     - data/draft/{WEEK_ID}.json
+#     - data/manifests/approval.json
+#   git add -A / git add . 사용하지 않음.
+#   snapshots / processed / analysis 는 .gitignore에 의해 추적 제외.
+
+name: Weekly Auto Draft
+
+on:
+  schedule:
+    # 매주 일요일 15:10 UTC = 월요일 00:10 KST
+    - cron: '10 15 * * 0'
+
+  # 수동 실행 (테스트/재실행용) — 단계 1 범위만 실행
+  workflow_dispatch:
+    inputs:
+      week_id:
+        description: '대상 주차 (예: 2026-W15). 비우면 자동 계산.'
+        required: false
+        default: ''
+
+# 동시 실행 방지: 같은 워크플로우가 중복 실행되면 이전 실행을 취소
+concurrency:
+  group: weekly-auto-draft
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  auto-draft:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # ── week_id 결정 ───────────────────────────────────────────────────────
+      # workflow_dispatch로 입력된 값이 있으면 사용, 없으면 스크립트가 자동 계산
+      - name: Determine week_id
+        id: week
+        run: |
+          if [ -n "${{ github.event.inputs.week_id }}" ]; then
+            WEEK_ID="${{ github.event.inputs.week_id }}"
+          else
+            WEEK_ID=$(node scripts/lib/week-id.mjs)
+          fi
+          echo "WEEK_ID=$WEEK_ID" >> "$GITHUB_OUTPUT"
+          echo "::notice::week_id=$WEEK_ID"
+
+      # ── 이전 주 미승인 guard ───────────────────────────────────────────────
+      # approval.json이 이미 pending 상태면 이전 주 draft가 아직 미승인.
+      # 새 draft로 덮어쓰게 되므로 warning만 출력하고 계속 진행.
+      # (중단하지 않음 — 이전 주 미승인이라도 새 주 draft 생성은 유효)
+      - name: Check previous approval status
+        run: |
+          WEEK_ID="${{ steps.week.outputs.WEEK_ID }}"
+          if [ -f "data/manifests/approval.json" ]; then
+            PREV_DECISION=$(node -e "console.log(JSON.parse(require('fs').readFileSync('data/manifests/approval.json','utf-8')).decision || 'unknown')")
+            PREV_WEEK=$(node -e "console.log(JSON.parse(require('fs').readFileSync('data/manifests/approval.json','utf-8')).draft_week_id || 'none')")
+            echo "현재 approval.json: decision=$PREV_DECISION, draft_week_id=$PREV_WEEK"
+            if [ "$PREV_DECISION" = "pending" ] && [ "$PREV_WEEK" != "$WEEK_ID" ]; then
+              echo "::warning::이전 주($PREV_WEEK) draft가 아직 미승인(pending) 상태입니다. 새 draft($WEEK_ID)로 approval.json이 덮어씌워집니다."
+            fi
+          else
+            echo "approval.json 없음 — 신규 생성됩니다."
+          fi
+
+      # ── 메인 실행: auto:draft ──────────────────────────────────────────────
+      # collect → normalize → evaluate → score → draft → approval.json(pending)
+      # current / archive / manifest 변경 없음
+      - name: Run weekly auto draft
+        env:
+          DART_API_KEY: ${{ secrets.DART_API_KEY }}
+          ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        run: |
+          node scripts/run-weekly-auto-draft.mjs --week-id ${{ steps.week.outputs.WEEK_ID }}
+
+      # ── 산출물 검증 ────────────────────────────────────────────────────────
+      - name: Verify draft output
+        run: |
+          WEEK_ID="${{ steps.week.outputs.WEEK_ID }}"
+          ERRORS=0
+
+          # 1. draft 파일 존재 확인
+          DRAFT_FILE="data/draft/${WEEK_ID}.json"
+          if [ ! -f "$DRAFT_FILE" ]; then
+            echo "::error::Draft file not found: $DRAFT_FILE"
+            ERRORS=$((ERRORS + 1))
+          else
+            DRAFT_SIZE=$(wc -c < "$DRAFT_FILE")
+            echo "✓ Draft file exists: $DRAFT_FILE ($DRAFT_SIZE bytes)"
+          fi
+
+          # 2. approval.json decision=pending 확인
+          DECISION=$(node -e "console.log(JSON.parse(require('fs').readFileSync('data/manifests/approval.json','utf-8')).decision)")
+          if [ "$DECISION" != "pending" ]; then
+            echo "::error::approval.json decision='$DECISION', expected 'pending'"
+            ERRORS=$((ERRORS + 1))
+          else
+            echo "✓ approval.json decision=pending (승인 대기)"
+          fi
+
+          # 3. approval.json draft_week_id 일치 확인
+          DRAFT_WEEK=$(node -e "console.log(JSON.parse(require('fs').readFileSync('data/manifests/approval.json','utf-8')).draft_week_id)")
+          if [ "$DRAFT_WEEK" != "$WEEK_ID" ]; then
+            echo "::error::approval.json draft_week_id='$DRAFT_WEEK', expected '$WEEK_ID'"
+            ERRORS=$((ERRORS + 1))
+          else
+            echo "✓ approval.json draft_week_id=$WEEK_ID"
+          fi
+
+          # 4. current.json 미변경 확인
+          if [ -f "data/current/current.json" ]; then
+            CURRENT_WEEK=$(node -e "console.log(JSON.parse(require('fs').readFileSync('data/current/current.json','utf-8')).week_id)")
+            if [ "$CURRENT_WEEK" = "$WEEK_ID" ]; then
+              echo "::warning::current.json week_id=$CURRENT_WEEK (이번 주와 동일 — 의도된 상태인지 확인 필요)"
+            else
+              echo "✓ current.json week_id=$CURRENT_WEEK (미변경)"
+            fi
+          fi
+
+          # 5. manifest.json 미변경 확인 (current_week_id가 이번 주로 바뀌지 않았는지)
+          if [ -f "data/manifests/manifest.json" ]; then
+            MANIFEST_CURRENT=$(node -e "console.log(JSON.parse(require('fs').readFileSync('data/manifests/manifest.json','utf-8')).current_week_id)")
+            if [ "$MANIFEST_CURRENT" = "$WEEK_ID" ]; then
+              echo "::warning::manifest.json current_week_id=$MANIFEST_CURRENT (이번 주와 동일)"
+            else
+              echo "✓ manifest.json current_week_id=$MANIFEST_CURRENT (미변경)"
+            fi
+          fi
+
+          if [ $ERRORS -gt 0 ]; then
+            echo "::error::검증 실패 ($ERRORS건). commit을 진행하지 않습니다."
+            exit 1
+          fi
+          echo ""
+          echo "✓ 모든 검증 통과"
+
+      # ── commit + push ──────────────────────────────────────────────────────
+      # 허용 대상: draft 파일 + approval.json 만 명시 add
+      # 금지: git add -A, git add . 사용 안 함
+      # current / archive / manifest.json 절대 포함 안 됨
+      - name: Commit and push draft
+        run: |
+          WEEK_ID="${{ steps.week.outputs.WEEK_ID }}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # 명시적 파일만 staging — git add -A / git add . 사용 금지
+          git add "data/draft/${WEEK_ID}.json"
+          git add "data/manifests/approval.json"
+
+          # staging 확인: 의도하지 않은 파일이 포함되었는지 검증
+          STAGED_FILES=$(git diff --cached --name-only)
+          echo "Staged files:"
+          echo "$STAGED_FILES"
+
+          # 허용된 파일 패턴 외 파일이 staging되었으면 중단
+          UNEXPECTED=$(echo "$STAGED_FILES" | grep -v -E '^data/draft/.*\.json$|^data/manifests/approval\.json$' || true)
+          if [ -n "$UNEXPECTED" ]; then
+            echo "::error::의도하지 않은 파일이 staging에 포함됨: $UNEXPECTED"
+            git reset HEAD -- $UNEXPECTED
+            echo "의도하지 않은 파일을 unstage했습니다. 허용 파일만 commit합니다."
+          fi
+
+          # 변경사항이 있을 때만 commit
+          if git diff --cached --quiet; then
+            echo "변경사항 없음 — commit 건너뜀"
+          else
+            git commit -m "auto-draft: ${WEEK_ID} 주간 초안 자동 생성
+
+  - collect → normalize → hard filter → score → draft 완료
+  - approval.json: decision=pending (운영자 승인 대기)
+  - current/archive/manifest 미변경
+
+  다음 단계 (수동):
+    npm run approval:commit -- --decision approved --reviewed-by <이름> --acknowledge-data-quality --week-id ${WEEK_ID}"
+
+            git push
+            echo ""
+            echo "✓ commit + push 완료"
+            echo "  commit 대상: data/draft/${WEEK_ID}.json, data/manifests/approval.json"
+          fi
