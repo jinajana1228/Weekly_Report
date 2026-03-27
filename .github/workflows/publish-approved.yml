@@ -173,25 +173,59 @@ jobs:
             --acknowledge-data-quality \
             --week-id "${{ steps.params.outputs.WEEK_ID }}"
 
-      # ── Step 2: detail:generate ────────────────────────────────────────────
-      - name: "Step 2: Generate detail reports"
-        run: |
-          node scripts/generate-detail-reports.mjs \
-            --week-id "${{ steps.params.outputs.WEEK_ID }}"
-
-      # ── Step 3: publish ────────────────────────────────────────────────────
+      # ── Step 2: publish ────────────────────────────────────────────────────
+      # Phase D: draft/details → current/details (기존 current/details 삭제 후 교체)
       # Phase F: overlap_history 갱신
       # Phase G: approval.json 초기화 (pending)
       # Phase H: draft 파일 삭제
       # Phase I: git add -A + git commit (CI clean checkout이므로 안전)
-      - name: "Step 3: Publish"
+      #
+      # ⚠ detail:generate보다 먼저 실행해야 함
+      #   publish Phase D가 current/details를 삭제하므로,
+      #   detail:generate를 먼저 실행하면 생성된 파일이 Phase D에서 삭제됨
+      - name: "Step 2: Publish (before detail:generate)"
         run: |
           node scripts/publish.mjs \
             --week-id "${{ steps.params.outputs.WEEK_ID }}" \
             --actor "${{ steps.params.outputs.REVIEWED_BY }}"
 
-      # ── Step 4: 검증 + push ────────────────────────────────────────────────
-      - name: "Step 4: Verify and push"
+      # ── Step 2.5: 디버그 — publish 직후 detail 상태 ──────────────────────
+      - name: "Debug: detail files after publish"
+        run: |
+          echo "=== data/current/details/ after publish ==="
+          ls -la data/current/details/*.json 2>/dev/null || echo "(empty)"
+          echo "=== data/draft/details/ ==="
+          ls -la data/draft/details/*.json 2>/dev/null || echo "(empty or not exists)"
+
+      # ── Step 3: detail:generate ──────────────────────────────────────────
+      # current.json (Step 1에서 생성)을 읽어 data/current/details/ 에 생성
+      # publish Phase D 이후이므로 삭제될 위험 없음
+      - name: "Step 3: Generate detail reports"
+        run: |
+          node scripts/generate-detail-reports.mjs \
+            --week-id "${{ steps.params.outputs.WEEK_ID }}"
+
+      # ── Step 3.5: 디버그 — detail:generate 직후 detail 상태 ──────────────
+      - name: "Debug: detail files after generate"
+        run: |
+          echo "=== data/current/details/ after detail:generate ==="
+          ls -la data/current/details/*.json 2>/dev/null || echo "(empty — ERROR)"
+
+      # ── Step 4: 추가 git commit (detail 파일 포함) ───────────────────────
+      # publish Phase I가 detail:generate 전에 commit하므로 detail 파일은 미포함
+      # 여기서 추가 commit하여 detail 파일을 포함시킴
+      - name: "Step 4: Commit detail files"
+        run: |
+          git add data/current/details/
+          if git diff --cached --quiet; then
+            echo "No new detail files to commit"
+          else
+            git commit -m "publish: add detail reports for ${{ steps.params.outputs.WEEK_ID }}"
+            echo "✓ Detail files committed"
+          fi
+
+      # ── Step 5: 검증 + push ────────────────────────────────────────────────
+      - name: "Step 5: Verify and push"
         run: |
           WEEK_ID="${{ steps.params.outputs.WEEK_ID }}"
           ERRORS=0
