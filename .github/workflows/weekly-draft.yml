@@ -198,14 +198,10 @@ jobs:
           if git diff --cached --quiet; then
             echo "변경사항 없음 — commit 건너뜀"
           else
-            git commit -m "auto-draft: ${WEEK_ID} 주간 초안 자동 생성
-
-  - collect → normalize → hard filter → score → draft 완료
-  - approval.json: decision=pending (운영자 승인 대기)
-  - current/archive/manifest 미변경
-
-  다음 단계 (수동):
-    npm run approval:commit -- --decision approved --reviewed-by <이름> --acknowledge-data-quality --week-id ${WEEK_ID}"
+            # commit 메시지를 파일로 작성 (YAML 블록 스칼라 들여쓰기 충돌 방지)
+            printf 'auto-draft: %s 주간 초안 자동 생성\n\n- collect / normalize / hard filter / score / draft 완료\n- approval.json: decision=pending (운영자 승인 대기)\n- current/archive/manifest 미변경\n' "${WEEK_ID}" > /tmp/commit-msg.txt
+            git commit -F /tmp/commit-msg.txt
+            rm -f /tmp/commit-msg.txt
 
             git push
             echo ""
