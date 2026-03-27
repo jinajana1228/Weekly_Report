@@ -1,0 +1,998 @@
+{
+  "week_id": "2026-W13",
+  "status": "draft",
+  "generated_at": "2026-03-27T12:48:15.668Z",
+  "schema_version": "1.1",
+  "source_refs": {
+    "hard_filter_results": "data/analysis/2026-W13/hard_filter_results.json",
+    "scoring_results": "data/analysis/2026-W13/scoring_results.json",
+    "scoring_summary": "data/analysis/2026-W13/scoring_summary.json",
+    "normalized_entities": "data/processed/2026-W13/normalized_entities.json",
+    "market_context": "data/processed/2026-W13/market_context.json"
+  },
+  "summary": {
+    "stock_pick_count": 5,
+    "stock_secondary_count": 3,
+    "etf_reference_count": 3,
+    "watchlist_count": 4,
+    "excluded_hard_block": 0,
+    "soft_flag_in_candidates": 2,
+    "review_required_count": 2,
+    "role_breakdown": {
+      "high_quality": 2,
+      "defensive_fallback": 1,
+      "momentum": 1,
+      "momentum_fallback": 1
+    },
+    "top1_ticker": "267260",
+    "top1_name": "HD현대일렉트릭",
+    "top1_score": 95,
+    "cooldown_prev_week_id": "2026-W12",
+    "cooldown_blocked_count": 4,
+    "cooldown_source": "archive",
+    "primary_count": 5,
+    "secondary_count": 3
+  },
+  "picks": [
+    {
+      "ticker": "267260",
+      "name": "HD현대일렉트릭",
+      "asset_type": "stock",
+      "sector_code": "INDUSTRIAL",
+      "role": "high_quality",
+      "role_label": "고품질형",
+      "total_score": 95,
+      "final_rank": 1
+    },
+    {
+      "ticker": "005930",
+      "name": "삼성전자",
+      "asset_type": "stock",
+      "sector_code": "TECH",
+      "role": "high_quality",
+      "role_label": "고품질형",
+      "total_score": 87,
+      "final_rank": 2
+    },
+    {
+      "ticker": "068270",
+      "name": "셀트리온",
+      "asset_type": "stock",
+      "sector_code": "HEALTHCARE",
+      "role": "defensive_fallback",
+      "role_label": "방어형(rank보완)",
+      "total_score": 85,
+      "final_rank": 3
+    },
+    {
+      "ticker": "105560",
+      "name": "KB금융",
+      "asset_type": "stock",
+      "sector_code": "FINANCE",
+      "role": "momentum",
+      "role_label": "모멘텀형",
+      "total_score": 80,
+      "final_rank": 5
+    },
+    {
+      "ticker": "373220",
+      "name": "LG에너지솔루션",
+      "asset_type": "stock",
+      "sector_code": "BATTERY",
+      "role": "momentum_fallback",
+      "role_label": "모멘텀형(rank보완)",
+      "total_score": 74,
+      "final_rank": 9
+    }
+  ],
+  "market_context_summary": {
+    "kospi": {
+      "close": 5438.87,
+      "prev_close": null,
+      "change_pct": null,
+      "volume": 900081,
+      "as_of": "20260327",
+      "source": "krx_indices",
+      "price_provider": "yahoo_finance"
+    },
+    "kosdaq": {
+      "close": 1141.51,
+      "prev_close": null,
+      "change_pct": null,
+      "volume": 1463268,
+      "as_of": "20260327",
+      "source": "krx_indices",
+      "price_provider": "yahoo_finance"
+    },
+    "usd_krw": 1467.2,
+    "bok_rate": 2.5,
+    "us_10y_treasury": 4.33,
+    "fed_funds_rate": 3.64,
+    "vix": 29.56,
+    "sp500_change_pct": -1.96,
+    "as_of": "20260327",
+    "_note": "참고용 — Hard Filter 판단에 사용 불가. 운용 환경 맥락 이해 목적."
+  },
+  "candidate_picks": {
+    "primary": [
+      {
+        "rank": 1,
+        "ticker": "267260",
+        "name": "HD현대일렉트릭",
+        "asset_type": "stock",
+        "market": "KOSPI",
+        "sector_code": "INDUSTRIAL",
+        "total_score": 95,
+        "final_rank": 1,
+        "hard_filter_decision": "pass",
+        "component_scores": {
+          "quality_score": 40,
+          "liquidity_score": 30,
+          "market_position_score": 25,
+          "penalty_score": 0
+        },
+        "triggered_rules": [],
+        "unavailable_inputs": [
+          "HF_OVERHEATED"
+        ],
+        "score_notes": [
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력 확보 후 재평가 필요."
+        ],
+        "price_snapshot": {
+          "close": 915000,
+          "week52_high": 1116000,
+          "week52_low": 264500,
+          "week52_position_pct": 76,
+          "as_of": "20260327",
+          "source": "krx_price"
+        },
+        "quality_detail": {
+          "op_margin_pct": 24.4,
+          "bsns_year": "2025",
+          "source": "dart_financials"
+        },
+        "inclusion_reason": "C-2 1위(95점). 영업이익률 24.4%(2025). 52주 포지션 76% — 양호한 모멘텀.",
+        "review_required": false,
+        "caution_flags": [
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요."
+        ],
+        "role": "high_quality",
+        "role_label": "고품질형"
+      },
+      {
+        "rank": 2,
+        "ticker": "005930",
+        "name": "삼성전자",
+        "asset_type": "stock",
+        "market": "KOSPI",
+        "sector_code": "TECH",
+        "total_score": 87,
+        "final_rank": 2,
+        "hard_filter_decision": "pass",
+        "component_scores": {
+          "quality_score": 32,
+          "liquidity_score": 30,
+          "market_position_score": 25,
+          "penalty_score": 0
+        },
+        "triggered_rules": [],
+        "unavailable_inputs": [
+          "HF_OVERHEATED"
+        ],
+        "score_notes": [
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력 확보 후 재평가 필요."
+        ],
+        "price_snapshot": {
+          "close": 179700,
+          "week52_high": 223000,
+          "week52_low": 52900,
+          "week52_position_pct": 75,
+          "as_of": "20260327",
+          "source": "krx_price"
+        },
+        "quality_detail": {
+          "op_margin_pct": 13.07,
+          "bsns_year": "2025",
+          "source": "dart_financials"
+        },
+        "inclusion_reason": "C-2 2위(87점). 영업이익률 13.07%(2025). 52주 포지션 75% — 양호한 모멘텀.",
+        "review_required": false,
+        "caution_flags": [
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요."
+        ],
+        "role": "high_quality",
+        "role_label": "고품질형"
+      },
+      {
+        "rank": 3,
+        "ticker": "068270",
+        "name": "셀트리온",
+        "asset_type": "stock",
+        "market": "KOSPI",
+        "sector_code": "HEALTHCARE",
+        "total_score": 85,
+        "final_rank": 3,
+        "hard_filter_decision": "pass",
+        "component_scores": {
+          "quality_score": 40,
+          "liquidity_score": 25,
+          "market_position_score": 20,
+          "penalty_score": 0
+        },
+        "triggered_rules": [],
+        "unavailable_inputs": [
+          "HF_OVERHEATED"
+        ],
+        "score_notes": [
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력 확보 후 재평가 필요."
+        ],
+        "price_snapshot": {
+          "close": 206000,
+          "week52_high": 251000,
+          "week52_low": 144615.39,
+          "week52_position_pct": 58,
+          "as_of": "20260327",
+          "source": "krx_price"
+        },
+        "quality_detail": {
+          "op_margin_pct": 28.07,
+          "bsns_year": "2025",
+          "source": "dart_financials"
+        },
+        "inclusion_reason": "C-2 3위(85점). 영업이익률 28.07%(2025). 52주 포지션 58% — 중간 포지션.",
+        "review_required": false,
+        "caution_flags": [
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요."
+        ],
+        "role": "defensive_fallback",
+        "role_label": "방어형(rank보완)"
+      },
+      {
+        "rank": 5,
+        "ticker": "105560",
+        "name": "KB금융",
+        "asset_type": "stock",
+        "market": "KOSPI",
+        "sector_code": "FINANCE",
+        "total_score": 80,
+        "final_rank": 5,
+        "hard_filter_decision": "pass",
+        "component_scores": {
+          "quality_score": 20,
+          "liquidity_score": 30,
+          "market_position_score": 30,
+          "penalty_score": 0
+        },
+        "triggered_rules": [],
+        "unavailable_inputs": [
+          "HF_OVERHEATED"
+        ],
+        "score_notes": [
+          "quality: 2025년 영업이익 또는 매출액 없음 — 중립값(20) 적용",
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력 확보 후 재평가 필요."
+        ],
+        "price_snapshot": {
+          "close": 152200,
+          "week52_high": 172500,
+          "week52_low": 69300,
+          "week52_position_pct": 80,
+          "as_of": "20260327",
+          "source": "krx_price"
+        },
+        "quality_detail": null,
+        "inclusion_reason": "C-2 5위(80점). quality 중립값 적용 (영업이익 미수집). 52주 포지션 80% — 강한 상승 모멘텀.",
+        "review_required": false,
+        "caution_flags": [
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요.",
+          "quality_score 중립값(20) 적용 — 영업이익 데이터 미수집. 수동 확인 권장."
+        ],
+        "role": "momentum",
+        "role_label": "모멘텀형"
+      },
+      {
+        "rank": 9,
+        "ticker": "373220",
+        "name": "LG에너지솔루션",
+        "asset_type": "stock",
+        "market": "KOSPI",
+        "sector_code": "BATTERY",
+        "total_score": 74,
+        "final_rank": 9,
+        "hard_filter_decision": "pass",
+        "component_scores": {
+          "quality_score": 24,
+          "liquidity_score": 30,
+          "market_position_score": 20,
+          "penalty_score": 0
+        },
+        "triggered_rules": [],
+        "unavailable_inputs": [
+          "HF_OVERHEATED"
+        ],
+        "score_notes": [
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력 확보 후 재평가 필요."
+        ],
+        "price_snapshot": {
+          "close": 394500,
+          "week52_high": 527000,
+          "week52_low": 266000,
+          "week52_position_pct": 49,
+          "as_of": "20260327",
+          "source": "krx_price"
+        },
+        "quality_detail": {
+          "op_margin_pct": 5.69,
+          "bsns_year": "2025",
+          "source": "dart_financials"
+        },
+        "inclusion_reason": "C-2 9위(74점). 영업이익률 5.69%(2025). 52주 포지션 49% — 중간 포지션.",
+        "review_required": false,
+        "caution_flags": [
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요."
+        ],
+        "role": "momentum_fallback",
+        "role_label": "모멘텀형(rank보완)"
+      }
+    ],
+    "stock_picks": [
+      {
+        "rank": 1,
+        "ticker": "267260",
+        "name": "HD현대일렉트릭",
+        "asset_type": "stock",
+        "market": "KOSPI",
+        "sector_code": "INDUSTRIAL",
+        "total_score": 95,
+        "final_rank": 1,
+        "hard_filter_decision": "pass",
+        "component_scores": {
+          "quality_score": 40,
+          "liquidity_score": 30,
+          "market_position_score": 25,
+          "penalty_score": 0
+        },
+        "triggered_rules": [],
+        "unavailable_inputs": [
+          "HF_OVERHEATED"
+        ],
+        "score_notes": [
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력 확보 후 재평가 필요."
+        ],
+        "price_snapshot": {
+          "close": 915000,
+          "week52_high": 1116000,
+          "week52_low": 264500,
+          "week52_position_pct": 76,
+          "as_of": "20260327",
+          "source": "krx_price"
+        },
+        "quality_detail": {
+          "op_margin_pct": 24.4,
+          "bsns_year": "2025",
+          "source": "dart_financials"
+        },
+        "inclusion_reason": "C-2 1위(95점). 영업이익률 24.4%(2025). 52주 포지션 76% — 양호한 모멘텀.",
+        "review_required": false,
+        "caution_flags": [
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요."
+        ],
+        "role": "high_quality",
+        "role_label": "고품질형"
+      },
+      {
+        "rank": 2,
+        "ticker": "005930",
+        "name": "삼성전자",
+        "asset_type": "stock",
+        "market": "KOSPI",
+        "sector_code": "TECH",
+        "total_score": 87,
+        "final_rank": 2,
+        "hard_filter_decision": "pass",
+        "component_scores": {
+          "quality_score": 32,
+          "liquidity_score": 30,
+          "market_position_score": 25,
+          "penalty_score": 0
+        },
+        "triggered_rules": [],
+        "unavailable_inputs": [
+          "HF_OVERHEATED"
+        ],
+        "score_notes": [
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력 확보 후 재평가 필요."
+        ],
+        "price_snapshot": {
+          "close": 179700,
+          "week52_high": 223000,
+          "week52_low": 52900,
+          "week52_position_pct": 75,
+          "as_of": "20260327",
+          "source": "krx_price"
+        },
+        "quality_detail": {
+          "op_margin_pct": 13.07,
+          "bsns_year": "2025",
+          "source": "dart_financials"
+        },
+        "inclusion_reason": "C-2 2위(87점). 영업이익률 13.07%(2025). 52주 포지션 75% — 양호한 모멘텀.",
+        "review_required": false,
+        "caution_flags": [
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요."
+        ],
+        "role": "high_quality",
+        "role_label": "고품질형"
+      },
+      {
+        "rank": 3,
+        "ticker": "068270",
+        "name": "셀트리온",
+        "asset_type": "stock",
+        "market": "KOSPI",
+        "sector_code": "HEALTHCARE",
+        "total_score": 85,
+        "final_rank": 3,
+        "hard_filter_decision": "pass",
+        "component_scores": {
+          "quality_score": 40,
+          "liquidity_score": 25,
+          "market_position_score": 20,
+          "penalty_score": 0
+        },
+        "triggered_rules": [],
+        "unavailable_inputs": [
+          "HF_OVERHEATED"
+        ],
+        "score_notes": [
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력 확보 후 재평가 필요."
+        ],
+        "price_snapshot": {
+          "close": 206000,
+          "week52_high": 251000,
+          "week52_low": 144615.39,
+          "week52_position_pct": 58,
+          "as_of": "20260327",
+          "source": "krx_price"
+        },
+        "quality_detail": {
+          "op_margin_pct": 28.07,
+          "bsns_year": "2025",
+          "source": "dart_financials"
+        },
+        "inclusion_reason": "C-2 3위(85점). 영업이익률 28.07%(2025). 52주 포지션 58% — 중간 포지션.",
+        "review_required": false,
+        "caution_flags": [
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요."
+        ],
+        "role": "defensive_fallback",
+        "role_label": "방어형(rank보완)"
+      },
+      {
+        "rank": 5,
+        "ticker": "105560",
+        "name": "KB금융",
+        "asset_type": "stock",
+        "market": "KOSPI",
+        "sector_code": "FINANCE",
+        "total_score": 80,
+        "final_rank": 5,
+        "hard_filter_decision": "pass",
+        "component_scores": {
+          "quality_score": 20,
+          "liquidity_score": 30,
+          "market_position_score": 30,
+          "penalty_score": 0
+        },
+        "triggered_rules": [],
+        "unavailable_inputs": [
+          "HF_OVERHEATED"
+        ],
+        "score_notes": [
+          "quality: 2025년 영업이익 또는 매출액 없음 — 중립값(20) 적용",
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력 확보 후 재평가 필요."
+        ],
+        "price_snapshot": {
+          "close": 152200,
+          "week52_high": 172500,
+          "week52_low": 69300,
+          "week52_position_pct": 80,
+          "as_of": "20260327",
+          "source": "krx_price"
+        },
+        "quality_detail": null,
+        "inclusion_reason": "C-2 5위(80점). quality 중립값 적용 (영업이익 미수집). 52주 포지션 80% — 강한 상승 모멘텀.",
+        "review_required": false,
+        "caution_flags": [
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요.",
+          "quality_score 중립값(20) 적용 — 영업이익 데이터 미수집. 수동 확인 권장."
+        ],
+        "role": "momentum",
+        "role_label": "모멘텀형"
+      },
+      {
+        "rank": 9,
+        "ticker": "373220",
+        "name": "LG에너지솔루션",
+        "asset_type": "stock",
+        "market": "KOSPI",
+        "sector_code": "BATTERY",
+        "total_score": 74,
+        "final_rank": 9,
+        "hard_filter_decision": "pass",
+        "component_scores": {
+          "quality_score": 24,
+          "liquidity_score": 30,
+          "market_position_score": 20,
+          "penalty_score": 0
+        },
+        "triggered_rules": [],
+        "unavailable_inputs": [
+          "HF_OVERHEATED"
+        ],
+        "score_notes": [
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력 확보 후 재평가 필요."
+        ],
+        "price_snapshot": {
+          "close": 394500,
+          "week52_high": 527000,
+          "week52_low": 266000,
+          "week52_position_pct": 49,
+          "as_of": "20260327",
+          "source": "krx_price"
+        },
+        "quality_detail": {
+          "op_margin_pct": 5.69,
+          "bsns_year": "2025",
+          "source": "dart_financials"
+        },
+        "inclusion_reason": "C-2 9위(74점). 영업이익률 5.69%(2025). 52주 포지션 49% — 중간 포지션.",
+        "review_required": false,
+        "caution_flags": [
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요."
+        ],
+        "role": "momentum_fallback",
+        "role_label": "모멘텀형(rank보완)"
+      }
+    ],
+    "secondary": [
+      {
+        "rank": 11,
+        "ticker": "035420",
+        "name": "NAVER",
+        "asset_type": "stock",
+        "market": "KOSPI",
+        "sector_code": "TECH",
+        "total_score": 72,
+        "final_rank": 11,
+        "hard_filter_decision": "pass",
+        "component_scores": {
+          "quality_score": 32,
+          "liquidity_score": 25,
+          "market_position_score": 15,
+          "penalty_score": 0
+        },
+        "triggered_rules": [],
+        "unavailable_inputs": [
+          "HF_OVERHEATED"
+        ],
+        "score_notes": [
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력 확보 후 재평가 필요."
+        ],
+        "price_snapshot": {
+          "close": 212500,
+          "week52_high": 295000,
+          "week52_low": 176200,
+          "week52_position_pct": 31,
+          "as_of": "20260327",
+          "source": "krx_price"
+        },
+        "quality_detail": {
+          "op_margin_pct": 18.35,
+          "bsns_year": "2025",
+          "source": "dart_financials"
+        },
+        "inclusion_reason": "C-2 11위(72점). 영업이익률 18.35%(2025). 52주 포지션 31% — 52주 저점 근처.",
+        "review_required": false,
+        "caution_flags": [
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요."
+        ]
+      },
+      {
+        "rank": 14,
+        "ticker": "097950",
+        "name": "CJ제일제당",
+        "asset_type": "stock",
+        "market": "KOSPI",
+        "sector_code": "CONSUMER",
+        "total_score": 31,
+        "final_rank": 14,
+        "hard_filter_decision": "soft_flag",
+        "component_scores": {
+          "quality_score": 16,
+          "liquidity_score": 8,
+          "market_position_score": 15,
+          "penalty_score": -8
+        },
+        "triggered_rules": [
+          "HF_LOW_LIQUIDITY"
+        ],
+        "unavailable_inputs": [
+          "HF_OVERHEATED"
+        ],
+        "score_notes": [
+          "Soft Flag 감점: HF_LOW_LIQUIDITY(-8)",
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력 확보 후 재평가 필요."
+        ],
+        "price_snapshot": {
+          "close": 214500,
+          "week52_high": 270000,
+          "week52_low": 186100,
+          "week52_position_pct": 34,
+          "as_of": "20260327",
+          "source": "krx_price"
+        },
+        "quality_detail": {
+          "op_margin_pct": 4.51,
+          "bsns_year": "2025",
+          "source": "dart_financials"
+        },
+        "inclusion_reason": "C-2 14위(31점). 영업이익률 4.51%(2025). 52주 포지션 34% — 52주 저점 근처. Soft Flag 감점 -8점 (HF_LOW_LIQUIDITY) — review_required.",
+        "review_required": true,
+        "caution_flags": [
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요.",
+          "HF_LOW_LIQUIDITY Soft Flag — 저유동성 (1일 프록시 기준). 20거래일 평균 거래대금 수동 확인 권장."
+        ]
+      },
+      {
+        "rank": 15,
+        "ticker": "036460",
+        "name": "한국가스공사",
+        "asset_type": "stock",
+        "market": "KOSPI",
+        "sector_code": "ENERGY",
+        "total_score": 30,
+        "final_rank": 15,
+        "hard_filter_decision": "soft_flag",
+        "component_scores": {
+          "quality_score": 20,
+          "liquidity_score": 8,
+          "market_position_score": 10,
+          "penalty_score": -8
+        },
+        "triggered_rules": [
+          "HF_LOW_LIQUIDITY"
+        ],
+        "unavailable_inputs": [
+          "HF_OVERHEATED",
+          "HF_NEGATIVE_EARNINGS"
+        ],
+        "score_notes": [
+          "quality: 연간 사업보고서(11011) 없음 — 중립값(20) 적용",
+          "Soft Flag 감점: HF_LOW_LIQUIDITY(-8)",
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력 확보 후 재평가 필요."
+        ],
+        "price_snapshot": {
+          "close": 35400,
+          "week52_high": 49350,
+          "week52_low": 32350,
+          "week52_position_pct": 18,
+          "as_of": "20260327",
+          "source": "krx_price"
+        },
+        "quality_detail": null,
+        "inclusion_reason": "C-2 15위(30점). quality 중립값 적용 (영업이익 미수집). 52주 포지션 18% — 52주 저점 근처. Soft Flag 감점 -8점 (HF_LOW_LIQUIDITY) — review_required.",
+        "review_required": true,
+        "caution_flags": [
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요.",
+          "HF_LOW_LIQUIDITY Soft Flag — 저유동성 (1일 프록시 기준). 20거래일 평균 거래대금 수동 확인 권장.",
+          "quality_score 중립값(20) 적용 — 영업이익 데이터 미수집. 수동 확인 권장."
+        ]
+      }
+    ],
+    "etf_reference": [
+      {
+        "rank": 6,
+        "ticker": "360750",
+        "name": "TIGER 미국S&P500 ETF",
+        "asset_type": "etf",
+        "market": "KOSPI",
+        "sector_code": "ETF_OVERSEAS",
+        "total_score": 80,
+        "final_rank": 6,
+        "hard_filter_decision": "pass",
+        "component_scores": {
+          "quality_score": 20,
+          "liquidity_score": 30,
+          "market_position_score": 30,
+          "penalty_score": 0
+        },
+        "triggered_rules": [],
+        "unavailable_inputs": [
+          "HF_OVERHEATED"
+        ],
+        "score_notes": [
+          "quality: ETF — 영업이익 개념 없음, 중립값(20) 적용",
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력 확보 후 재평가 필요."
+        ],
+        "price_snapshot": {
+          "close": 24420,
+          "week52_high": 25590,
+          "week52_low": 17700,
+          "week52_position_pct": 85,
+          "as_of": "20260327",
+          "source": "krx_price"
+        },
+        "quality_detail": null,
+        "inclusion_reason": "C-2 6위(80점). ETF — 영업이익 미해당. 52주 포지션 85% — 강한 상승 모멘텀.",
+        "review_required": false,
+        "caution_flags": [
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요."
+        ]
+      },
+      {
+        "rank": 8,
+        "ticker": "069500",
+        "name": "KODEX 200 ETF",
+        "asset_type": "etf",
+        "market": "KOSPI",
+        "sector_code": "ETF_DOMESTIC",
+        "total_score": 75,
+        "final_rank": 8,
+        "hard_filter_decision": "pass",
+        "component_scores": {
+          "quality_score": 20,
+          "liquidity_score": 30,
+          "market_position_score": 25,
+          "penalty_score": 0
+        },
+        "triggered_rules": [],
+        "unavailable_inputs": [
+          "HF_OVERHEATED"
+        ],
+        "score_notes": [
+          "quality: ETF — 영업이익 개념 없음, 중립값(20) 적용",
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력 확보 후 재평가 필요."
+        ],
+        "price_snapshot": {
+          "close": 81225,
+          "week52_high": 95720,
+          "week52_low": 30840,
+          "week52_position_pct": 78,
+          "as_of": "20260327",
+          "source": "krx_price"
+        },
+        "quality_detail": null,
+        "inclusion_reason": "C-2 8위(75점). ETF — 영업이익 미해당. 52주 포지션 78% — 양호한 모멘텀.",
+        "review_required": false,
+        "caution_flags": [
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요."
+        ]
+      },
+      {
+        "rank": 12,
+        "ticker": "232080",
+        "name": "TIGER 코스닥150 ETF",
+        "asset_type": "etf",
+        "market": "KOSPI",
+        "sector_code": "ETF_DOMESTIC",
+        "total_score": 70,
+        "final_rank": 12,
+        "hard_filter_decision": "pass",
+        "component_scores": {
+          "quality_score": 20,
+          "liquidity_score": 20,
+          "market_position_score": 30,
+          "penalty_score": 0
+        },
+        "triggered_rules": [],
+        "unavailable_inputs": [
+          "HF_OVERHEATED"
+        ],
+        "score_notes": [
+          "quality: ETF — 영업이익 개념 없음, 중립값(20) 적용",
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력 확보 후 재평가 필요."
+        ],
+        "price_snapshot": {
+          "close": 20265,
+          "week52_high": 22130,
+          "week52_low": 10740,
+          "week52_position_pct": 84,
+          "as_of": "20260327",
+          "source": "krx_price"
+        },
+        "quality_detail": null,
+        "inclusion_reason": "C-2 12위(70점). ETF — 영업이익 미해당. 52주 포지션 84% — 강한 상승 모멘텀.",
+        "review_required": false,
+        "caution_flags": [
+          "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요."
+        ]
+      }
+    ]
+  },
+  "watchlist": [
+    {
+      "rank": 4,
+      "ticker": "329180",
+      "name": "HD현대중공업",
+      "asset_type": "stock",
+      "market": "KOSPI",
+      "sector_code": "INDUSTRIAL",
+      "total_score": 82,
+      "final_rank": 4,
+      "hard_filter_decision": "pass",
+      "component_scores": {
+        "quality_score": 32,
+        "liquidity_score": 30,
+        "market_position_score": 20,
+        "penalty_score": 0
+      },
+      "triggered_rules": [],
+      "unavailable_inputs": [
+        "HF_OVERHEATED"
+      ],
+      "score_notes": [
+        "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력 확보 후 재평가 필요."
+      ],
+      "price_snapshot": {
+        "close": 498500,
+        "week52_high": 652000,
+        "week52_low": 271500,
+        "week52_position_pct": 60,
+        "as_of": "20260327",
+        "source": "krx_price"
+      },
+      "quality_detail": {
+        "op_margin_pct": 11.59,
+        "bsns_year": "2025",
+        "source": "dart_financials"
+      },
+      "inclusion_reason": "C-2 4위(82점). 영업이익률 11.59%(2025). 52주 포지션 60% — 양호한 모멘텀.",
+      "review_required": false,
+      "caution_flags": [
+        "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요."
+      ]
+    },
+    {
+      "rank": 7,
+      "ticker": "028260",
+      "name": "삼성물산",
+      "asset_type": "stock",
+      "market": "KOSPI",
+      "sector_code": "REALESTATE",
+      "total_score": 79,
+      "final_rank": 7,
+      "hard_filter_decision": "pass",
+      "component_scores": {
+        "quality_score": 24,
+        "liquidity_score": 30,
+        "market_position_score": 25,
+        "penalty_score": 0
+      },
+      "triggered_rules": [],
+      "unavailable_inputs": [
+        "HF_OVERHEATED"
+      ],
+      "score_notes": [
+        "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력 확보 후 재평가 필요."
+      ],
+      "price_snapshot": {
+        "close": 269000,
+        "week52_high": 364000,
+        "week52_low": 108100,
+        "week52_position_pct": 63,
+        "as_of": "20260327",
+        "source": "krx_price"
+      },
+      "quality_detail": {
+        "op_margin_pct": 8.08,
+        "bsns_year": "2025",
+        "source": "dart_financials"
+      },
+      "inclusion_reason": "C-2 7위(79점). 영업이익률 8.08%(2025). 52주 포지션 63% — 양호한 모멘텀.",
+      "review_required": false,
+      "caution_flags": [
+        "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요."
+      ]
+    },
+    {
+      "rank": 10,
+      "ticker": "017670",
+      "name": "SK텔레콤",
+      "asset_type": "stock",
+      "market": "KOSPI",
+      "sector_code": "TELECOM",
+      "total_score": 74,
+      "final_rank": 10,
+      "hard_filter_decision": "pass",
+      "component_scores": {
+        "quality_score": 24,
+        "liquidity_score": 25,
+        "market_position_score": 25,
+        "penalty_score": 0
+      },
+      "triggered_rules": [],
+      "unavailable_inputs": [
+        "HF_OVERHEATED"
+      ],
+      "score_notes": [
+        "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력 확보 후 재평가 필요."
+      ],
+      "price_snapshot": {
+        "close": 79900,
+        "week52_high": 88600,
+        "week52_low": 50400,
+        "week52_position_pct": 77,
+        "as_of": "20260327",
+        "source": "krx_price"
+      },
+      "quality_detail": {
+        "op_margin_pct": 6.28,
+        "bsns_year": "2025",
+        "source": "dart_financials"
+      },
+      "inclusion_reason": "C-2 10위(74점). 영업이익률 6.28%(2025). 52주 포지션 77% — 양호한 모멘텀.",
+      "review_required": false,
+      "caution_flags": [
+        "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요."
+      ]
+    },
+    {
+      "rank": 13,
+      "ticker": "005490",
+      "name": "POSCO홀딩스",
+      "asset_type": "stock",
+      "market": "KOSPI",
+      "sector_code": "MATERIAL",
+      "total_score": 66,
+      "final_rank": 13,
+      "hard_filter_decision": "pass",
+      "component_scores": {
+        "quality_score": 16,
+        "liquidity_score": 30,
+        "market_position_score": 20,
+        "penalty_score": 0
+      },
+      "triggered_rules": [],
+      "unavailable_inputs": [
+        "HF_OVERHEATED"
+      ],
+      "score_notes": [
+        "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력 확보 후 재평가 필요."
+      ],
+      "price_snapshot": {
+        "close": 343000,
+        "week52_high": 427500,
+        "week52_low": 230000,
+        "week52_position_pct": 57,
+        "as_of": "20260327",
+        "source": "krx_price"
+      },
+      "quality_detail": {
+        "op_margin_pct": 2.64,
+        "bsns_year": "2025",
+        "source": "dart_financials"
+      },
+      "inclusion_reason": "C-2 13위(66점). 영업이익률 2.64%(2025). 52주 포지션 57% — 중간 포지션.",
+      "review_required": false,
+      "caution_flags": [
+        "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요."
+      ]
+    }
+  ],
+  "excluded_or_caution": [],
+  "admin_notes": [
+    "[구조] ETF 3개는 stock_picks에서 제외되어 etf_reference로 분리됩니다. 개별주 5개만 최종 picks 후보입니다.",
+    "[쿨다운] 직전 주(2026-W12) 추천 이력 적용 (출처: archive). 이력: [017670, 005490, 329180, 028260, 069500]. 이번 주 picks 후보에서 제외된 종목: 329180 HD현대중공업, 028260 삼성물산, 017670 SK텔레콤, 005490 POSCO홀딩스. 제외 종목은 watchlist에서 확인 가능. 2주 후부터 재추천 허용.",
+    "[필수] Soft Flag 종목 C-1 admin 검토 완료 여부 확인: 036460 한국가스공사(HF_LOW_LIQUIDITY) / 097950 CJ제일제당(HF_LOW_LIQUIDITY). 미검토 시 picks 포함 보류 권장.",
+    "[주의] 전체 15개 종목 HF_OVERHEATED 미평가. 단기 급등 과열 여부 미반영 상태. 가격 이력(5일/20일) 수집 후 재평가 권장.",
+    "[데이터] quality_score 중립값(20) 적용 주식: 036460 한국가스공사, 105560 KB금융. 실제 수익성 수동 확인 권장.",
+    "[필수] 이 파일은 draft 상태입니다. data/current/current.json 갱신은 admin 승인 후 별도 수행. publish 전까지 공개 없음."
+  ],
+  "data_quality_notes": [
+    "HF_OVERHEATED: 전체 input_unavailable. 단기 급등 과열 여부가 score에 미반영됨. 과열 종목의 total_score가 실제보다 높을 수 있음.",
+    "HF_LOW_LIQUIDITY: 1일 거래대금 프록시 기반 provisional. liquidity_score와 HF_LOW_LIQUIDITY 감점 모두 잠정치.",
+    "한국가스공사(036460), KB금융(105560): 별도재무 영업이익 미수집 — quality_score 중립값(20) 적용.",
+    "시가총액(market_cap) 미수집으로 규모 보정 없음. score는 수익성·유동성·모멘텀 기준.",
+    "C-3 draft는 C-2 scoring_results.json을 그대로 상속합니다. 점수 이의는 C-2 재실행 후 C-3 재생성 필요."
+  ]
+}
