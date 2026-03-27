@@ -3,7 +3,7 @@ import Link from "next/link";
 import { loadManifest, loadArchiveReport } from "@/lib/dataLoader";
 import PickCard from "@/components/home/PickCard";
 import MarketSummary from "@/components/home/MarketSummary";
-import SectorBadge from "@/components/ui/SectorBadge";
+import SectorBadge, { SECTOR_LABELS } from "@/components/ui/SectorBadge";
 import NewsCard from "@/components/ui/NewsCard";
 
 export function generateStaticParams() {
@@ -33,11 +33,19 @@ export default function ArchiveDetailPage({
       </nav>
 
       {/* Archive notice */}
-      <div className="bg-zinc-800/70 border border-zinc-700 rounded-lg px-4 py-2.5">
-        <p className="text-xs text-zinc-500">
-          과거 에디션 — {week_id} 기준 데이터입니다. 불변 아카이브입니다.
-        </p>
-      </div>
+      {report.disclaimer?.includes("예시 데이터") ? (
+        <div className="bg-amber-950/30 border border-amber-800/40 rounded-lg px-4 py-2.5">
+          <p className="text-xs text-amber-500/80">
+            예시 에디션 — 실제 운영 데이터가 아닙니다. 서비스 초기 샘플 데이터로 작성된 에디션입니다.
+          </p>
+        </div>
+      ) : (
+        <div className="bg-zinc-800/70 border border-zinc-700 rounded-lg px-4 py-2.5">
+          <p className="text-xs text-zinc-500">
+            과거 에디션 — {week_id} 기준 데이터입니다. 불변 아카이브입니다.
+          </p>
+        </div>
+      )}
 
       {/* Meta */}
       <section>
@@ -99,7 +107,7 @@ export default function ArchiveDetailPage({
                       key={s}
                       className="text-xs font-medium text-amber-400/80 bg-amber-950/20 border border-amber-800/30 rounded px-2 py-0.5"
                     >
-                      {s}
+                      {SECTOR_LABELS[s] ?? s}
                     </span>
                   ))}
                 </div>
@@ -132,6 +140,15 @@ export default function ArchiveDetailPage({
               <NewsCard key={i} item={item} />
             ))}
           </div>
+        </section>
+      )}
+
+      {/* Disclaimer */}
+      {report.disclaimer && (
+        <section>
+          <p className="text-xs text-zinc-500 leading-relaxed bg-zinc-800/60 rounded-lg p-4 border border-zinc-700">
+            {report.disclaimer}
+          </p>
         </section>
       )}
 

@@ -40,7 +40,14 @@ export default function ArchiveListPage() {
                   <>
                     <div className="flex items-center justify-between mb-3">
                       <div>
-                        <p className="font-semibold text-zinc-100">{weekId}</p>
+                        <div className="flex items-center gap-2">
+                          <p className="font-semibold text-zinc-100">{weekId}</p>
+                          {report.disclaimer?.includes("예시 데이터") && (
+                            <span className="text-xs font-medium text-amber-400/70 bg-amber-950/20 border border-amber-800/30 rounded px-1.5 py-0.5">
+                              예시
+                            </span>
+                          )}
+                        </div>
                         <p className="text-xs text-zinc-500 mt-0.5">
                           발행:{" "}
                           {report.published_at

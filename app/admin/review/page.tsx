@@ -65,6 +65,12 @@ export default function AdminReviewPage() {
                     <p className="text-xs text-zinc-400 leading-relaxed">{approval.notes}</p>
                   </div>
                 )}
+                {/* Published context: approval exists but no draft = already live */}
+                {!draft && current && (
+                  <p className="text-xs text-zinc-400 mt-3 bg-zinc-700/30 border border-zinc-600/30 rounded px-3 py-1.5">
+                    {current.week_id} 에디션 발행 완료 — 현재 운영 중입니다. 다음 draft 검수 대기 상태입니다.
+                  </p>
+                )}
               </>
             ) : (
               <p className="text-sm text-zinc-500">approval.json을 불러올 수 없습니다.</p>
