@@ -2,23 +2,26 @@
 /**
  * publish.mjs
  *
- * 로컬 publish 스크립트.
- * approval.json이 approved 상태인 draft를 current로 발행합니다.
+ * 로컬 publish 스크립트 — approve-commit.mjs 실행 후 실행하는 후속 단계.
  *
- * 이 스크립트가 수정하는 파일:
- *   - data/archive/{currentWeekId}.json    (기존 current 메인 → archive 복사)
- *   - data/archive/details/*               (기존 current details → archive 복사)
- *   - data/current/current.json            (draft 메인 → current 복사)
- *   - data/current/details/*               (draft details → current 복사)
- *   - data/manifests/manifest.json         (인덱스 갱신)
- *   - admin/overlap_history.json           (추천 이력 갱신)
- *   - data/manifests/approval.json         (발행 후 초기화)
- *   - data/draft/{week_id}.json            (--keep-draft 없으면 삭제)
- *   - data/draft/details/*                 (--keep-draft 없으면 삭제)
+ * ── 전제 조건 ──────────────────────────────────────────────────────────────────
+ * 이 스크립트 실행 전에 아래 순서가 완료되어야 합니다:
+ *   1. npm run approval:commit  → current.json / archive / manifest 반영 완료
+ *   2. npm run detail:generate  → current/details/* 생성 완료
  *
- * 이 스크립트가 절대 수정하지 않는 파일:
- *   - data/news_signals/** (signal_review.json 포함)
- *   - admin/overlap_history.json 이외 admin/** 파일
+ * ── 이 스크립트의 담당 범위 ───────────────────────────────────────────────────
+ *   - admin/overlap_history.json  갱신  (Phase F)
+ *   - data/manifests/approval.json 초기화 (Phase G — 다음 사이클 준비)
+ *   - data/draft/{week_id}.json 정리     (Phase H — --keep-draft 없으면 삭제)
+ *   - git commit                         (Phase I — --skip-git 없으면 실행)
+ *
+ * ── 이 스크립트가 담당하지 않는 범위 ─────────────────────────────────────────
+ *   - current.json 생성/변환   → approve-commit.mjs 담당
+ *   - archive.json 생성        → approve-commit.mjs 담당
+ *   - archive/details 복사     → approve-commit.mjs 담당
+ *   - manifest.json 갱신       → approve-commit.mjs 담당
+ *   - current/details 생성     → detail:generate 담당
+ *   - git push                 → 수동 (또는 CI)
  *
  * 사용법:
  *   node scripts/publish.mjs --week-id 2026-W14 --actor jina
@@ -134,10 +137,19 @@ function validateRequiredArgs(opts) {
   }
 }
 
-// ── 검증 (dry-run-publish.mjs의 runChecks와 동일한 규칙) ──────────────────────
-// approval.decision !== 'approved' 만 차단.
-// signal_review 부재/미완료는 경고만 (차단 아님).
-// archive detail 충돌은 경고만 (덮어쓰기 허용).
+// ── 검증 ──────────────────────────────────────────────────────────────────────
+// 전제: approve-commit.mjs가 이미 실행되어 current.json / archive / manifest가
+//       반영된 상태여야 합니다.
+//
+// [BLOCKER] 조건:
+//   1. approval.json 존재
+//   2. approval.draft_week_id 일치
+//   3. approval.decision === 'approved'
+//   4. draft 파일 존재
+//   5. current.json 존재 + week_id 일치 (approve-commit 완료 확인)
+//   6. manifest.json 존재
+//   7. current.json market_summary에 '[편집 필요]' placeholder 없음
+// [WARNING]: signal_review, draft detail 커버리지, overlap_history 중복
 function runChecks(weekId, verbose) {
   const blockers = []
   const warnings = []
@@ -170,37 +182,60 @@ function runChecks(weekId, verbose) {
     blockers.push(`draft 메인 파일이 없습니다: data/draft/${weekId}.json`)
   }
 
-  // ── [BLOCKER 5~7] manifest 로드 및 정합성
+  // ── [BLOCKER 5] current.json 존재 + week_id 일치 (approve-commit 완료 확인)
+  // approve-commit.mjs가 먼저 실행되어 current.json을 생성했는지 검증합니다.
+  // manifest.draft_week_id 체크는 approve-commit이 null로 세팅하므로 사용하지 않습니다.
+  const currentReport = readJson(PATHS.currentMain)
+  if (!currentReport) {
+    blockers.push(
+      `current.json이 없습니다. 먼저 승인 반영을 실행하세요: ` +
+      `npm run approval:commit -- --decision approved --reviewed-by <이름> ` +
+      `--acknowledge-data-quality --week-id ${weekId}`
+    )
+  } else if (currentReport.week_id !== weekId) {
+    blockers.push(
+      `current.json의 week_id(${currentReport.week_id})가 입력 week_id(${weekId})와 다릅니다. ` +
+      `먼저 승인 반영을 실행하세요: ` +
+      `npm run approval:commit -- --decision approved --reviewed-by <이름> ` +
+      `--acknowledge-data-quality --week-id ${weekId}`
+    )
+  }
+
+  // ── [BLOCKER 6] manifest.json 존재
   const manifest = readJson(PATHS.manifest)
   if (!manifest) {
     blockers.push('manifest.json 파일이 없습니다.')
-  } else {
-    if (manifest.draft_week_id !== weekId) {
-      blockers.push(
-        `manifest.draft_week_id(${manifest.draft_week_id})가 입력 week_id(${weekId})와 다릅니다.`
-      )
+  }
+
+  // ── [BLOCKER 7] current.json market_summary에 [편집 필요] placeholder 없음
+  // approve-commit.mjs가 auto-generate에 실패하거나 수동으로 placeholder를 남긴 경우 차단.
+  if (currentReport) {
+    const ms = currentReport.market_summary ?? {}
+    const PLACEHOLDER = '[편집 필요]'
+    const badFields = []
+    if (String(ms.global?.headline ?? '').includes(PLACEHOLDER))
+      badFields.push('global.headline')
+    if (String(ms.domestic?.kospi?.brief ?? '').includes(PLACEHOLDER))
+      badFields.push('domestic.kospi.brief')
+    if (String(ms.domestic?.kosdaq?.brief ?? '').includes(PLACEHOLDER))
+      badFields.push('domestic.kosdaq.brief')
+    if (String(ms.domestic?.week_theme ?? '').includes(PLACEHOLDER))
+      badFields.push('domestic.week_theme')
+    for (const sh of ms.domestic?.sector_highlights ?? []) {
+      if (String(sh.note ?? '').includes(PLACEHOLDER))
+        badFields.push(`domestic.sector_highlights[${sh.sector}].note`)
     }
-    if (!fileExists(PATHS.currentMain)) {
-      blockers.push('current 메인 파일이 없습니다: data/current/current.json')
-    }
-    const manifestCurrentPath = path.join(ROOT, manifest.current_file_path)
-    if (!fileExists(manifestCurrentPath)) {
+    if (badFields.length > 0) {
       blockers.push(
-        `manifest.current_file_path가 가리키는 파일이 없습니다: ${manifest.current_file_path}`
+        `current.json market_summary에 [편집 필요] placeholder가 남아 있습니다: ` +
+        `${badFields.join(', ')}. ` +
+        `approval:commit을 재실행하거나 current.json을 직접 수정하세요.`
       )
     }
   }
 
-  // ── [BLOCKER 8] archive 동일 week_id 메인 파일 충돌
+  // currentWeekId: manifest.current_week_id (요약 출력용, 블로커 아님)
   const currentWeekId = manifest?.current_week_id
-  if (currentWeekId) {
-    const archiveMainPath = path.join(PATHS.archiveBase, `${currentWeekId}.json`)
-    if (fileExists(archiveMainPath)) {
-      blockers.push(
-        `archive에 이미 동일한 week_id 메인 파일이 있습니다: data/archive/${currentWeekId}.json`
-      )
-    }
-  }
 
   // ── [WARNING 1] signal_review.json 존재 여부 (차단 아님)
   const signalReviewPath = path.join(PATHS.newsSignals, weekId, 'signal_review.json')
@@ -221,34 +256,21 @@ function runChecks(weekId, verbose) {
     }
   }
 
-  // ── [WARNING 3] draft detail 커버리지
+  // ── [WARNING 3] current/details 커버리지 (approve-commit + detail:generate 완료 확인)
+  // detail:generate는 current/details에 직접 씁니다 (draft/details 아님).
   if (draft) {
     const draftPicks = (draft.picks ?? []).map(p => p.ticker)
-    const draftDetailFiles = listJsonFiles(PATHS.draftDetails)
-    const detailTickers = draftDetailFiles.map(f => {
+    const currentDetailFiles = listJsonFiles(PATHS.currentDetails)
+    const detailTickers = currentDetailFiles.map(f => {
       const m = f.match(/^(?:stock|etf)_(.+)\.json$/)
       return m ? m[1] : null
     }).filter(Boolean)
     const missingDetails = draftPicks.filter(t => !detailTickers.includes(t))
     if (missingDetails.length > 0) {
       warnings.push(
-        `draft picks 중 detail 파일 없는 ticker: ${missingDetails.join(', ')} — 상세 없이 발행됩니다.`
+        `current/details 중 picks에 없는 ticker: ${missingDetails.join(', ')} — ` +
+        `detail:generate를 먼저 실행하세요: npm run detail:generate -- --week-id ${weekId}`
       )
-    }
-
-    // ── [WARNING 4] linked_signal_ids 매핑
-    if (signalReview) {
-      const reviewedIds = new Set((signalReview.review_items ?? []).map(i => i.signal_id))
-      const mismatches = []
-      for (const f of draftDetailFiles) {
-        const detail = readJson(path.join(PATHS.draftDetails, f))
-        for (const id of (detail?.linked_signal_ids ?? [])) {
-          if (!reviewedIds.has(id)) mismatches.push(`${f}: ${id}`)
-        }
-      }
-      if (mismatches.length > 0) {
-        warnings.push(`linked_signal_ids 중 signal_review에 없는 항목: ${mismatches.join(' / ')}`)
-      }
     }
 
     // ── [WARNING 5] overlap_history 중복 ticker
@@ -269,17 +291,7 @@ function runChecks(weekId, verbose) {
     }
   }
 
-  // ── [WARNING 6] archive detail 파일명 충돌 (경고만, 덮어쓰기 허용)
-  const currentDetailFiles  = listJsonFiles(PATHS.currentDetails)
-  const archiveDetailFiles  = listJsonFiles(PATHS.archiveDetails)
-  const detailCollisions    = currentDetailFiles.filter(f => archiveDetailFiles.includes(f))
-  if (detailCollisions.length > 0) {
-    warnings.push(
-      `archive/details에 이미 동일 파일명 있음 (덮어쓰기 예정): ${detailCollisions.join(', ')}`
-    )
-  }
-
-  return { blockers, warnings, approval, manifest, draft }
+  return { blockers, warnings, approval, manifest, draft, currentWeekId }
 }
 
 // ── Phase 함수 ─────────────────────────────────────────────────────────────────
@@ -539,7 +551,7 @@ function main() {
   // ── Phase 0: pre-check ───────────────────────────────────────────────────────
   printSection('[Phase 0] pre-check')
   console.log('')
-  const { blockers, warnings, approval, manifest, draft } = runChecks(weekId, verbose)
+  const { blockers, warnings, approval, manifest, draft, currentWeekId } = runChecks(weekId, verbose)
 
   // blockers 출력
   printSection('[차단 조건 (BLOCKERS)]')
@@ -565,41 +577,42 @@ function main() {
   }
   console.log('')
 
-  const currentWeekId = manifest.current_week_id
   const log = makeLogger()
 
   // ── Phase별 실행 ─────────────────────────────────────────────────────────────
+  // Phase A, B, C, E는 approve-commit.mjs가 담당하므로 이 스크립트에서 건너뜁니다.
+  //   Phase A (current.json → archive)  : approve-commit 완료
+  //   Phase B (current/details → archive): approve-commit 완료
+  //   Phase C (draft → current.json)    : approve-commit 완료
+  //   Phase E (manifest 갱신)            : approve-commit 완료
   printSection(dryRun ? '[DRY-RUN] 예정 파일 변경 (실제 수정 없음)' : '[PUBLISH] 파일 변경 시작')
   console.log('')
 
   let lastCompletedPhase = 'Phase 0'
 
   try {
-    // Phase A: current 메인 → archive (archived_at 추가)
-    phaseA_archiveCurrentMain(currentWeekId, dryRun, log, publishedAt)
-    lastCompletedPhase = 'Phase A'
+    log('Phase A', '(skip — approve-commit.mjs 가 current.json 아카이브 완료)')
+    lastCompletedPhase = 'Phase A (skipped)'
 
-    // Phase B: current details → archive details
-    phaseB_archiveCurrentDetails(currentWeekId, dryRun, log)
-    lastCompletedPhase = 'Phase B'
+    log('Phase B', '(skip — approve-commit.mjs 가 current/details 아카이브 완료)')
+    lastCompletedPhase = 'Phase B (skipped)'
 
-    // Phase C: draft 메인 → current 메인 (published_at 설정, draft_note 제거)
-    phaseC_draftToCurrentMain(weekId, dryRun, log, publishedAt)
-    lastCompletedPhase = 'Phase C'
+    log('Phase C', '(skip — approve-commit.mjs 가 draft → current.json 변환 완료)')
+    lastCompletedPhase = 'Phase C (skipped)'
 
-    // Phase D: draft details → current details (기존 current details 교체)
+    // Phase D: draft/details → current/details (draft/details 없으면 no-op)
+    // detail:generate가 current/details에 직접 쓰므로 대개 no-op입니다.
     phaseD_draftDetailsToCurrentDetails(dryRun, log)
     lastCompletedPhase = 'Phase D'
 
-    // Phase E: manifest.json 갱신
-    phaseE_updateManifest(weekId, currentWeekId, draft, manifest, publishedAt, dryRun, log)
-    lastCompletedPhase = 'Phase E'
+    log('Phase E', '(skip — approve-commit.mjs 가 manifest.json 갱신 완료)')
+    lastCompletedPhase = 'Phase E (skipped)'
 
     // Phase F: overlap_history.json 갱신
     phaseF_updateOverlapHistory(weekId, draft, publishedAt, dryRun, log)
     lastCompletedPhase = 'Phase F'
 
-    // Phase G: approval.json 초기화
+    // Phase G: approval.json 초기화 (다음 사이클 준비)
     phaseG_resetApproval(approval, dryRun, log)
     lastCompletedPhase = 'Phase G'
 
