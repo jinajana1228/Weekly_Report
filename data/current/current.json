@@ -3,18 +3,18 @@
   "week_id": "2026-W13",
   "schema_version": "1.0",
   "data_as_of": "2026-03-27",
-  "generated_at": "2026-03-27T14:37:20.970Z",
-  "published_at": "2026-03-27T14:37:20.970Z",
+  "generated_at": "2026-03-30T01:00:33.705Z",
+  "published_at": "2026-03-30T01:00:33.705Z",
   "market_summary": {
     "global": {
-      "headline": "VIX 30 경계 구간 · S&P500 -1.96% 약보합 — 선별 방어적 접근 국면",
+      "headline": "VIX 31 공포 구간 · S&P500 -2.12% 급락 — 리스크 오프, 방어 전략 우선",
       "key_index_changes": [
         {
           "index": "S&P 500",
-          "change_pct": -1.96
+          "change_pct": -2.12
         }
       ],
-      "sentiment": "cautious"
+      "sentiment": "negative"
     },
     "domestic": {
       "kospi": {
