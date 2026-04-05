@@ -1,9 +1,13 @@
 {
-  "draft_report_id": "RPT-2026-W13",
-  "draft_week_id": "2026-W13",
+  "draft_report_id": "RPT-2026-W14",
+  "draft_week_id": "2026-W14",
   "decision": "pending",
   "reviewed_by": null,
   "reviewed_at": null,
-  "notes": null,
-  "news_signal_review_status": null
+  "notes": "auto-draft generated at 2026-04-05T16:04:59.686Z",
+  "news_signal_review_status": null,
+  "blocking_issues": [],
+  "data_quality_acknowledged": false,
+  "draft_exists": true,
+  "publish_ready": false
 }
