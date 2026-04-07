@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "current_report_id": "RPT-2026-W13",
-  "current_week_id": "2026-W13",
+  "current_report_id": "RPT-2026-W14",
+  "current_week_id": "2026-W14",
   "current_file_path": "data/current/current.json",
   "draft_report_id": null,
   "draft_week_id": null,
@@ -14,5 +14,5 @@
   "archive_base_path": "data/archive/",
   "data_as_of": "2026-03-27",
   "last_generated_at": "2026-04-05T22:00:00+09:00",
-  "last_published_at": "2026-03-30T01:00:33.705Z"
+  "last_published_at": "2026-04-07T14:32:00.490Z"
 }

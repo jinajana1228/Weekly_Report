@@ -1,149 +1,149 @@
 {
-  "report_id": "RPT-2026-W13",
-  "week_id": "2026-W13",
+  "report_id": "RPT-2026-W14",
+  "week_id": "2026-W14",
   "schema_version": "1.0",
-  "data_as_of": "2026-03-27",
-  "generated_at": "2026-03-30T01:00:33.705Z",
-  "published_at": "2026-03-30T01:00:33.705Z",
+  "data_as_of": "2026-04-03",
+  "generated_at": "2026-04-07T14:32:00.490Z",
+  "published_at": "2026-04-07T14:32:00.490Z",
   "market_summary": {
     "global": {
-      "headline": "VIX 31 공포 구간 · S&P500 -2.12% 급락 — 리스크 오프, 방어 전략 우선",
+      "headline": "VIX 24 변동성 주의 · S&P500 +1.63% 소폭 강세 — 선별 방어적 접근 국면",
       "key_index_changes": [
         {
           "index": "S&P 500",
-          "change_pct": -2.12
+          "change_pct": 1.63
         }
       ],
-      "sentiment": "negative"
+      "sentiment": "cautious"
     },
     "domestic": {
       "kospi": {
-        "level": 5438.87,
+        "level": 5377.3,
         "change_pct": null,
-        "brief": "KOSPI 5,438.87 — HD현대일렉트릭·삼성전자 중심 선별 수급 집중"
+        "brief": "KOSPI 5,377.3 — HD현대중공업·SK텔레콤 중심 선별 수급 집중"
       },
       "kosdaq": {
-        "level": 1141.51,
+        "level": 1063.75,
         "change_pct": null,
-        "brief": "KOSDAQ 1,141.51 — 낙폭 과대 대형주 중심 저점 매수세 유입 속 박스권 등락"
+        "brief": "KOSDAQ 1,063.75 — 낙폭 과대 대형주 중심 저점 매수세 유입 속 박스권 등락"
       },
       "sector_highlights": [
         {
           "sector": "INDUSTRIAL",
           "direction": "up",
-          "note": "HD현대일렉트릭 고득점(95점) 강세 — 수주·실적 모멘텀 집중 구간"
+          "note": "HD현대중공업(329180) 양호한 상승 흐름 — 실적 가시성 기반 안정적 수급"
         },
         {
-          "sector": "TECH",
+          "sector": "TELECOM",
           "direction": "up",
-          "note": "삼성전자 고득점(87점) 강세 — 수주·실적 모멘텀 집중 구간"
+          "note": "SK텔레콤(017670) 양호한 상승 흐름 — 실적 가시성 기반 안정적 수급"
         },
         {
-          "sector": "HEALTHCARE",
+          "sector": "REALESTATE",
           "direction": "up",
-          "note": "셀트리온 고득점(85점) 강세 — 수주·실적 모멘텀 집중 구간"
+          "note": "삼성물산(028260) 양호한 상승 흐름 — 실적 가시성 기반 안정적 수급"
         }
       ],
-      "week_theme": "변동성 경계 속 HD현대일렉트릭·삼성전자·셀트리온 — 실적 모멘텀·저점 선별 접근 구도"
+      "week_theme": "글로벌 강세 속 HD현대중공업·SK텔레콤·삼성물산 — 실적 모멘텀·저점 선별 접근 구도"
     }
   },
   "picks": [
     {
-      "rank": 1,
-      "ticker": "267260",
-      "name": "HD현대일렉트릭",
+      "rank": 4,
+      "ticker": "329180",
+      "name": "HD현대중공업",
       "market": "KOSPI",
       "sector": "INDUSTRIAL",
       "asset_type": "stock",
-      "one_line_reason": "C-2 1위(95점). 영업이익률 24.4%(2025). 52주 포지션 76% — 양호한 모멘텀.",
-      "stance": "고득점(95점) 강세 구간 — 수급 집중 확인 후 접근. 단기 과열 여부 발행 전 점검 권장.",
+      "one_line_reason": "C-2 4위(82점). 영업이익률 11.59%(2025). 52주 포지션 54% — 중간 포지션.",
+      "stance": "양호한 점수(82점) 상승 흐름 — 중기 보유 관점 유효. 발행 전 catalyst 보강 권장.",
       "price_zone": {
-        "reference_price": 915000,
+        "reference_price": 479500,
         "currency": "KRW",
         "watch_low": null,
         "watch_high": null
       },
-      "catalyst_summary": "영업이익률 24.4%(2025) — 업종 내 수익성 기반 확보. 52주 포지션 76% — 강한 상승 모멘텀 유지. 거래대금 충분 — 기관·외국인 수급 접근 가능한 대형주.",
+      "catalyst_summary": "영업이익률 11.6%(2025) — 업종 내 수익성 기반 확보. 52주 포지션 54% — 중기 상승 흐름 속 양호한 수급. 거래대금 충분 — 기관·외국인 수급 접근 가능한 대형주.",
       "risk_summary": "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요..",
       "same_sector_alternatives": [],
       "detail_report_id": null
     },
     {
-      "rank": 2,
-      "ticker": "005930",
-      "name": "삼성전자",
+      "rank": 8,
+      "ticker": "017670",
+      "name": "SK텔레콤",
       "market": "KOSPI",
-      "sector": "TECH",
+      "sector": "TELECOM",
       "asset_type": "stock",
-      "one_line_reason": "C-2 2위(87점). 영업이익률 13.07%(2025). 52주 포지션 75% — 양호한 모멘텀.",
-      "stance": "양호한 점수(87점) 상승 흐름 — 중기 보유 관점 유효. 발행 전 catalyst 보강 권장.",
+      "one_line_reason": "C-2 8위(74점). 영업이익률 6.28%(2025). 52주 포지션 80% — 강한 상승 모멘텀.",
+      "stance": "중립 점수(74점) 관찰 구간 — 추가 모멘텀 확인 후 접근. 발행 전 리스크 재검토 권장.",
       "price_zone": {
-        "reference_price": 179700,
+        "reference_price": 80900,
         "currency": "KRW",
         "watch_low": null,
         "watch_high": null
       },
-      "catalyst_summary": "영업이익률 13.1%(2025) — 업종 내 수익성 기반 확보. 52주 포지션 75% — 강한 상승 모멘텀 유지. 거래대금 충분 — 기관·외국인 수급 접근 가능한 대형주.",
+      "catalyst_summary": "영업이익률 6.3%(2025) — 업종 내 수익성 기반 확보. 52주 포지션 80% — 강한 상승 모멘텀 유지.",
       "risk_summary": "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요..",
-      "same_sector_alternatives": [],
-      "detail_report_id": null
-    },
-    {
-      "rank": 3,
-      "ticker": "068270",
-      "name": "셀트리온",
-      "market": "KOSPI",
-      "sector": "HEALTHCARE",
-      "asset_type": "stock",
-      "one_line_reason": "C-2 3위(85점). 영업이익률 28.07%(2025). 52주 포지션 58% — 중간 포지션.",
-      "stance": "양호한 점수(85점) 상승 흐름 — 중기 보유 관점 유효. 발행 전 catalyst 보강 권장.",
-      "price_zone": {
-        "reference_price": 206000,
-        "currency": "KRW",
-        "watch_low": null,
-        "watch_high": null
-      },
-      "catalyst_summary": "영업이익률 28.1%(2025) — 업종 내 수익성 기반 확보. 52주 포지션 58% — 중기 상승 흐름 속 양호한 수급.",
-      "risk_summary": "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요..",
-      "same_sector_alternatives": [],
-      "detail_report_id": null
-    },
-    {
-      "rank": 5,
-      "ticker": "105560",
-      "name": "KB금융",
-      "market": "KOSPI",
-      "sector": "FINANCE",
-      "asset_type": "stock",
-      "one_line_reason": "C-2 5위(80점). quality 중립값 적용 (영업이익 미수집). 52주 포지션 80% — 강한 상승 모멘텀.",
-      "stance": "양호한 점수(80점) 상승 흐름 — 중기 보유 관점 유효. 발행 전 catalyst 보강 권장.",
-      "price_zone": {
-        "reference_price": 152200,
-        "currency": "KRW",
-        "watch_low": null,
-        "watch_high": null
-      },
-      "catalyst_summary": "52주 포지션 80% — 강한 상승 모멘텀 유지. 거래대금 충분 — 기관·외국인 수급 접근 가능한 대형주.",
-      "risk_summary": "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요.. quality_score 중립값(20) 적용 — 영업이익 데이터 미수집. 수동 확인 권장..",
       "same_sector_alternatives": [],
       "detail_report_id": null
     },
     {
       "rank": 9,
-      "ticker": "373220",
-      "name": "LG에너지솔루션",
+      "ticker": "028260",
+      "name": "삼성물산",
       "market": "KOSPI",
-      "sector": "BATTERY",
+      "sector": "REALESTATE",
       "asset_type": "stock",
-      "one_line_reason": "C-2 9위(74점). 영업이익률 5.69%(2025). 52주 포지션 49% — 중간 포지션.",
+      "one_line_reason": "C-2 9위(74점). 영업이익률 8.08%(2025). 52주 포지션 61% — 양호한 모멘텀.",
       "stance": "중립 점수(74점) 관찰 구간 — 추가 모멘텀 확인 후 접근. 발행 전 리스크 재검토 권장.",
       "price_zone": {
-        "reference_price": 394500,
+        "reference_price": 263000,
         "currency": "KRW",
         "watch_low": null,
         "watch_high": null
       },
-      "catalyst_summary": "영업이익률 5.7%(2025) — 업종 내 수익성 기반 확보. 52주 포지션 49% — 중간 구간에서 추가 상승 여지. 거래대금 충분 — 기관·외국인 수급 접근 가능한 대형주.",
+      "catalyst_summary": "영업이익률 8.1%(2025) — 업종 내 수익성 기반 확보. 52주 포지션 61% — 중기 상승 흐름 속 양호한 수급.",
+      "risk_summary": "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요..",
+      "same_sector_alternatives": [],
+      "detail_report_id": null
+    },
+    {
+      "rank": 10,
+      "ticker": "035420",
+      "name": "NAVER",
+      "market": "KOSPI",
+      "sector": "TECH",
+      "asset_type": "stock",
+      "one_line_reason": "C-2 10위(72점). 영업이익률 18.35%(2025). 52주 포지션 18% — 52주 저점 근처.",
+      "stance": "중립 점수(72점) 관찰 구간 — 추가 모멘텀 확인 후 접근. 발행 전 리스크 재검토 권장.",
+      "price_zone": {
+        "reference_price": 197500,
+        "currency": "KRW",
+        "watch_low": null,
+        "watch_high": null
+      },
+      "catalyst_summary": "영업이익률 18.4%(2025) — 업종 내 수익성 기반 확보. 52주 포지션 18% — 저점 근처로 반등 시 상승 여력 유효. 거래대금 충분 — 기관·외국인 수급 접근 가능한 대형주.",
+      "risk_summary": "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요..",
+      "same_sector_alternatives": [],
+      "detail_report_id": null
+    },
+    {
+      "rank": 13,
+      "ticker": "005490",
+      "name": "POSCO홀딩스",
+      "market": "KOSPI",
+      "sector": "MATERIAL",
+      "asset_type": "stock",
+      "one_line_reason": "C-2 13위(66점). 영업이익률 2.64%(2025). 52주 포지션 59% — 중간 포지션.",
+      "stance": "중립 점수(66점) 관찰 구간 — 추가 모멘텀 확인 후 접근. 발행 전 리스크 재검토 권장.",
+      "price_zone": {
+        "reference_price": 347500,
+        "currency": "KRW",
+        "watch_low": null,
+        "watch_high": null
+      },
+      "catalyst_summary": "영업이익률 2.6%(2025) — 업종 내 수익성 기반 확보. 52주 포지션 59% — 중기 상승 흐름 속 양호한 수급. 거래대금 충분 — 기관·외국인 수급 접근 가능한 대형주.",
       "risk_summary": "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영. 가격 이력(5일/20일) 확보 후 재평가 필요..",
       "same_sector_alternatives": [],
       "detail_report_id": null
@@ -151,8 +151,8 @@
   ],
   "favored_sectors": [
     "INDUSTRIAL",
-    "TECH",
-    "HEALTHCARE"
+    "TELECOM",
+    "REALESTATE"
   ],
   "cautious_sectors": [],
   "sector_returns": [],
