@@ -1,0 +1,43 @@
+{
+  "detail_report_id": "DET-2026-W15-068270",
+  "report_id": "RPT-2026-W15",
+  "week_id": "2026-W15",
+  "ticker": "068270",
+  "name": "셀트리온",
+  "sector": "HEALTHCARE",
+  "asset_type": "stock",
+  "data_as_of": "2026-04-10",
+  "linked_signal_ids": [],
+  "company_overview": "셀트리온은 헬스케어 분야 KOSPI 상장 기업으로, 영업이익률 28.1%(2025) — 업종 내 수익성 기반 확보. 52주 포지션 52% — 중기 상승 흐름 속 양호한 수급. 영업이익률 28.07%(2025년 연결 기준) 수준의 수익 구조를 보이고 있다.",
+  "price_reference": {
+    "reference_price": 199700,
+    "currency": "KRW",
+    "watch_low": null,
+    "watch_high": null,
+    "week52_high": null,
+    "week52_low": null,
+    "position_in_52w_pct": null
+  },
+  "stance": "양호한 점수(85점) 상승 흐름 — 중기 보유 관점 유효. 발행 전 catalyst 보강 권장.",
+  "bull_points": [
+    "영업이익률 28.07%(2025년 연결 기준) — 업종 내 수익성 강점",
+    "52주 포지션 52% — 중기 상승 흐름 속 양호한 수급"
+  ],
+  "bear_points": [
+    "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영",
+    "가격 이력(5일/20일) 확보 후 재평가 필요"
+  ],
+  "catalysts_2_to_4_weeks": [
+    "영업이익률 28.1%(2025) — 업종 내 수익성 기반 확보",
+    "52주 포지션 52% — 중기 상승 흐름 속 양호한 수급"
+  ],
+  "risks": [
+    "HF_OVERHEATED 미평가 — 단기 급등 과열 여부 미반영",
+    "가격 이력(5일/20일) 확보 후 재평가 필요"
+  ],
+  "financial_summary": {
+    "operating_margin_pct": "28.07%",
+    "schema_note": "영업이익률: 2025년 연결 기준. 매출액·영업이익은 이번 회차 데이터 미확보. ROE: 당기순이익 미수집으로 산출 불가. PER·PBR: 발행주식수·시가총액 미확보로 제공되지 않습니다."
+  },
+  "related_news": []
+}
